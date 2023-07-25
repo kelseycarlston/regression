@@ -1,0 +1,75 @@
+---
+title: "Descriptive Statistics"
+author: "Kelsey Carlston"
+format: 
+  html:
+    css: include/webex.css
+    include-after-body: include/webex.js
+date: "2023-07-24"
+draft: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(webexercises)
+```
+
+## Introduction to Descriptive Statistics
+
+By the end of this training, you should know and understand:
+
+1.  The primary types of data
+
+2.  Measures of centrality, variability, and relationships between data
+
+3.  Types of plots and what data types they are useful for
+
+This information is essential for what we will be doing for the rest of the semester, so make sure you understand it. These are the foundations that inferential statistics are built on.
+
+For the examples here, I will use the following data that was collected from a previous class. The variable "phone_use" is the amount of time the person had spent on their phone before 10am in minutes, "top_app" is the app they had spent the most time on, and "time_awake" is the number of hours they were awake before 10am.
+
+```{r}
+#| echo: false
+
+phone <- data.frame(phone_use = c(40, 14, 61, 16, 14, 112, 76, 68, 70, 17, 70, 35),
+                    top_app = c("Gmail", "Snapchat", "Twitter", "Instagram", "Messenger", "Twitter", "Messenger", "TikTok", "Twitter", "Snapchat", "TikTok", "Messenger"),
+                    time_awake = c(3, 3, 4, 2.2, 5, 1.5, 1.25, 1.5, 2.75, 3.2, 3, 2))
+
+rmarkdown::paged_table(phone)
+
+```
+
+## Types of Data
+
+There are three main types of data:
+
+-   **Categorical/Nominal**: these are data that are in unordered categories, like genre of music, state in the US, or color
+
+-   **Ordinal**: these are data that are in ordered categories, meaning that one category is larger or better than another, like star rating on Amazon reviews, level of degree (High School, Bachelor\'s, Master\'s, etc.), or income level (low-, middle-, and high-income)
+
+    -   One characteristic of ordinal data is that, while there is an order to the data, the jumps between levels are not necessarily fixed. For instance, the distance between \"slightly agree\" and \"agree\" is probably quite different from the distance between \"agree\" and \"strongly agree\". Therefore, the levels are not meaningful and can\'t be used in calculations.
+
+-   **Numeric/Quantitative**: these data are represented by numbers and can be used in calculations, like gas mileage, age, or actual income
+
+    -   Some numeric data is **discrete**, meaning that no values fall between integers; for instance, you cannot have 1.5 people
+
+    -   Other numeric data is **continuous**, meaning you can measure any possible number, like 1.7253 gallons of gas
+
+- Which kind of data is phone_use? `r webexercises::longmcq(c("Categorical", "Ordinal", answer = "Numeric"))`
+
+
+Something
+
+```{r}
+#| echo: false
+
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
