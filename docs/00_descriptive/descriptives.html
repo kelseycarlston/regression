@@ -64,9 +64,10 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
-<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="webex.css">
 </head>
 
 <body class="nav-fixed">
@@ -121,8 +122,31 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-descriptive-statistics" id="toc-introduction-to-descriptive-statistics" class="nav-link active" data-scroll-target="#introduction-to-descriptive-statistics">Introduction to Descriptive Statistics</a></li>
+  <li><a href="#introduction-to-descriptive-statistics" id="toc-introduction-to-descriptive-statistics" class="nav-link active" data-scroll-target="#introduction-to-descriptive-statistics">Introduction to Descriptive Statistics</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics-vs-inferential-statistics" id="toc-descriptive-statistics-vs-inferential-statistics" class="nav-link" data-scroll-target="#descriptive-statistics-vs-inferential-statistics">Descriptive Statistics vs Inferential Statistics</a></li>
+  <li><a href="#samples-vs-populations" id="toc-samples-vs-populations" class="nav-link" data-scroll-target="#samples-vs-populations">Samples vs Populations</a></li>
   <li><a href="#types-of-data" id="toc-types-of-data" class="nav-link" data-scroll-target="#types-of-data">Types of Data</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables">Categorical Variables</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics-for-categorical-variables" id="toc-descriptive-statistics-for-categorical-variables" class="nav-link" data-scroll-target="#descriptive-statistics-for-categorical-variables">Descriptive Statistics for Categorical Variables</a></li>
+  <li><a href="#visualizations-for-categorical-data" id="toc-visualizations-for-categorical-data" class="nav-link" data-scroll-target="#visualizations-for-categorical-data">Visualizations for Categorical Data</a></li>
+  </ul></li>
+  <li><a href="#numeric-data" id="toc-numeric-data" class="nav-link" data-scroll-target="#numeric-data">Numeric Data</a>
+  <ul class="collapse">
+  <li><a href="#measures-of-centrality" id="toc-measures-of-centrality" class="nav-link" data-scroll-target="#measures-of-centrality">Measures of Centrality</a></li>
+  <li><a href="#measures-of-variability" id="toc-measures-of-variability" class="nav-link" data-scroll-target="#measures-of-variability">Measures of Variability</a></li>
+  <li><a href="#graphs-for-numeric-data" id="toc-graphs-for-numeric-data" class="nav-link" data-scroll-target="#graphs-for-numeric-data">Graphs for Numeric Data</a></li>
+  </ul></li>
+  <li><a href="#relationships-between-data" id="toc-relationships-between-data" class="nav-link" data-scroll-target="#relationships-between-data">Relationships Between Data</a>
+  <ul class="collapse">
+  <li><a href="#two-categorical-variables" id="toc-two-categorical-variables" class="nav-link" data-scroll-target="#two-categorical-variables">Two Categorical Variables</a></li>
+  <li><a href="#one-categorical-and-one-numeric" id="toc-one-categorical-and-one-numeric" class="nav-link" data-scroll-target="#one-categorical-and-one-numeric">One Categorical and One Numeric</a></li>
+  <li><a href="#two-numeric-variables" id="toc-two-numeric-variables" class="nav-link" data-scroll-target="#two-numeric-variables">Two Numeric Variables</a></li>
+  </ul></li>
+  <li><a href="#time-series-data" id="toc-time-series-data" class="nav-link" data-scroll-target="#time-series-data">Time Series Data</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -158,8 +182,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction-to-descriptive-statistics" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-descriptive-statistics">Introduction to Descriptive Statistics</h2>
+<section id="introduction-to-descriptive-statistics" class="level1">
+<h1>Introduction to Descriptive Statistics</h1>
 <p>By the end of this training, you should know and understand:</p>
 <ol type="1">
 <li><p>The primary types of data</p></li>
@@ -168,6 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>This information is essential for what we will be doing for the rest of the semester, so make sure you understand it. These are the foundations that inferential statistics are built on.</p>
 <p>For the examples here, I will use the following data that was collected from a previous class. The variable “phone_use” is the amount of time the person had spent on their phone before 10am in minutes, “top_app” is the app they had spent the most time on, and “time_awake” is the number of hours they were awake before 10am.</p>
+<p>I will also use data on drug overdose deaths and some related variables by state from 2015 to 2022.</p>
 <div class="cell">
 <div class="cell-output-display">
 
@@ -178,42 +203,790 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<section id="descriptive-statistics-vs-inferential-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-statistics-vs-inferential-statistics">Descriptive Statistics vs Inferential Statistics</h2>
+<p><strong>Descriptive statistics</strong> are methods of organizing, summarizing, and presenting data in a convenient and informative way</p>
+<ul>
+<li><p>Descriptive statistics are very important because they make data palatable to understand</p></li>
+<li><p>Imagine if your boss asked for information on the last year’s sales trends and you just gave him a list of numbers for sales every day of the year. They wouldn’t know what to think and would be mad!</p></li>
+</ul>
+<p><strong>Inferential statistics</strong> are methods used to draw conclusions or inferences about characteristics of populations based on sample data</p>
+</section>
+<section id="samples-vs-populations" class="level2">
+<h2 class="anchored" data-anchor-id="samples-vs-populations">Samples vs Populations</h2>
+<p>A <strong>population</strong> is the entire group of things or people that we want to study</p>
+<p>We can almost never observe the entire population, so we draw a <strong>sample</strong></p>
+<p>We then use a <strong>model</strong> to <em>describe</em> the sample</p>
+<p>By comparing that model to a <strong>null model</strong> (a model without specific trends or tendencies, a random model), we can <em>infer</em> something about the population</p>
+<div class="quarto-figure quarto-figure-right">
+<figure class="figure">
+<p><img src="Images/sample-population-graphic.PNG" class="img-fluid figure-img" alt="A sample is a part of a population. A model can be used to describe a sample or infer something about a population."></p>
+</figure>
+</div>
 </section>
 <section id="types-of-data" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-data">Types of Data</h2>
 <p>There are three main types of data:</p>
 <ul>
 <li><p><strong>Categorical/Nominal</strong>: these are data that are in unordered categories, like genre of music, state in the US, or color</p></li>
-<li><p><strong>Ordinal</strong>: these are data that are in ordered categories, meaning that one category is larger or better than another, like star rating on Amazon reviews, level of degree (High School, Bachelor's, Master's, etc.), or income level (low-, middle-, and high-income)</p>
+<li><p><strong>Ordinal</strong>: these are data that are in ordered categories, meaning that one category is larger or better than another, like star rating on Amazon reviews, level of degree (High School, Bachelor’s, Master’s, etc.), or income level (low-, middle-, and high-income)</p>
 <ul>
-<li>One characteristic of ordinal data is that, while there is an order to the data, the jumps between levels are not necessarily fixed. For instance, the distance between "slightly agree" and "agree" is probably quite different from the distance between "agree" and "strongly agree". Therefore, the levels are not meaningful and can't be used in calculations.</li>
+<li>One characteristic of ordinal data is that, while there is an order to the data, the jumps between levels are not necessarily fixed. For instance, the distance between “slightly agree” and “agree” is probably quite different from the distance between “agree” and “strongly agree”. Therefore, the levels are not meaningful and can’t be used in calculations.</li>
 </ul></li>
 <li><p><strong>Numeric/Quantitative</strong>: these data are represented by numbers and can be used in calculations, like gas mileage, age, or actual income</p>
 <ul>
 <li><p>Some numeric data is <strong>discrete</strong>, meaning that no values fall between integers; for instance, you cannot have 1.5 people</p></li>
 <li><p>Other numeric data is <strong>continuous</strong>, meaning you can measure any possible number, like 1.7253 gallons of gas</p></li>
 </ul></li>
-<li><p>Which kind of data is phone_use?</p>
-<div id="radio_YZDOKWMHLR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YZDOKWMHLR" value=""> <span>Categorical</span></label><label><input type="radio" autocomplete="off" name="radio_YZDOKWMHLR" value=""> <span>Ordinal</span></label><label><input type="radio" autocomplete="off" name="radio_YZDOKWMHLR" value="answer"> <span>Numeric</span></label>
+</ul>
+<section id="practice" class="level4">
+<h4 class="anchored" data-anchor-id="practice">Practice</h4>
+<ul>
+<li>Which kind of data is phone_use?
+<div id="radio_ISZOUTQXEZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ISZOUTQXEZ" value=""> <span>Categorical</span></label><label><input type="radio" autocomplete="off" name="radio_ISZOUTQXEZ" value=""> <span>Ordinal</span></label><label><input type="radio" autocomplete="off" name="radio_ISZOUTQXEZ" value="answer"> <span>Numeric</span></label>
+</div></li>
+<li>What kind of data is “top_app”?
+<div id="radio_HJCBXMDRYP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HJCBXMDRYP" value="answer"> <span>Categorical</span></label><label><input type="radio" autocomplete="off" name="radio_HJCBXMDRYP" value=""> <span>Ordinal</span></label><label><input type="radio" autocomplete="off" name="radio_HJCBXMDRYP" value=""> <span>Numeric</span></label>
+</div></li>
+<li>What kind of data is “time_awake”?
+<div id="radio_HXMGUYRAKH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HXMGUYRAKH" value=""> <span>Categorical</span></label><label><input type="radio" autocomplete="off" name="radio_HXMGUYRAKH" value=""> <span>Ordinal</span></label><label><input type="radio" autocomplete="off" name="radio_HXMGUYRAKH" value="answer"> <span>Numeric</span></label>
 </div></li>
 </ul>
-<p>Something</p>
-<div class="cell">
-
-</div>
-<p>You can add options to executable code like this</p>
+</section>
+</section>
+<section id="categorical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="categorical-variables">Categorical Variables</h2>
+<section id="descriptive-statistics-for-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-statistics-for-categorical-variables">Descriptive Statistics for Categorical Variables</h3>
+<p>The most basic descriptive statistic for a cateogrical variable is to count the number of observations in each category. This is called a <em>frequency table</em>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>
+    Gmail Instagram Messenger  Snapchat    TikTok   Twitter 
+        1         1         3         2         2         3 </code></pre>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p>With small numbers like these, it is easy to see what the numbers actually mean. However, if we had numbers in the thousands or millions, we may want to put the numbers in a format that is easier to understand and compare. If we put the numbers into percentages, this is called a <em>relative frequency table</em>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Gmail Instagram Messenger  Snapchat    TikTok   Twitter 
+     0.08      0.08      0.25      0.17      0.17      0.25 </code></pre>
+</div>
+</div>
+<p>Now we see that 25% of the respondents used Messenger the most and 25% used Twitter the most. - Given our sample size is so small, this may not be so useful. Snapchat has a much lower percentage than Messenger, but it only represents one person!</p>
+</section>
+<section id="visualizations-for-categorical-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualizations-for-categorical-data">Visualizations for Categorical Data</h3>
+<p>The information in frequency tables—counts or relative frequencies of categorical data—is represented best using pie charts and bar charts.</p>
+<ul>
+<li><p>Bar charts are better for ordinal data, since you can put bar charts in order but you can’t put pie charts in order</p></li>
+<li><p>Sometimes, we might group the least common outcomes together in an “Other” category so we don’t have a bunch of small slivers or columns</p></li>
+<li><p>3D pie charts are a bad idea; we are not very good at interpreting the area in circles anyways, and adding a dimension for no reason makes it harder to understand</p></li>
+<li><p>Some people suggest that pie charts should NEVER be used; for a quick explanation of why, check out this site: https://www.data-to-viz.com/caveat/pie.html</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You can also do fun plots like a waffle chart. This is a waffle chart that shows the number of states in categories by the increase in the drug overdose death rate from 2015 to 2022. While we might want to show numeric data like this in a different form, the waffle chart shows us that many states have had big increases in overdose deaths!</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There are many ways to visualize data. You just need to figure out which one works best for you! This can take some creativity.</p>
+</section>
+</section>
+<section id="numeric-data" class="level2">
+<h2 class="anchored" data-anchor-id="numeric-data">Numeric Data</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Summation Notation">
+<p>You probably have seen summation notation before, but it is worth it to review here since it is used in the coming formulas. Summation notation is used to indicate that we are summing a list of values. For example, we would interpret the following as “summing a function of <span class="math inline">\(i\)</span> for all <span class="math inline">\(i\)</span> values from <span class="math inline">\(k\)</span> to <span class="math inline">\(n\)</span>.”</p>
+<p><span class="math display">\[\sum_{i=k}^nf(i)=f(k)+f(k+1)+...+f(n-1)+f(n)\]</span> Note that the <span class="math inline">\(i=k\)</span> and <span class="math inline">\(n\)</span> can appear above and below, as shown, or just to the right, like this: <span class="math inline">\(\sum_{i=k}^ni\)</span> . An example may be easier to understand. Here is a summation calculated.</p>
+<p><span class="math display">\[\sum_{i=4}^6\dfrac{i}{2}=\dfrac{4}{2} +\dfrac{5}{2}+\dfrac{6}{2}=\dfrac{7.5}{2}\]</span></p>
+<p>Now you give it a try!</p>
+<p>1) Evaluate the following: <span class="math display">\[\sum_{i=2}^4i\]</span></p>
+<p><input class="webex-solveme nospaces" size="1" data-answer="[&quot;9&quot;]"></p>
+<p>2) Put the following in summation notation: <span class="math display">\[\dfrac{1}{4}+\dfrac{1}{9}+\dfrac{1}{16}+\dfrac{1}{25}\]</span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\sum_{k=1}^{25}\dfrac{1}{i}\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{k=2}^{5}\dfrac{1}{i^2}\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{k=4}^{25}\dfrac{1}{i}\)</span></p></li>
+</ol>
+<div id="radio_IFDSEKMOFB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IFDSEKMOFB" value=""> <span>a</span></label><label><input type="radio" autocomplete="off" name="radio_IFDSEKMOFB" value="answer"> <span>b</span></label><label><input type="radio" autocomplete="off" name="radio_IFDSEKMOFB" value=""> <span>c</span></label>
+</div>
+</div>
+</div>
+<section id="measures-of-centrality" class="level3">
+<h3 class="anchored" data-anchor-id="measures-of-centrality">Measures of Centrality</h3>
+<section id="mean" class="level4">
+<h4 class="anchored" data-anchor-id="mean">Mean</h4>
+<p>Also called the <em>expected value</em> or <em>average</em> <span class="math display">\[E(x) = \bar{x} = \dfrac{\sum_{i=1}^{n}x_i}{n}\]</span> This formula tells us to add up all the values of x and divide that by the number of observations. The mean is useful because it is intuitive and can be used for all kinds of other calculations very easy. We’ll see some of these. The <span class="math inline">\(E()\)</span> in that formula is the <em>expectation</em> operator. It tells us the value we should expect for x, which is the same as the mean. <span class="math inline">\(\bar{x}\)</span> is called “bar x”, which is a way of denoting the mean of a sample.</p>
+<p>As an example, here is the formula for the mean of the phone use time variable: <span class="math display">\[E(x) = \dfrac{\sum_{i=1}^{n}x_i}{n} = \dfrac{40+14+61+16+14+112+76+68+70+17+70+35}{12}=49.42\]</span></p>
+</section>
+<section id="median" class="level4">
+<h4 class="anchored" data-anchor-id="median">Median</h4>
+<p>The middle value.</p>
+<p>To get the median, put all the values in order and pick the one in the middle. If there are an even number of observations so there is no middle, take the average of the two middle values.</p>
+<p>Here is the phone use data put in order from smallest to largest:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   phone_use
+1         14
+2         14
+3         16
+4         17
+5         35
+6         40
+7         61
+8         68
+9         70
+10        70
+11        76
+12       112</code></pre>
+</div>
+</div>
+<p>The middle two numbers are 40 and 61, so the median is the average of those two: 50.5. At the median, 50% of values lie above, and 50% of the values lie below.</p>
+</section>
+<section id="mode" class="level4">
+<h4 class="anchored" data-anchor-id="mode">Mode</h4>
+<p>The most common value</p>
+<p>The mode is the value that appears the most times. The phone use data has two modes: 14 and 70, since both appear twice.</p>
+<p>How do we know which measure to use? The mean value is often the most useful, and it’s one that people usually know or can intuit. However, the mean is sensitive to extreme values or skewed data. As an example, say there are 100 people in a room, and their mean income is $50,000. A man gets a call that he just inherited $100 million from a rich uncle. Suddenly, the mean income room is over $1,000,000! Most of the information in the room hasn’t changed, but it looks like everyone is a lot richer. On the other hand, if he was already in the top 50% of incomes, the median and mode would not have changed at all.</p>
+<p>These figures show how mean, median, and mode differ in right-skewed instead of normal distributions. The mode stays at the highest point in the distribution. The median is higher than the mode, and the mean is the highest, since it is the most sensitive to higher values.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Each of these measures has their place - the main way to choose a value is to think about what your question is!</p>
+</section>
+<section id="practice-1" class="level4">
+<h4 class="anchored" data-anchor-id="practice-1">Practice</h4>
+<p>What is the mean, median, and mode of the following data? 3, 6, 15, 10, 2, 16, 9, 8, 6</p>
+<p>Mean (round to one decimal place): <input class="webex-solveme nospaces" size="3" data-answer="[&quot;8.3&quot;]"></p>
+<p>Median: <input class="webex-solveme nospaces" size="1" data-answer="[&quot;8&quot;]"></p>
+<p>Mode: <input class="webex-solveme nospaces" size="1" data-answer="[&quot;6&quot;]"></p>
+</section>
+</section>
+<section id="measures-of-variability" class="level3">
+<h3 class="anchored" data-anchor-id="measures-of-variability">Measures of Variability</h3>
+<p>We often want to know more about the data than just the center. For instance, if I tell you that the average income in a country is $30,000, does that tell you how well-off most people are?</p>
+<section id="minimum-and-maximum" class="level4">
+<h4 class="anchored" data-anchor-id="minimum-and-maximum">Minimum and Maximum</h4>
+<p>These are the simplest measures of variability—the biggest and smallest values. They let us know what possible values our data can take. For instance, in our phone use data, we found the mean was 49.42. If I told you that my brother’s phone use was 115 minutes, would you know if that’s a lot or a little? Given our maximum value was 112, that seems like a lot!</p>
+</section>
+<section id="variance" class="level4">
+<h4 class="anchored" data-anchor-id="variance">Variance</h4>
+<p>The variance of a variable tells us how different the observations are from the mean. If all of the values are the same, then the variance is 0.</p>
+<p><span class="math display">\[
+s^2=\dfrac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}
+\]</span></p>
+<p><span class="math inline">\((x_i-\bar{x})\)</span> represents the <em>deviations</em> of each observed value of <span class="math inline">\(x\)</span> — <span class="math inline">\(x_i\)</span> — from the mean — <span class="math inline">\(\bar{x}\)</span>. We square all of the deviations, add them up, and divide by the number of observations minus 1.</p>
+<p>Why do you think we square the deviations? Check the tip below for the answer.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you added all the deviations without keeping the positives and negatives from balancing, then they would all add up to zero! You could instead take the absolute value of the deviations and add those, but there are some convenient features of squaring them instead.</p>
+<p>Here’s the math to prove that they add to zero for you math nerds out there. <span class="math display">\[\sum(x_i-\bar{x})=\sum(x_i-\sum\dfrac{x_i}{n})=\sum x_i -\sum\sum\dfrac{x_i}{n}=\sum x_i -n*\sum \dfrac{x_i}{n} = \sum x_i - \sum x_i\]</span></p>
+</div>
+</div>
+</div>
+<p>For populations, the standard deviation is denoted as <span class="math inline">\(\sigma^2\)</span>, while the sample standard deviation is <span class="math inline">\(s^2\)</span>.</p>
+</section>
+<section id="standard-deviation" class="level4">
+<h4 class="anchored" data-anchor-id="standard-deviation">Standard Deviation</h4>
+<p>Because the variance uses squared deviations, they don’t mean much on their own. To make variance mean something relative to the mean, we take the square root of the variance. <span class="math display">\[s=\sqrt{s^2}\]</span></p>
+</section>
+<section id="empirical-rule" class="level4">
+<h4 class="anchored" data-anchor-id="empirical-rule">Empirical Rule</h4>
+<p>If data is normally distributed, there is a cool feature where 68% of the data is within 1 standard deviation of the mean, 95% is within 2 standard deviations, and 99.7% is within 3 standard deviations.</p>
+<p><img src="Images/empirical_rule.png" class="img-fluid" alt="Visualization of empirical rule"></p>
+</section>
+<section id="practice-2" class="level4">
+<h4 class="anchored" data-anchor-id="practice-2">Practice</h4>
+<p>What are the variance and standard deviation of our phone use data? (Round to the nearest whole number.) See the tip below for help getting started.</p>
+<p>Variance: <input class="webex-solveme nospaces" size="3" data-answer="[&quot;993&quot;]"></p>
+<p>Standard Deviation: <input class="webex-solveme nospaces" size="2" data-answer="[&quot;32&quot;]"></p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The easiest way to calculate these by hand is to create a table with these columns: “<span class="math inline">\(x_i\)</span>”, “<span class="math inline">\(x_i-\bar{x}\)</span>”, “<span class="math inline">\((x_i-\bar{x})^2\)</span>. Then, calculate those values for each observation, and add up the last column to get the numerator for the variance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="percentiles" class="level4">
+<h4 class="anchored" data-anchor-id="percentiles">Percentiles</h4>
+<p>The median is the value where 50% of observations fall above and 50% fall below. We could also find the value where a different percent falls below, for example 25% or 75%. These are different <em>percentiles</em>. To find the <span class="math inline">\(P\)</span>th percentile, you find the <strong>location</strong> of the percentile with this formula:</p>
+<p><span class="math display">\[
+L_P=(n+1)*\dfrac{P}{100}
+\]</span></p>
+<p>You then put the numbers in order from smallest to largest and find that location. If the location is not an integer (whole number), then round up so that <em>at least</em> <span class="math inline">\(P\)</span> percent of values fall below.</p>
+<p>Percentiles can be very useful. For example, the American Economic Association website reports: “For economists of all educational levels, the median earnings in 2021 were $105,630 with $62,460 at the tenth percentile and $193,690 at the 90th percentile.” This means that only 10% of economists make less than $62,460, and only 10% made above $193,690.</p>
+<p><strong>Example</strong>: Let’s say we have the following series of 13 ordered values.</p>
+<p>0, 1, 3, 5, 6, 6, 7, 8, 8, 9, 10, 13, 15</p>
+<p>If we wanted to find the 30th percentile, we would get the location using the formula: <span class="math inline">\(L_{30}=(13+1)*30/100=4.2\)</span>. We round up to 5, then find the 5th value in the ordered series: 6. At least 30 percent of the values fall below 6, so it is the 30th percentile.</p>
+</section>
+<section id="five-number-summary" class="level4">
+<h4 class="anchored" data-anchor-id="five-number-summary">Five Number Summary</h4>
+<p>The five number summary is a common tool to see where most of the data falls and the shape of a distribution. The five numbers are the <strong>minimum</strong>, <strong>25th percentile</strong>, <strong>median</strong>, <strong>75th percentile</strong>, and the <strong>maximum</strong>.</p>
+</section>
+<section id="interquartile-range" class="level4">
+<h4 class="anchored" data-anchor-id="interquartile-range">Interquartile Range</h4>
+<p>A <strong>quartile</strong> is one of the 25th, 50th, or 75th percentiles. These are called the first, second, and third quartiles, respectively. The <strong>interquartile range</strong> is the spread of the middle 50% of occupations, i.e.&nbsp;the third quartile minus the first quartile. <span class="math display">\[IQR = Q_3-Q_1\]</span></p>
+</section>
+<section id="practice-3" class="level4">
+<h4 class="anchored" data-anchor-id="practice-3">Practice</h4>
+<p>What is the 5 number summary for our phone data?</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   phone_use
+1         14
+2         14
+3         16
+4         17
+5         35
+6         40
+7         61
+8         68
+9         70
+10        70
+11        76
+12       112</code></pre>
+</div>
+</div>
+<p>Minimum: <input class="webex-solveme nospaces" size="2" data-answer="[&quot;14&quot;]"></p>
+<p>25th percentile: <input class="webex-solveme nospaces" size="2" data-answer="[&quot;17&quot;]"></p>
+<p>Median: <input class="webex-solveme nospaces" size="4" data-answer="[&quot;50.5&quot;]"></p>
+<p>75th percentile: <input class="webex-solveme nospaces" size="2" data-answer="[&quot;70&quot;]"></p>
+<p>Maximum: <input class="webex-solveme nospaces" size="3" data-answer="[&quot;112&quot;]"></p>
+</section>
+<section id="outliers" class="level4">
+<h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
+<p>Suppose we have the following values:</p>
+<p>1, 0, 3, 8, 4, 8, 9, 2, 35, 5</p>
+<p>One of them stands out a lot, right? We call values that are very far away from the rest of the data <strong>outlier</strong>, and they can have a big effect on the data. They can represent mistakes in the data or exceptional observations.</p>
+<p>What should we do with outliers? It depends on why they are there.</p>
+<ul>
+<li><p>If they are mistakes or missing data, we can try to correct them or put in a guess value.</p></li>
+<li><p>If they are real values that are extra large or small, we should think about what is more appropriate for our analysis.</p>
+<ul>
+<li>For example, if we are looking at individual incomes and there are some zeroes, they are likely unemployed, so we may want to restrict our analysis to employed people.</li>
+</ul></li>
+<li><p>We could also try the analysis with and without outliers to see how big of an effect they have.</p></li>
+</ul>
+<p>How do we know which observations are actually outliers? There are a few methods:</p>
+<ul>
+<li><p>Plot the data in a histogram or scatterplot and visually pick them out</p></li>
+<li><p>Rank the data in a spreadsheet and see if any values are really large or small</p></li>
+<li><p>Use the empirical rule and flag anything that is more than 3 standard deviations out</p></li>
+<li><p>Calculate “inner and outer fences”</p></li>
+</ul>
+</section>
+<section id="calculating-inner-and-outer-fences" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-inner-and-outer-fences">Calculating inner and outer fences</h4>
+<p>The <em>inner fence</em> is the two values: <span class="math inline">\(Q1-1.5*IQR\)</span> and <span class="math inline">\(Q3 + 1.5*IQR\)</span> . The <em>outer fence</em> is the two values: <span class="math inline">\(Q1-3*IQR\)</span> and <span class="math inline">\(Q3+3*IQR\)</span> . If a value is between the two values of the inner fence, it is not an outlier. If a value is outside of the inner fence but inside the outer fence, it is a <em>mild outlier</em>. If a value is outside of the outer fence, it is an <em>extreme outlier</em>.</p>
+<p><strong>Example</strong>: Take the following series of data: 1, 3, 5, 6, 6, 8, 8, 9, 10, 10, 18</p>
+<p>First, calculate <span class="math inline">\(Q1\)</span> and <span class="math inline">\(Q3\)</span>, then the <span class="math inline">\(IQR\)</span> . Since there are 11 values, the location of the 25th percentile is: <span class="math inline">\(L_{25}=(11+1)*\dfrac{25}{100}=3\)</span> . The third value is <span class="math inline">\(Q1=5\)</span>. Similarly, the 75th percentile is at the 9th position: <span class="math inline">\(Q3=10\)</span>. The interquartile range is <span class="math inline">\(IQR=Q3-Q1=5\)</span>.</p>
+<p>The inner fence is: <span class="math inline">\(Q1-1.5*IQR = 5-1.5*5=-2.5, Q3+1.5*IQR = 10+1.5*5=17.5\)</span></p>
+<p>The outer fence is: <span class="math inline">\(Q1-3*IQR=5-3*5=-10, Q3+3*IQR=10+3*5=25\)</span></p>
+<p>There are no values below the lower value in the inner fence, so there are no low outliers. The high value in the inner fence is 17.5, and there is one value above that—18---so it is a mild outlier. It is below 25, so there are no extreme outliers.</p>
+<p>Are there any outliers in the phone use dataset?</p>
+<div class="webex-solution">
+<button>
+Click here to see the answer
+</button>
+<p>There are not. <span class="math inline">\(Q_1\)</span> is 16.75 and <span class="math inline">\(Q_3\)</span> is 70, so the interquartile range is <span class="math inline">\(53.25\)</span>. The lower value for the inner fence is then <span class="math inline">\(16.75-1.5*53.25 = -63.125\)</span> and the upper value is <span class="math inline">\(70+53.25*1.5=149.875\)</span>. There are no values outside of this range.</p>
+</div>
+</section>
+</section>
+<section id="graphs-for-numeric-data" class="level3">
+<h3 class="anchored" data-anchor-id="graphs-for-numeric-data">Graphs for Numeric Data</h3>
+<p>When we just have one variable, there are a few graphs we can use to see what the <strong>distribution</strong> of the data is. This tells us where the data tends to lie and visually shows us many things like the center and spread of the data. What are the possible values? And how often do they occur?</p>
+<section id="histogram" class="level4">
+<h4 class="anchored" data-anchor-id="histogram">Histogram</h4>
+<p>A histogram shows us the spread, center, and shape of a distribution. The data are divided into equally sized <em>bins</em>, and the height of each bar is the frequency (number of observations) or relative frequency (percent of observations) within each bin.</p>
+<p>To get the width of the bins, subtract the smallest observation from the largest observation and divide by the number of bins you want. <span class="math display">\[Bin Width=\dfrac{Min-Max}{\# of Bins}\]</span> How many bins should you have? It depends on the amount of data you have and how noisy it is. If you have an equal number of values and bins, it will probably look really lumpy and noisy.</p>
+<p>As an example, here is a histogram of the overdose deaths data for 2021. This histogram has 30 bins, and it is very lumpy.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If we use fewer bins, it looks nicer and tells us more. This histogram has 12 bins, and it shows us that the data is right skewed with most of the values around 30. Very few observations are above 50.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The shape of a histogram has many characteristics: symmetry, skewness, and modes.</p>
+<p><img src="Images/histograms.png" class="img-fluid" alt="example histograms with uniform, skewed right, symmetrical, skewed left, and bimodal distributions"></p>
+</section>
+<section id="density-plot" class="level4">
+<h4 class="anchored" data-anchor-id="density-plot">Density Plot</h4>
+<p>A density plot is similar to a histogram, but rather than using bins, it uses kernel smoothing to plot values and smooths out some noise. (This means that there is something like a weighted average across the values.) Density plots are not affected by bin size, which is great, but the problem is that we can’t do it by hand and the process isn’t always clear. Excel does not do density plots, but you can make them in R.</p>
+<p>Here is the density plot of the same data as the histogram. It shows us basically the same information as the histogram.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="box-plot" class="level4">
+<h4 class="anchored" data-anchor-id="box-plot">Box Plot</h4>
+<p>A box plot basically plots a 5-number summary. It is usually plotted on an axis or with numbers labeled. If there are outliers, usually they are not included in the boxplot. The max and min are the highest and lowest non-outlier values, and then outliers are marked with a dot.</p>
+<p><img src="Images/boxplot.png" class="img-fluid" alt="Example boxplot"></p>
+<p>These are really helpful if we’re trying to compare distributions across groups. For example, this figure shows the distribution of drug overdose death rates by state for the years 2015 to 2021. We can see that the median has increased over time, but the distribution has stayed fairly normal (indicated by the box being in the middle of the whiskers, and the median line being in the middle of the box). There are outliers in every year.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We will practice these visualizations using Excel and R in class.</p>
+</section>
+</section>
+</section>
+<section id="relationships-between-data" class="level2">
+<h2 class="anchored" data-anchor-id="relationships-between-data">Relationships Between Data</h2>
+<p>We often want to know how two variables are related and how strongly they are related. For example, in the phone use data, we might want to know how strongly time awake relates to the number of minutes on the phone (numeric and numeric), and we may want to know how time on the phone varies by top app used (numeric and categorical). For the drugs data, we might want to know how the poverty rate in a state relates to the drug overdose rate.</p>
+<section id="two-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="two-categorical-variables">Two Categorical Variables</h3>
+<section id="analysis" class="level4">
+<h4 class="anchored" data-anchor-id="analysis">Analysis</h4>
+<p>If we have 2 categorical variables, we can do a <strong>cross-tabulation</strong>, which shows the frequency in each combination of categories. For example, maybe we survey 100 people in an airport on whether they are flying for business or pleasure and what cabin they’re in.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Business</th>
+<th>Pleasure</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Economy</td>
+<td>23</td>
+<td>40</td>
+<td>63</td>
+</tr>
+<tr class="even">
+<td>Comfort Plus</td>
+<td>15</td>
+<td>10</td>
+<td>25</td>
+</tr>
+<tr class="odd">
+<td>First Class</td>
+<td>6</td>
+<td>6</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>44</td>
+<td>56</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>The bottom row shows the sum of the rows by column, and the right-most column shows the sum of the columns by row.</p>
+<p>The <strong>probability</strong> of being a business traveler in economy is that cell divided by the total: <span class="math inline">\(23/100=23\%\)</span>.</p>
+<p><strong>Conditional probabilities</strong> are the probability that you are in one group <em>given that</em> another condition is true. So for example, if we want to calculate the probability that someone was in economy <em>given that</em> they were traveling for business, we divide the probability that they were in economy and business by the probability that they were in traveling for business. <span class="math display">\[P(Economy|Business)=23/44=52.3\%\]</span> <span class="math inline">\(52.3\%\)</span> is less than the unconditional probability (<span class="math inline">\(63\%\)</span>), so business travelers are less likely to fly economy than pleasure travelers.</p>
+<p>Condtional probablities are formalized as such: <span class="math display">\[P(A|B) = \dfrac{P(A\cap B)}{P(B)}\]</span> Now you try: What is the probability that someone is flying for pleasure? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;57&quot;]">% What is the probability that someone is flying for pleasure given they are in first class? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;50&quot;]">%</p>
+</section>
+<section id="graphs" class="level4">
+<h4 class="anchored" data-anchor-id="graphs">Graphs</h4>
+<p>If you want to graph two categorical variables, you can use multiple bar charts or combined bar charts.</p>
+</section>
+</section>
+<section id="one-categorical-and-one-numeric" class="level3">
+<h3 class="anchored" data-anchor-id="one-categorical-and-one-numeric">One Categorical and One Numeric</h3>
+<section id="conditional-mean" class="level4">
+<h4 class="anchored" data-anchor-id="conditional-mean">Conditional Mean</h4>
+<p>The most common thing we’ll do in this situation is calculate conditional means: what is the mean value within each category?</p>
+<p>For example, we could get the average household income given race: <span class="math display">\[E(income|black)=\$41,000\]</span></p>
+<p><span class="math display">\[E(income|white)=\$70,000\]</span></p>
+</section>
+<section id="practice-4" class="level4">
+<h4 class="anchored" data-anchor-id="practice-4">Practice</h4>
+<p>What is the expected time spent on your phone if your top app is TikTok? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;69&quot;]"></p>
+</section>
+</section>
+<section id="two-numeric-variables" class="level3">
+<h3 class="anchored" data-anchor-id="two-numeric-variables">Two Numeric Variables</h3>
+<section id="scatterplots" class="level4">
+<h4 class="anchored" data-anchor-id="scatterplots">Scatterplots</h4>
+<p>Scatterplots show the relationship between two variables. If it applies, then the <strong>independent/explanatory</strong> variable goes on the x-axis, while the <strong>dependent/response</strong> variable goes on the y-axis. Do you think one variable has an effect on the other? That is the independent variable.</p>
+<p>This plot shows the relationship between time awake and time on the phone.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It looks like as time awake goes up, time on the phone generally gets lower. This is called a <strong>negative relationship</strong>.</p>
+<p>Here’s another example of a scatterplot using the drug data for 2021.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this graph, as poverty rate goes up, the overdose rate seems to get higher as well. This is called a <strong>positive relationship</strong>.</p>
+<p>Scatterplots can also show non-linear relationships, like U-shapes or curves, and they can show no relationship.</p>
+<p>We may see a relationship, but the scatterplot won’t tell us how strong the relationship is. We can use other statistics to help us with that.</p>
+</section>
+<section id="covariance" class="level4">
+<h4 class="anchored" data-anchor-id="covariance">Covariance</h4>
+<p>The <strong>covariance</strong> shows us whether two variables are positively or negatively related. <span class="math display">\[s_{xy}=\dfrac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{n-1}\]</span> Think about this formula. If most of the time, when <span class="math inline">\(x_i\)</span> is bigger than the mean, then <span class="math inline">\(y_i\)</span> is bigger than the mean, then the terms in the summation will mostly be positive. If it’s the reverse—<span class="math inline">\(x_i\)</span> is bigger than the mean when <span class="math inline">\(y_i\)</span> is smaller and vice versa—then most of the terms being summed will be negative.</p>
+<p>For example, the covariance for the poverty rate vs the overdose rate is -0.004.</p>
+<p>The problem with the covariance is that we don’t know how strong the association is. We can standardize it to the magnitude of the variables.</p>
+</section>
+<section id="correlation-coefficient" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-coefficient">Correlation Coefficient</h4>
+<p>The correlation coefficient standardizes the covariance using the size of the standard deviations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. <span class="math display">\[r=\dfrac{s_{xy}}{s_xs_y}\]</span> This value varies between <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span>. If <span class="math inline">\(r=1\)</span>, then there is a perfect positive correlation, and if <span class="math inline">\(r=-1\)</span>, then there is a perfect negative correlation. If <span class="math inline">\(r=0\)</span>, there is no linear relationship.</p>
+<p>For example the correlation coefficient for the poverty versus overdose rate is -0.011.</p>
+</section>
+<section id="coefficient-of-determination" class="level4">
+<h4 class="anchored" data-anchor-id="coefficient-of-determination">Coefficient of Determination</h4>
+<p>The correlation coefficient does a better job of telling us the size and direction of a relationship and is often used in summary statistics. However, the interpretation is not very neat. The <strong>coefficient of determination</strong>, on the other hand, is just the square of the correlation coefficient and has a very simple interpretation.</p>
+<p>We often just call the coefficient of determination the “r-squared”, denoted <span class="math inline">\(R^2\)</span> or <span class="math inline">\(r^2\)</span>, and it tells us what percent of the variation in <span class="math inline">\(y\)</span> is explained by the variation in <span class="math inline">\(x\)</span>.</p>
+<p>For example, if we have an <span class="math inline">\(r^2\)</span> of <span class="math inline">\(0.653\)</span>, we would say that “65.3% of the variation in <span class="math inline">\(y\)</span> is explained by the variation in <span class="math inline">\(x\)</span>.”</p>
+<p>For the drug overdose rate versus poverty rate example, the <span class="math inline">\(R^2\)</span> is 0.0001. This means that “0.01% of the variation in drug overdose rate can be explained by the variation in poverty.” Despite the scatterplot looking positive, there is really very little relationship between the two variables.</p>
+</section>
+<section id="practice-5" class="level4">
+<h4 class="anchored" data-anchor-id="practice-5">Practice</h4>
+<p>Calculate the covariance, correlation coefficient, and coefficient of determination for the phone use vs time awake variables. See the tip below for information on how to calculate them.</p>
+Covariance: (no decimal places) <input class="webex-solveme nospaces" size="3" data-answer="[&quot;-18&quot;]"> Correlation Coefficient: (two decimal places) <input class="webex-solveme nospaces" size="5" data-answer="[&quot;-0.52&quot;,&quot;-.52&quot;]"> Coefficient of determination: (two decimal places) <input class="webex-solveme nospaces" size="4" data-answer="[&quot;0.27&quot;,&quot;.27&quot;]"> Do phone use and time awake have a positive or negative relationship?
+<div id="radio_GOURILOJVR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GOURILOJVR" value=""> <span>Positive</span></label><label><input type="radio" autocomplete="off" name="radio_GOURILOJVR" value=""> <span>No Relationship</span></label><label><input type="radio" autocomplete="off" name="radio_GOURILOJVR" value="answer"> <span>Negative</span></label>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To calculate the covariance by hand, it is easiest to start with a table with these columns: “<span class="math inline">\(x\)</span>”, “<span class="math inline">\(y\)</span>”, “<span class="math inline">\((x_i-\bar{x})\)</span>”, “<span class="math inline">\((y_i-\bar{y})\)</span>”, “<span class="math inline">\((x_i-\bar{x})(y_i-\bar{y})\)</span>”. Then, add up the final column to get the numerator of the covariance.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="time-series-data" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-data">Time Series Data</h2>
+<p>One kind of plot that you have probably seen is a <strong>line plot</strong>. While there are applications for line plots that will be useful in this class, they are most useful for <strong>time series</strong> data–successive measurements of the same data source over time. For example, in finance, you often have daily data for the same stock over time.</p>
+<p>The drug data has a time series component: the states are all measured from 2015 to 2022. Here is a line graph for the drug overdose rate over time in Washington:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="descriptives_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There are several problems with time series data that make them difficult to analyze using the tools in this class. I will talk about those problems during class. For your final project data, try to avoid using time series data. If you must, then make sure you have at least twice as many observations as you do time periods. For instance, 50 states over 7 years is fine, but 50 years with 7 states would not work.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>There has been a lot of information in this walkthrough. This table gives you a directory for what statistics and visualizations to use when.</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 50%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data/Analysis Type</th>
+<th>Statistics</th>
+<th>Visualizations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Categorical</td>
+<td>Frequency table, relative frequency table</td>
+<td>Bar chart, pie chart</td>
+</tr>
+<tr class="even">
+<td>Numeric</td>
+<td>Mean, median, mode, standard deviation, variance, 5-number summary, percentiles</td>
+<td>Histogram, box plot</td>
+</tr>
+<tr class="odd">
+<td><strong>Relationships</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Categorical/Categorical</td>
+<td>Conditional probability, cross tabulation</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Categorical/Numeric</td>
+<td>Conditional mean</td>
+<td>Multiple histograms or box plots</td>
+</tr>
+<tr class="even">
+<td>Numeric/Numeric</td>
+<td>Covariance, correlation coefficient, coefficient of determination</td>
+<td>Scatterplot</td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
