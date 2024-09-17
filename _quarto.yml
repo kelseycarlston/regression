@@ -3,14 +3,18 @@ project:
   output-dir: docs
 
 website:
-  title: "."
+  title: "ECON 355 - Regression"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
     right:
-      - text: Lectures
+      - text: Labs
+        menu: 
+          - text: Lab 3
+            href: 02_assignments/lab-03.qmd
+      - text: Resources
         menu: 
           - text: Descriptive Statistics
             href: 00_descriptive/descriptives.qmd

@@ -94,7 +94,7 @@ setwd("G:/My Drive/Classes/2023_Spring_ECON_355_Regression/Week 4 - Descriptive 
 Now that R knows where we have the data stored, we can load the data in.
 
 ```{r}
-house <- read.csv("Data/house_prices.csv")
+house <- read.csv("data/house_prices.csv")
 ```
 
 Note that I have my data in a subfolder of my working directory called "Data". Your code may look more like this:
