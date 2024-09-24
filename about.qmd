@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-About this site
+This site is the center for online portions of Regression 355, taught by Kelsey Carlston at Gonzaga University.
