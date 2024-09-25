@@ -1,0 +1,31 @@
+Place,Name,Making_Playoffs,Making_Finals,Winning_Finals,Conference,Times_in_Playoffs
+Atlanta,Hawks,60,2,1,East,48
+Boston,Celtics,99,30,20,East,59
+Brooklyn,Nets,90,3,2,East,23
+Charlotte,Hornets,0,0,0,East,10
+Chicago,Bulls,21,5,0.2,East,36
+Cleveland,Cavaliers,99,19,12,East,22
+Dallas,Mavericks,78,6,2,West,24
+Denver,Nuggets,99,32,15,West,28
+Detroit,Pistons,0,0,0,East,42
+Golden State,Warriors,68,9,3,West,36
+Houston,Rockets,0,0,0,West,34
+Indiana,Pacers,1,0,0,East,27
+LA,Clippers,67,5,2,West,16
+Los Angeles,Lakers,12,0.7,0.2,West,62
+Memphis,Grizzlies,99,19,8,West,12
+Miami,Heat,87,6,3,East,23
+Milwaukee,Bucks,99,20,12,East,34
+Minnesota,Timberwolves,60,5,2,West,10
+New Orleans,Pelicans,61,4,1,West,8
+New York,Knicks,80,4,2,East,42
+Oklahoma City,Thunder,48,4,1,West,32
+Orlando,Magic,5,0.2,0,East,16
+Philadelphia,76ers,99,13,8,East,52
+Phoenix,Suns,79,8,3,West,31
+Portland,Trail Blazers,22,0.9,0.2,West,37
+Sacramento,Kings,79,5,2,West,29
+San Antonio,Spurs,0,0,0,West,39
+Toronto,Raptors,26,1,0.5,East,13
+Utah,Jazz,28,1,0.4,West,31
+Washington,Wizards,30,0.9,0.4,East,30
