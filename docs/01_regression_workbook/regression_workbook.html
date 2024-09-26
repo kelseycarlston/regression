@@ -9,7 +9,7 @@
 <meta name="author" content="Kelsey Carlston">
 <meta name="dcterms.date" content="2023-11-17">
 
-<title>.. - Regression Workbook</title>
+<title>ECON 355 - Regression - Regression Workbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">.</span>
+    <span class="navbar-title">ECON 355 - Regression</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -94,10 +94,25 @@ ul.task-list li input[type="checkbox"] {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Lectures</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Labs</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lectures">    
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-labs">    
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-03.html">
+ <span class="dropdown-text">Lab 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-04.html">
+ <span class="dropdown-text">Lab 4</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-resources">    
         <li>
     <a class="dropdown-item" href="../00_descriptive/descriptives.html">
  <span class="dropdown-text">Descriptive Statistics</span></a>
@@ -199,21 +214,21 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 What is the value of <span class="math inline">\(\beta_1\)</span>?
-<div id="radio_FFWRMKHARC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FFWRMKHARC" value=""> <span>0.17</span></label><label><input type="radio" autocomplete="off" name="radio_FFWRMKHARC" value=""> <span>23.7</span></label><label><input type="radio" autocomplete="off" name="radio_FFWRMKHARC" value="answer"> <span>3.93</span></label>
+<div id="radio_CMVLTSORGW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CMVLTSORGW" value=""> <span>0.17</span></label><label><input type="radio" autocomplete="off" name="radio_CMVLTSORGW" value=""> <span>23.7</span></label><label><input type="radio" autocomplete="off" name="radio_CMVLTSORGW" value="answer"> <span>3.93</span></label>
 </div>
 What is the value of <span class="math inline">\(\beta_0\)</span>?
-<div id="radio_UUVLQNJJSF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UUVLQNJJSF" value=""> <span>27.6</span></label><label><input type="radio" autocomplete="off" name="radio_UUVLQNJJSF" value="answer"> <span>-17.5</span></label><label><input type="radio" autocomplete="off" name="radio_UUVLQNJJSF" value=""> <span>-153.6</span></label>
+<div id="radio_UADSVDYPLM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UADSVDYPLM" value=""> <span>27.6</span></label><label><input type="radio" autocomplete="off" name="radio_UADSVDYPLM" value="answer"> <span>-17.5</span></label><label><input type="radio" autocomplete="off" name="radio_UADSVDYPLM" value=""> <span>-153.6</span></label>
 </div>
 What is the expected stopping distance if speed is 7.15?
-<div id="radio_QUFKTKLKOI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QUFKTKLKOI" value=""> <span>5.1</span></label><label><input type="radio" autocomplete="off" name="radio_QUFKTKLKOI" value=""> <span>25.3</span></label><label><input type="radio" autocomplete="off" name="radio_QUFKTKLKOI" value="answer"> <span>10.4</span></label>
+<div id="radio_SALMZNAETG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SALMZNAETG" value=""> <span>5.1</span></label><label><input type="radio" autocomplete="off" name="radio_SALMZNAETG" value=""> <span>25.3</span></label><label><input type="radio" autocomplete="off" name="radio_SALMZNAETG" value="answer"> <span>10.4</span></label>
 </div>
 <p>Regressions hardly ever perfectly accurately predict the outcome. The difference between the predicted/fitted value and the actual value is called the <strong>error</strong> or <strong>residual</strong>. The formula is: <span class="math inline">\(\varepsilon_i = y_i-\hat{y_i}\)</span>.</p>
 What is the error for a car going 7.15mph that stops in 15.1 feet?
-<div id="radio_XENNPBOMLI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XENNPBOMLI" value="answer"> <span>-4.7</span></label><label><input type="radio" autocomplete="off" name="radio_XENNPBOMLI" value=""> <span>10.2</span></label><label><input type="radio" autocomplete="off" name="radio_XENNPBOMLI" value=""> <span>7.9</span></label>
+<div id="radio_OQHKWZQRRF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OQHKWZQRRF" value="answer"> <span>-4.7</span></label><label><input type="radio" autocomplete="off" name="radio_OQHKWZQRRF" value=""> <span>10.2</span></label><label><input type="radio" autocomplete="off" name="radio_OQHKWZQRRF" value=""> <span>7.9</span></label>
 </div>
 <section id="model-diagnostics" class="level3">
 <h3 class="anchored" data-anchor-id="model-diagnostics">Model Diagnostics</h3>
@@ -258,8 +273,8 @@ F = \dfrac{MSR}{MSE}=\dfrac{\dfrac{SSR}{DF_{SSR}}}{\dfrac{SSE}{DF_{SSE}}}
 <p><input class="webex-solveme nospaces" size="4" data-answer="[&quot;89.6&quot;]"></p>
 <p>Once we have the F-statistic, we can compare it to a known distribution to get a p-value. The p-value is the probability that we would see the values that we do if the model is NOT better than the mean at predicting <span class="math inline">\(y\)</span>. That means that the lower the p-value, the better our model is.</p>
 <p>That value is statistically significant. What does a statistically significant F test generally mean about regression models?</p>
-<div id="radio_HOWGJIOGTQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HOWGJIOGTQ" value="answer"> <span>The model is significantly better than the null model.</span></label><label><input type="radio" autocomplete="off" name="radio_HOWGJIOGTQ" value=""> <span>All of the variables in the model are statistically significant.</span></label><label><input type="radio" autocomplete="off" name="radio_HOWGJIOGTQ" value=""> <span>The X variables are pratically important predictors of Y.</span></label>
+<div id="radio_IZYAVBTXIX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IZYAVBTXIX" value="answer"> <span>The model is significantly better than the null model.</span></label><label><input type="radio" autocomplete="off" name="radio_IZYAVBTXIX" value=""> <span>All of the variables in the model are statistically significant.</span></label><label><input type="radio" autocomplete="off" name="radio_IZYAVBTXIX" value=""> <span>The X variables are pratically important predictors of Y.</span></label>
 </div>
 </section>
 <section id="t-tests-and-coefficient-interpretation" class="level4">
@@ -269,12 +284,12 @@ F = \dfrac{MSR}{MSE}=\dfrac{\dfrac{SSR}{DF_{SSR}}}{\dfrac{SSE}{DF_{SSE}}}
 <p>We use the standard error to calculate the t statistic. <span class="math display">\[t = \dfrac{\hat{\beta_i}}{se(\hat{\beta_i})}\]</span> The t-statistic has <span class="math inline">\(n-k-1\)</span> degrees of freedom, where <span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(k\)</span> is the number of predictors. This can be compared to the known distribution (you can use the t-table you got in class!) to get a p-value, which tells us the probability that we see the data we do if the coefficient is actually 0 and <span class="math inline">\(x\)</span> has no effect.</p>
 <p>The coefficent we found for speed was <span class="math inline">\(3.93\)</span>, and the standard error is <span class="math inline">\(0.42\)</span>. What is the t-statistic? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;9.36&quot;]"></p>
 This is highly significant, since it’s much higher than the values in our t-table. What does that mean?
-<div id="radio_EGNFGAMBCW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EGNFGAMBCW" value="answer"> <span>Speed is a significant predictor of stopping distance.</span></label><label><input type="radio" autocomplete="off" name="radio_EGNFGAMBCW" value=""> <span>Stopping distance is a significant predictor of speed.</span></label><label><input type="radio" autocomplete="off" name="radio_EGNFGAMBCW" value=""> <span>Speed is NOT a significant predictor of stopping distance.</span></label>
+<div id="radio_LJSDBMFUBF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LJSDBMFUBF" value="answer"> <span>Speed is a significant predictor of stopping distance.</span></label><label><input type="radio" autocomplete="off" name="radio_LJSDBMFUBF" value=""> <span>Stopping distance is a significant predictor of speed.</span></label><label><input type="radio" autocomplete="off" name="radio_LJSDBMFUBF" value=""> <span>Speed is NOT a significant predictor of stopping distance.</span></label>
 </div>
 How do we interpret the coefficient?
-<div id="radio_VPKDEMJBZY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VPKDEMJBZY" value=""> <span>If speed is 3.93 mph higher, the expected stopping distance is 1 foot larger.</span></label><label><input type="radio" autocomplete="off" name="radio_VPKDEMJBZY" value="answer"> <span>If speed is 1mph higher, the expected stopping distance is 3.93 feet larger.</span></label><label><input type="radio" autocomplete="off" name="radio_VPKDEMJBZY" value=""> <span>If the stopping distance is 3.93 feet larger, the expected mph is 1 larger.</span></label><label><input type="radio" autocomplete="off" name="radio_VPKDEMJBZY" value=""> <span>If the stopping distance is 1 foot larger, the expected mph is 3.93 mph higher.</span></label>
+<div id="radio_AMVLSZHQMG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AMVLSZHQMG" value=""> <span>If speed is 3.93 mph higher, the expected stopping distance is 1 foot larger.</span></label><label><input type="radio" autocomplete="off" name="radio_AMVLSZHQMG" value="answer"> <span>If speed is 1mph higher, the expected stopping distance is 3.93 feet larger.</span></label><label><input type="radio" autocomplete="off" name="radio_AMVLSZHQMG" value=""> <span>If the stopping distance is 3.93 feet larger, the expected mph is 1 larger.</span></label><label><input type="radio" autocomplete="off" name="radio_AMVLSZHQMG" value=""> <span>If the stopping distance is 1 foot larger, the expected mph is 3.93 mph higher.</span></label>
 </div>
 </section>
 </section>
@@ -381,16 +396,16 @@ F-statistic: 9.647 on 2 and 43 DF,  p-value: 0.0003458</code></pre>
 </div>
 <p>Based on this regression, answer the following questions.</p>
 1) Is the model significantly better than using the null model based on the F statistic?
-<div id="radio_HZMBSYEJST" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HZMBSYEJST" value="answer"> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_HZMBSYEJST" value=""> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_HZMBSYEJST" value=""> <span>Inconclusive</span></label>
+<div id="radio_UMBBXFZZFH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UMBBXFZZFH" value="answer"> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_UMBBXFZZFH" value=""> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_UMBBXFZZFH" value=""> <span>Inconclusive</span></label>
 </div>
 2) Is price a significant predictor of consumption?
-<div id="radio_KLABGRHAUF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KLABGRHAUF" value="answer"> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_KLABGRHAUF" value=""> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_KLABGRHAUF" value=""> <span>Inconclusive</span></label>
+<div id="radio_DIQWEZKRHE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DIQWEZKRHE" value="answer"> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_DIQWEZKRHE" value=""> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_DIQWEZKRHE" value=""> <span>Inconclusive</span></label>
 </div>
 3) Is income a significant predictor of consumption?
-<div id="radio_MJWPFPJTON" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MJWPFPJTON" value=""> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_MJWPFPJTON" value="answer"> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_MJWPFPJTON" value=""> <span>Inconclusive</span></label>
+<div id="radio_EKEGEBYBXO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EKEGEBYBXO" value=""> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_EKEGEBYBXO" value="answer"> <span>No</span></label><label><input type="radio" autocomplete="off" name="radio_EKEGEBYBXO" value=""> <span>Inconclusive</span></label>
 </div>
 <section id="college-and-beyond-example" class="level3">
 <h3 class="anchored" data-anchor-id="college-and-beyond-example">College and Beyond Example</h3>
