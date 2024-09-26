@@ -1,5 +1,6 @@
 ---
-title: "Lab 4 - ggplot and Data Manipulation"
+title: "Lab 4: ggplot and Data Manipulation"
+format: html
 editor: visual
 execute: 
   echo: true
