@@ -202,9 +202,9 @@ It looks like 2021 has almost all of the countries in the sample, so we will use
 ### Exercise
 
 1)  Change the data type of `life_exp_total` and `total_pop` to numeric using `as.numeric()` within `mutate()` like we did with year in the GDP dataset.
-2)  Try grouping by "Continent", and calculate the average life expectancy and GDP per capita for each continent using `summarize()`.
-3)  Calculate the total population by continent using `group_by()` and `sum()` within `summarize()`.
-4)  Subset the `world` data to just include the year 2021 using `filter()`.
+2)  Subset the `world` data to just include the year 2021 using `filter()`.
+3)  Try grouping by "Continent", and calculate the average life expectancy and GDP per capita for each continent using `summarize()`.
+4)  Calculate the total population by continent using `group_by()` and `sum()` within `summarize()`.
 5)  Create the variable `log_gdp` by using `log()` for GDP_per_cap within `mutate()`.
 
 ### Creating the scatterplot
