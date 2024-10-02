@@ -18,6 +18,8 @@ website:
             href: 02_assignments/lab-04.qmd
           - text: Lab 5
             href: 02_assignments/lab-05.qmd
+          - text: T Tests Mini Lab
+            href: 02_assignments/mini_lab-ttests.qmd
       - text: Resources
         menu: 
           - text: Descriptive Statistics
