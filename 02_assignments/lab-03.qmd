@@ -39,7 +39,7 @@ For this assignment, the only thing you will turn in on Canvas is a brief write 
 
 ## Working in RStudio
 
-![](images/rstudio_panes.png){fig-align="center" fig.alt = "Labeled Panes of RStudio"}
+![Labeled Panes of RStudio](images/rstudio_panes.png)\
 
 If you are going to do anything with R, [RStudio](https://rstudio.com/) is hands-down the best place to do it. RStudio is an open-source integrated development environment (or IDE) that makes programming in R simpler, more efficient, and most importantly, more reproducible. Some of its more user-friendly features are syntax highlighting (it displays code in different colors depending on what it is or does, which makes it easier for you to navigate the code that you've written), code completion (it will try to guess what code you are attempting to write and write it for you), and keyboard shortcuts for the more repetitive tasks.
 
@@ -117,7 +117,7 @@ house <- read.csv("house_prices.csv")
 
 This tells R to read in the csv and call the data frame "house". You should see the data pop up in your environment. You can click on the word "house" and it will open up the data in the data viewer for you to explore. Or, if you just want a quick look, you can hit the little blue circle with the arrow next to the word "house".
 
-![](images/ways-to-view-data.PNG){fig-alt="data viewing in the environment pane"}
+![data viewing in the environment pane](images/ways-to-view-data.PNG)\
 
 We can also ask R to print the first few lines of a dataframe to show us what it looks like. In this case, each row represents a house.
 
@@ -385,7 +385,7 @@ Now it's time to work on your own. Download the "County_Election.csv" data set f
 Here is a table describing the variables in the data set:
 
 | Name                         | Description                                                                                                  |
-|-----------------|------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | state                        | State FIPS Code                                                                                              |
 | county                       | County FIPS Code                                                                                             |
 | county_name                  | County Name                                                                                                  |

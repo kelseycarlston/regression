@@ -1,0 +1,17 @@
+---
+title: "Introduction to R for Blind Users"
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| eval: true
+knitr::opts_chunk$set(comment = NA)
+```
+
+This assignment is meant to be an introduction to R that includes a few points that will be important for blind users. In particular, this will show you how to run R code, how to:
+* Create a Markdown document
+* Implement settings that help with a screen reader
+* Load the BrailleR package and use some of the basic functions
+
+

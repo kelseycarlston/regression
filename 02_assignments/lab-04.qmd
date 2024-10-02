@@ -8,7 +8,7 @@ execute:
 ---
 
 ```{r}
-#| echo: true
+#| echo: false
 #| eval: true
 knitr::opts_chunk$set(comment = NA)
 ```
@@ -237,7 +237,7 @@ Here, we have created a **scatterplot**, a representation of the raw data as poi
 1.  It begins with a call to the `ggplot()` function. This takes a data argument. In this case, we say that we want to make a plot to visualize the basketball data.
 2.  The next function call is `geom_point()`. This is a way of specifying the geometry we want to plot. Here we chose points, but we could have used another choice (lines, for example, or polygons).
 3.  The `geom_point()` call takes a mapping argument. You use this to specify how variables in your data are mapped to properties of the graphic. Here, we chose to map the `Field_Goal_Pct` variable to the x-coordinates and the `Making_Playoffs` variable to the y-coordinates. Importantly, we use the `aes()` function to supply an aesthetic to the mapping parameter. This is always the case.
-4. The `labs()` function allows us to specific axis lables and titles. In this instance, I'm only using it to create alternative text for accessibility.
+4.  The `labs()` function allows us to specific axis lables and titles. In this instance, I'm only using it to create alternative text for accessibility.
 5.  The final thing to point out here is that we combined or connected these arguments using the plus-sign, `+`. You should read this literally as addition, as in "make this ggplot of the basketball data and add a point geometry to it." Be aware that the use of the plus-sign in this way is unique to the `ggplot2` package and won't work with other graphical tools in R.
 
 We can summarize these ideas with a simple template. All that is required to make a graph in R is to replace the elements in the bracketed sections with a dataset, a geometry function, and an aesthetic mapping.
@@ -269,7 +269,7 @@ playoffs_plot
 
 In the plot above, we only specified the position of the points (the x- and y-coordinates) in the aesthetic mapping, but there are many aesthetics (see the figure below), and we can map the same or other variables to those.
 
-![](images/common-aesthetics-1.png){fig-alt = "Illustrations of common aesthetic choices, including the position of the x and y axis, the shape of points, the size of points, color, line width, and line type, like solid, dotted, etc."}
+![Illustrations of common aesthetic choices, including the position of the x and y axis, the shape of points, the size of points, color, line width, and line type, like solid, dotted, etc.](images/common-aesthetics-1.png)\
 
 Consider, for example, that we have two groups of teams: those that went to the playoffs last year and those that had no post season. Do we think that the relationship between the field goal percent and probability of making playoffs are the same for both? Let's add conference to our aesthetic mapping (specifically to the color parameter) and see what happens.
 
@@ -297,7 +297,7 @@ ggplot(data = BBall) +
 
 Notice that we specified the shape with a number. R has 25 built-in shapes that you can specify with a number, as shown in the figure below. Some important differences in these shapes concern the border and fill colors. The hollow shapes (0-14) have a border that you specify with color, the solid shapes (15-20) have a border and fill, both specified with color, and the filled shapes (21-24) have separate border and fill colors, specified with color and fill respectively.
 
-![](ggplot_shapes.png){fig-alt = "A chart with the 25 different options for point shapes. For example, 0 is a square, 1 is a circle, and 2 is a triangle."}
+![A chart with the 25 different options for point shapes. For example, 0 is a square, 1 is a circle, and 2 is a triangle.](ggplot_shapes.png)\
 
 ::: callout-tip
 Note that you can use hexadecimal codes like #004F2D instead of "forestgreen" to specify a color. This also allows you to specify a much wider range of colors. See [this color picker website](https://htmlcolorcodes.com/) for one way of exploring colors.
@@ -498,8 +498,7 @@ ggplot(data = BBall) +
 
 I know it doesn't look good like it is, but when you are working with more categories or different types of graphs, like maps or stacked bar charts, these kinds of pallettes are very useful.
 
-Here are the color palettes available in the viridis package:
-[](viridis_colors.png){fig-alt = "The colors available in the viridis package."}
+Here are the color palettes available in the viridis package: [ ](viridis_colors.png){fig-alt = "The colors available in the viridis package."}
 
 ### Exercises
 

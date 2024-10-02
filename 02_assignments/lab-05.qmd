@@ -1,0 +1,222 @@
+---
+title: "Lab 5: dplyr and ggplot2"
+editor: visual
+format: html
+execute: 
+  echo: true
+  eval: false
+---
+
+## Outline
+
+```{r}
+#| echo: false
+#| eval: true
+knitr::opts_chunk$set(comment = NA)
+
+```
+
+### Objectives
+
+In this lab, you will
+
+1.  get more practice merging data in R
+2.  learn some important functions in the `dplyr` package
+3.  practice making gorgeous plots in ggplot2
+4.  be encouraged to use help pages and vignettes to learn how to use functions
+
+### R Packages
+
+`dplyr`
+
+`ggplot2`
+
+### Data
+
+-   GDP by country
+    -   Contains GDP per capita (PPP) for each country from 1990 to 2023
+-   Population and life expectancy by country
+    -   Contains population and life expectancy variables for each country from 1950 to 2023
+
+### Grade
+
+For this assignment, follow along with the quiz on Canvas.
+
+## Dplyr and the Tidyverse
+
+There are several packages that make data manipulation in R much easier than in Excel or many other languages. The tidyverse is a collection of R packages designed for data science. It includes tools for data manipulation, visualization, and analysis. Core packages include `dplyr` for data wrangling, `ggplot2` for visualization, `tidyr` for data tidying, and `readr` for data import. The tidyverse is built around the concept of **tidy data**, where datasets are organized in a consistent way, making analysis more intuitive and efficient.
+
+`dplyr` is a package used for data manipulation, providing a range of tools to transform, summarize, and manipulate data frames. It allows for operations like filtering rows (`filter()`), selecting columns (`select()`), arranging data (`arrange()`), creating new variables with functions of existing variables (`mutate()`), and summarizing data (`summarize()`). These functions make it easy to work with large datasets using clear, readable syntax.
+
+We want to read in the data, then merge it to create a dataset that allows us to compare GDP and life expectancy. First, load the packages and read in the data.
+
+```{r}
+#| eval: true
+#| warning: false
+
+rm(list = ls())
+library(tidyverse)
+library(ggplot2)
+pop <- read.csv("data/population_by_country.csv") # The csv file is in my "data" folder
+gdp <- read.csv("data/gdp_by_country.csv") # You may not need the "data/" part
+```
+
+You will notice that the population dataset has a lot more rows than the GDP dataset. There are two reasons for that:
+
+1\) Population includes many years which we don't need
+
+2\) GDP is formatted "wide" rather than "long"
+
+We will discuss how to adjust those now.
+
+### Filter
+
+One of the things we can do with dplyr is remove rows we don't based on criteria we set. For instance, let's say we want to subset rows so that the data frame only includes data from 1990 to 2023, the years in the GDP data. We can either use the code we previously learned using base R:
+
+```{r}
+#| eval: false
+pop <- pop[pop$Year > 1989, ]
+```
+
+Or, we can use the easier functionality that is a part of dplyr.
+
+```{r}
+pop <- filter(pop, Year > 1989)
+```
+
+Usually, rather than using functions in that way, we use something called the **piping operator**. In R, the piping operator (\|\>), provided by the `magrittr` package (and commonly used in the tidyverse), allows you to chain together a sequence of operations in a more readable and intuitive way. The pipe enables you to pass the output of one function directly into the next function as an input, without the need for nesting functions or creating intermediate variables.
+
+The basic syntax is:
+
+```{r}
+data |> function1() |> function2() |> function3()
+```
+
+Which is equivalent to:
+
+```{r}
+function3(function2(funciont1(data)))
+```
+
+The pipe operator takes the result of the left-hand side and feeds it as the first argument into the function on the right-hand side. This makes the code flow from left to right, mimicking how we read sentences, which often improves readability, especially when performing multiple operations.
+
+In our example, the code would be:
+
+```{r}
+#| eval: true
+pop <- pop |> 
+  filter(Year > 1989)
+```
+
+### Pivot Longer
+
+In the GDP dataset, each column is a different year (wide format), while in the life expectancy dataset, there are rows for each year for each country (long format). Usually, long format data is more helpful, so we will change gdp to be long using `pivot_longer()`.
+
+The reference pages for tidyverse functions are usually very good, with many helpful examples. They are often **vignettes** rather than help pages, which means they have more information and are easier to read. Check out the [pivot longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) vignette to learn about it.
+
+We want to turn every column that starts with "X" into a row, with the year in the column name as a new column. So we want this table:
+
+| Country | X2000 | X2001 | X2002 |
+|---------|-------|-------|-------|
+| USA     | a     | b     | c     |
+| Canada  | x     | y     | z     |
+| Mexico  | t     | u     | v     |
+
+To turn into this table:
+
+| Country | Year | Value |
+|---------|------|-------|
+| USA     | 2000 | a     |
+| USA     | 2001 | b     |
+| USA     | 2002 | c     |
+| Canada  | 2000 | x     |
+| Canada  | 2001 | y     |
+| Canada  | 2002 | z     |
+| Mexico  | 2000 | t     |
+| Mexico  | 2001 | u     |
+| Mexico  | 2002 | v     |
+
+We will use the piping operator to use the function.
+
+```{r}
+#| eval: true
+
+gdp <- gdp |> 
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "Year",
+    names_prefix = "X",
+    values_to = "GDP_per_cap",
+    values_drop_na = TRUE
+  )
+
+```
+
+::: callout-tip
+### More help with the pivot longer
+
+Check out the video on Canvas for more help with pivot longer. There are also videos on Youtube, like [this one](https://youtu.be/odXz0_y4tjg?si=KvKnDok2t3pWZVjy).
+:::
+
+In order to merge, we need to have a key to merge on so we can merge by a unique country/year. We could make a new variable that has both of those, but R allows us to merge based on two keys. The keys do have to be the same data type, so let's change the Year variable in the GDP data frame to numeric. Then, we can use `merge()`.
+
+`mutate()` is a function that allows us to create new row-wise variables within the dplyr framework. (Note that if you use `<-` in `mutate()` or `summarize()`, the variable names can be weird, so you must use `=`.)
+
+```{r}
+gdp <- gdp |> 
+  mutate(Year = as.numeric(Year))
+
+world <- merge(gdp, pop, by.x = c("Year", "Country.Code"), by.y = c("Year", "iso3_code"))
+```
+
+Now we can do the analysis we want!
+
+## Gapminder Analysis
+
+The Gapminder project reported national income versus health for all of the world countries. The project had many great visualizations, but they stopped updating data in 2015. We are going to update the graphic with new data. Here is a scatterplot of GDP per capita (PPP) and health (life expectancy at birth):
+
+![A scatterplot with income on the X axis and Health on the y axis. The dots are colored by continent, and the size of the dot is related to population. There is a positive relationship between income and health.](images/gapminder_plot.jpg)\
+
+Let's find out which recent years have data for many countries. We will use `group_by()` and `summarize()` to do so. The `group_by()` function in dplyr is used to group data by one or more variables in a data frame. This is useful when you want to perform operations (like summarizing or mutating) separately for each group, rather than on the entire dataset. Grouping doesn't change the data itself, but it sets the stage for subsequent operations that will respect the groups.
+
+I'm going to create a new dataframe that groups data by year, and I'll get the count and average life expectancy for each. Then, I'll print the most recent years of data, and I'll do a line plot of life expectancy over time.
+
+```{r}
+year_data <- world |> 
+  group_by(Year) |> 
+  summarize(n_countries = n(),
+            avg_le = mean(as.numeric(life_exp_total)))
+
+year_data[year_data$Year > 2019,]
+
+ggplot(data = year_data) +
+  geom_line(aes(x = Year, y = avg_le)) +
+  xlab("Year") +
+  ylab("Average Life Expectancy") +
+  theme_classic() +
+  labs(alt = "A line graph with year on the x axis and life expectancy on the y axis. Years range from 1990 to 2023, and the average life expecatancy increases from about 65 to about 73, with a dip around 2020.") # It's a good idea to add alternative text for visually impaired users!
+```
+
+It looks like 2021 has almost all of the countries in the sample, so we will use that year.
+
+### Exercise
+
+1)  Try grouping by "Continent", and calculate the average life expectancy and GDP per capita for each continent using `summarize()`.
+2)  Calculate the total population by continent using `group_by()` and `sum()` within `summarize()`.
+3)  Subset the `world` data to just include the year 2021 using `filter()`.
+4)  Change the data type of `life_exp_total` and `total_pop` to numeric using `as.numeric()` within `mutate()` like we did with year in the GDP dataset.
+5)  Create the variable `log_gdp` by using `log()` for GDP_per_cap within `mutate()`.
+
+### Creating the scatterplot
+
+Use ggplot to create a scatterplot of logged GDP versus life expectancy for 2021. Make sure to do the following:
+
+1.  Use arguments within the `aes()` mapping function to change the color of the points to reflect the continent, and the size of the point to reflect total population. You may need to use help pages or Google to figure it out.
+
+2.  Add x and y labels.
+
+3.  Change the legend label to have a nicer title by using `labs(size = "Whatever you want your size label to be")`.
+
+### Exercise
+
+Find out one more interesting thing about the dataset. Maybe you want to plot one of the other variables, like population density or fertility. Or, maybe you want to do some summary statistics like finding the correlation between infant mortality and life expectancy after age 15. What did you find? And why do you think it is interesting?
