@@ -203,9 +203,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#load-data" id="toc-load-data" class="nav-link active" data-scroll-target="#load-data">Load Data</a></li>
-  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">Hypothesis testing</a></li>
-  <li><a href="#creating-a-dummy-variable" id="toc-creating-a-dummy-variable" class="nav-link" data-scroll-target="#creating-a-dummy-variable">Creating a dummy variable</a></li>
-  <li><a href="#two-sample-t-tests" id="toc-two-sample-t-tests" class="nav-link" data-scroll-target="#two-sample-t-tests">Two sample t tests</a></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">Hypothesis testing</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul></li>
+  <li><a href="#creating-a-dummy-variable" id="toc-creating-a-dummy-variable" class="nav-link" data-scroll-target="#creating-a-dummy-variable">Creating a dummy variable</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example</a></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise</a></li>
+  </ul></li>
+  <li><a href="#two-sample-t-tests" id="toc-two-sample-t-tests" class="nav-link" data-scroll-target="#two-sample-t-tests">Two sample t tests</a>
+  <ul class="collapse">
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2">Example</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -241,53 +253,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If the data does not immediately show up in your environment, it might just need a little more time, or you might need to call the data first with a function. Try <code>head(USArrests)</code>.</p>
+<p>The data has 4 variables for 1973: the arrest rates for murder, assault, and rape, and the percent of each state’s population that is urban.</p>
 </section>
 <section id="hypothesis-testing" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis testing</h2>
-<p>Suppose I heard that in 2021, the arrest rate for assault was 135 per 100,000. I want to see if the average state-level rate 1973 was significantly different from that at the 99% confidence level. a. Write down the null and alternative hypotheses. b. Use the following function to do the hypothesis test:</p>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>Suppose I read an article that said that in 1973, the average percent urban in each state was 62 percent. I want to check that with this dataset with <span class="math inline">\(\alpha = 0.05\)</span>. Here is how I would do it in R:</p>
+<p><strong>1) Write down the null and alternative hypotheses.</strong></p>
+<p><span class="math display">\[
+H_0: \mu = 62
+\]</span></p>
+<p><span class="math display">\[
+H_A: \mu \neq 62
+\]</span></p>
+<p><strong>2) Do the hypothesis test.</strong> I will use the following function in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(mydata, alternative, mu, conf.level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(mydata<span class="sc">$</span>variable, alternative, mu, conf.level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Where “mydata” is your data; “alternative” can take on one of three values: “two.sided”, “greater”, “less”; mu is <span class="math inline">\(\mu\)</span>; and conf.level is <span class="math inline">\((1-\alpha)\)</span>. As an example, check out this hypothesis test for stock data:</p>
+<p>Where “mydata” is your data; “variable” is the variable you want to test; “alternative” can take on one of three values: “two.sided”, “greater”, “less”; mu is <span class="math inline">\(\mu\)</span>; and conf.level is <span class="math inline">\((1-\alpha)\)</span>. I’ll plug in my values:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(stock, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">mu =</span> <span class="dv">170</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(USArrests<span class="sc">$</span>UrbanPop, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">mu =</span> <span class="dv">62</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  USArrests$UrbanPop
+t = 1.7293, df = 49, p-value = 0.09005
+alternative hypothesis: true mean is not equal to 62
+95 percent confidence interval:
+ 61.42632 69.65368
+sample estimates:
+mean of x 
+    65.54 </code></pre>
 </div>
-<ol start="3" type="a">
-<li>Write down your conclusion.</li>
-</ol>
+</div>
+<p><strong>3) Conclude.</strong> The p-value of 0.09 is greater than our significance level of 0.05. The p-value says that if the null hypothesis were true and the actual mean were 62, the probability we would see the data we do is 9%. That is likely enough that we don’t have enough evidence to reject the null hypothesis. The data do not provide enough evidence to say that the mean of 62 is not true.</p>
+</section>
+<section id="exercise" class="level3">
+<h3 class="anchored" data-anchor-id="exercise">Exercise</h3>
+<p>Suppose I heard that in 2021, the arrest rate for assault was 135 per 100,000. I want to see if the average state-level rate 1973 was significantly different from that at the 99% confidence level.</p>
+<p>a. Write down the null and alternative hypotheses.</p>
+<p>b. Perform the t test.</p>
+<p>c. Write down your conclusion.</p>
+</section>
 </section>
 <section id="creating-a-dummy-variable" class="level2">
 <h2 class="anchored" data-anchor-id="creating-a-dummy-variable">Creating a dummy variable</h2>
-<p>I want to break the data into two groups: states with a high urban population, and states with a low urban population. <code>UrbanPop</code> is a variable that says the percent of the state which is urban. If I run the code:</p>
+<section id="example-1" class="level3">
+<h3 class="anchored" data-anchor-id="example-1">Example</h3>
+<p>Suppose I want to compare two groups of states: states in the west, and states not in the west. I need to create a <strong>dummy variable</strong>, which is a variable that equals one if a condition is true, and zero if it is not. The easiest way to do this in R is with <code>ifelse()</code>. The function <code>ifelse()</code> takes 3 arguments: the first is a test on a variable in the dataset, the second is the value the new variable will take if the test is true, and the third is the value the new variable will take if the test is false.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USArrests<span class="sc">$</span>UrbanPop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>USArrests<span class="sc">$</span>west <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">rownames</span>(USArrests) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"California"</span>, <span class="st">"Washington"</span>, <span class="st">"Oregon"</span>, <span class="st">"Idaho"</span>, <span class="st">"Utah"</span>, <span class="st">"Nevada"</span>, <span class="st">"Arizona"</span>, <span class="st">"New Mexico"</span>, <span class="st">"Montana"</span>, <span class="st">"Wyoming"</span>, <span class="st">"Colorado"</span>), <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>I see that the median percent urban is 66. I will choose that as my cutoff for urban versus non-urban. To create a variable that equals 1 if the state is urban, and 0 if it’s not, I will use the code:</p>
+<p>The row names in this dataset are the name of the state. This code tests whether the row name is one of the states in the list, and if it is, then it assigns a 1 to the new variable <code>west</code>.</p>
+</section>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise</h3>
+<p>Break the data into two groups: states with a high urban population, and states with a low urban population. <code>UrbanPop</code> is a variable that says the percent of the state which is urban. The following code tells us some summary statistics:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>USArrests<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(USArrests<span class="sc">$</span>UrbanPop <span class="sc">&gt;</span> <span class="dv">66</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USArrests<span class="sc">$</span>UrbanPop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The median percent urban is 66. Use that as the cutoff for urban versus non-urban. Use <code>ifelse()</code> to create a variable that equals 1 if the <code>UrbanPop</code> variable is greater than 66, and 0 if it is not.</p>
+<div class="cell">
+
+</div>
+</section>
 </section>
 <section id="two-sample-t-tests" class="level2">
 <h2 class="anchored" data-anchor-id="two-sample-t-tests">Two sample t tests</h2>
-<p>In the examples we’ve done so far, we test our sample mean against the mean for a larger population or theoretical distribution. Sometimes, we want to test whether two groups are different based on two different samples. In this case, I want to know if murder rates are higher in “urban” states, so a two-sample t-test is appropriate.</p>
+<section id="example-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-2">Example</h3>
+<p>In the examples we’ve done so far, we test our sample mean against the mean for a larger population or theoretical distribution. Sometimes, we want to test whether two groups are different based on two different samples. I will test whether states in the west have significantly lower murder rates.</p>
 <p>Hypothesis testing for two samples is slightly different, and the calculation for t is slightly different.</p>
 <ol type="a">
-<li><p>Write down hypotheses. <span class="math display">\[ H_0: \mu_{urban} \leq \mu_{non-urban} \]</span> <span class="math display">\[ H_1: \mu_{urban} &gt; \mu_{non-urban} \]</span> Which is equivalent to: <span class="math display">\[ H_0: \mu_{urban} - \mu_{non-urban} \leq 0\]</span> <span class="math display">\[ H_1: \mu_{urban} - \mu_{non-urban} &gt; 0 \]</span></p></li>
-<li><p>Perform the t test. If I were to be calculating this by hand, the formula would be: <span class="math display">\[ t= \frac{(\bar x_{urban}-\bar x_{non-urban})-(\mu_{urban}-\mu_{non-urban})}{{\sqrt{\frac{s_{urban}^2}{n_{urban}} + \frac{s_{non-urban}^2}{n_{non-urban}} }}}\]</span> If you are interested, you can calculate this on your own. The degrees of freedom would be <span class="math inline">\(df = n_{urban} + n_{non-urban}-2\)</span>.</p></li>
+<li><p><strong>Write down hypotheses.</strong> <span class="math display">\[ H_0: \mu_{west} \geq \mu_{non-west} \]</span> <span class="math display">\[ H_1: \mu_{west} &lt; \mu_{non-west} \]</span> Which is equivalent to: <span class="math display">\[ H_0: \mu_{west} - \mu_{non-west} \leq 0\]</span> <span class="math display">\[ H_1: \mu_{west} - \mu_{non-west} &gt; 0 \]</span></p></li>
+<li><p><strong>Perform the t test.</strong> If I were to be calculating this by hand, the formula would be: <span class="math display">\[ t= \frac{(\bar x_{west}-\bar x_{non-west})-(\mu_{west}-\mu_{non-west})}{{\sqrt{\frac{s_{west}^2}{n_{west}} + \frac{s_{non-west}^2}{n_{non-west}} }}}\]</span> If you are interested, you can calculate this on your own. The degrees of freedom would be <span class="math inline">\(df = n_{west} + n_{non-west}-2\)</span>.</p></li>
 </ol>
 <p>I could calculate the mean, standard deviation, and sample size for each group like so:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>urban <span class="sc">==</span> <span class="dv">1</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>urban <span class="sc">==</span> <span class="dv">1</span>])</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>urban <span class="sc">==</span> <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>west <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>west <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>west <span class="sc">==</span> <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>However, we can use the t test formula in R as well. The formula for two-sample t tests is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data1, data2, alternative, conf.level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data1, data2, alternative, conf.level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The data you want to compare are different rows in the same dataframe. You will have to subset your data, either within the formula using brackets, or by making new data frames using brackets or <code>dplyr</code>. c.&nbsp;Write down your conclusions.</p>
+<p>The data you want to compare are different rows in the same dataframe. You will have to subset your data, either within the formula using brackets, or by making new data frames using brackets or <code>dplyr</code>.</p>
+<p>In this case, I would use the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>west <span class="sc">==</span> <span class="dv">1</span>],</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>       USArrests<span class="sc">$</span>Murder[USArrests<span class="sc">$</span>west <span class="sc">==</span> <span class="dv">0</span>],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">"less"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I use “less” because I’m doing a one-sided hypothesis test. If I were doing a one-sided hypothesis the other way, I would use “greater”.</p>
+<ol start="3" type="a">
+<li><strong>Write down your conclusions.</strong> The p-value is 0.1374. This means that there is a 13.74% chance we’d observe the data we do if the null hypothesis were true. This is higher than our significance level of 5%, so we fail to reject the null hypothesis. There is not sufficient evidence to say that murder arrest rates in the west are less than murder arrest rates in non-western states.</li>
+</ol>
+</section>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise</h3>
+<p>Try doing a two sample t-test to see whether more urban states (states with more than the median percent urban, like the dummy variable) have higher murder rates than less-urban states.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
