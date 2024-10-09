@@ -76,6 +76,32 @@ rep("Boba Fett", 5)
 
 3.  Now, copy that code into the R script you just opened and hit Enter again. As you see, the code does not run. Instead, the cursor moves down to the next line. To actually run the code, put the cursor back on the line with the code, and hit `Ctrl + Enter` (`CMD + Enter` on Mac OS).
 
+## Setting up your R script
+
+Working from an R script rather than the console is often preferred for several key reasons:
+
+1.  **Reproducibility**: An R script allows you to save all the code you write. This means you can easily rerun analyses, share your work, or troubleshoot without retyping commands. The console doesn't keep a persistent record of the work unless you manually save it.
+
+2.  **Efficiency**: You can run large chunks of code or the entire script at once from an R script. In contrast, the console requires you to run each command one by one, which can slow you down, especially when working on complex analyses.
+
+3.  **Error Tracking and Debugging**: R scripts make it easier to track where things go wrong. You can add comments and sections, making the code easier to read and understand. If something fails, you can simply tweak a few lines and rerun without needing to rewrite everything.
+
+4.  **Version Control**: Scripts can be saved with comments about changes, making it easier to keep track of different versions of an analysis. The console provides no such history, meaning it's harder to track revisions or recover earlier work.
+
+5.  **Documentation and Collaboration**: Writing code in an R script allows you to add detailed comments to explain your reasoning and the steps involved. This is especially useful when collaborating with others or when you return to a project after some time.
+
+6.  **Organization**: An R script enables you to organize your code logically, group tasks together, and maintain an overview of the entire workflow. The console can feel disorganized with scattered commands and no easy way to structure the work.
+
+For students, especially those learning R, it's a good habit to get comfortable with scripts early on. When you start a new assignment or project, you should create a header that includes a description of the code in the comments. To create comments (lines in the code that do not run), use the pound sign (#).
+
+```{r}
+#| echo: true
+
+#### Lab 3: Introduction to R ####
+# This code will use some basic functions in R and create a plot
+
+```
+
 ## Load in some data
 
 We will load in the data "house_prices.csv", which is posted on Canvas. Save the data into a folder, preferably the same folder as where you are saving your R-script.
@@ -97,7 +123,7 @@ For example, in my script I will type the following, since that's the folder I'm
 ```{r}
 #| echo: true
 #| eval: false
-setwd("G:/My Drive/Classes/2023_Spring_ECON_355_Regression/Week 4 - Descriptive Statistics Continued")
+setwd("G:/My Drive/Classes/Regression Analysis")
 ```
 
 ### Load in the data
@@ -385,7 +411,7 @@ Now it's time to work on your own. Download the "County_Election.csv" data set f
 Here is a table describing the variables in the data set:
 
 | Name                         | Description                                                                                                  |
-|-------------------|-----------------------------------------------------|
+|------------------------------|--------------------------------------------------------------------------------------------------------------|
 | state                        | State FIPS Code                                                                                              |
 | county                       | County FIPS Code                                                                                             |
 | county_name                  | County Name                                                                                                  |
