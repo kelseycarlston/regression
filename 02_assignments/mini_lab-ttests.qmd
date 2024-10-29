@@ -145,3 +145,11 @@ c.  **Write down your conclusions.** The p-value is 0.1374. This means that ther
 ### Exercise
 
 Try doing a two sample t-test to see whether more urban states (states with more than the median percent urban, like the dummy variable) have higher murder rates than less-urban states.
+
+```{r}
+#| eval: false
+#| echo: false
+USArrests$urban <- ifelse(USArrests$UrbanPop > 66, 1, 0)
+t.test(USArrests$Murder[USArrests$urban == 1], USArrests$Murder[USArrests$urban == 0],
+       "less", 0.95)
+```
