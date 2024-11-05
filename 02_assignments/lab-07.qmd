@@ -1,5 +1,5 @@
 ---
-title: "Multiple Linear Regression in R"
+title: "Lab 7: Multiple Regression in Life Expectancy and Homelessness"
 format: html
 editor: visual
 ---

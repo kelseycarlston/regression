@@ -1,0 +1,360 @@
+---
+title: "Lab 8: Alcohol Deaths and Fixed Effects"
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(corrplot)
+library(modelsummary)
+library(janitor)
+```
+
+## Outline
+
+### Objectives
+
+-   Practice reading in, cleaning, merging, and reshaping data in R (things that are really hard in Excel!)
+
+-   Make some cool graphs
+
+-   Run a multiple regression analysis in R using state and year fixed effects
+
+### Data
+
+These sheets are included in the `alcohol_deaths.xlsx` file.
+
+-   Alcohol-Related Deaths -- population, deaths from alcohol-related causes, and crude death rate from alcohol-related causes by state from 2010 to 2021 (CDC data accessed via CDC WONDER)
+
+-   Marital Status -- 5-year averages of number of married, single, divorced, and widowed people age 15 and older by gender by state from 2010 to 2022 (Census data accessed via NHGIS)
+
+-   Religiosity -- percent of people who are highly religious and percent of people who attend religious services every week by state in 2014 (Pew)
+
+-   Unemployment -- annual unemployment by state by year from 2004 to 2023 (BLS)
+
+We will load in the data, merge it, and run a regression predicting alcohol-related deaths based on unemployment, marital status, and religiosity.
+
+### Packages
+
+-   readxl
+
+-   tidyverse
+
+-   ggplot2
+
+-   janitor - package to clean dataset names
+
+-   stargazer - package to create nice-looking output tables
+
+-   corrplot - package to visualize correlation between variables
+
+### Grade
+
+For this assignment, you will complete a quiz as you work through the lab.
+
+## Step 0: Create New R Script
+
+Create an R script, and use `#` to give the script a title. Then, load in the libraries you will use. You need `readxl`, `tidyverse`, `ggplot2`, `stargazer`, and `corrplot`. We haven't used all these, so you may need to install them first. Also, set your working directory using `setwd()`. If you have a lot of objects in your environment, you may want to clear them with this code: `rm(list = ls())`. This information is called your **header**. I recommend labeling each of the following sections with section headers, like this: `#### Read in Data ####`. Here is what it might look like:
+
+```{r}
+#| echo: true
+#| eval: false
+
+#### Lab 8: Alcohol Deaths and Fixed Effects ####
+setwd("[MY WORKING DIRECTORY]")
+rm(list = ls())
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(stargazer)
+library(corrplot)
+library(janitor)
+```
+
+## Step 1: Read in Data
+
+Read in the relevant sheets from the Excel file. Here is a table of the sheet names and the names I gave the data frames in R.
+
+| Sheet                  | Name     |
+|------------------------|----------|
+| Alcohol-Related Deaths | `deaths` |
+| Marital Status         | `marry`  |
+| Religiosity            | `relig`  |
+| Unemployment           | `unemp`  |
+
+Use the `read_excel()` function from the `readxl` library to read in the data. To read in each sheet, you will need to indicate which sheet you want. For example, to load in the "Alcohol-Related Deaths" sheet:
+
+```{r}
+#| eval: false
+#| echo: true
+deaths <- read_excel("alcohol_deaths.xlsx", sheet = "Alcohol-Related Deaths")
+```
+
+Note that the Unemployment sheet has several header rows, and the actual column names don't start until row 4. To ignore those rows, type `skip = 3` as an option in your `read_excel()` function.
+
+```{r}
+#| echo: false
+#| eval: true
+# Load in datasets
+deaths <- read_excel("data/alcohol_deaths.xlsx", sheet = "Alcohol-Related Deaths")
+marry <- read_excel("data/alcohol_deaths.xlsx", sheet = "Marital Status")
+relig <- read_excel("data/alcohol_deaths.xlsx", sheet = "Religiosity")
+unemp <- read_excel("data/alcohol_deaths.xlsx", sheet = "Unemployment", skip = 3)
+
+```
+
+## Step 2: Switch Data from Wide to Long
+
+Every sheet except for `marry` is now organized with a row for each state and a column for each year. For example, type `head(deaths)` to see this. For merging and analysis, we would prefer the data be organized such that each state\*year combination has a row, for example:
+
+| State   | Year | Variable 1 | Variable 2 |
+|---------|------|------------|------------|
+| Alabama | 2010 |            |            |
+| Alabama | 2011 |            |            |
+| Alabama | 2012 |            |            |
+| Alabama | 2013 |            |            |
+
+To do this, we will use `pivot_longer()` from the `tidyverse`. This asks for columns to take values from, then puts the column headers as a new column. The easiest way to understand this is to look at the examples in the documentation here: <https://tidyr.tidyverse.org/reference/pivot_longer.html>.
+
+Let's start with the `deaths` data frame. We only want the crude rate, not the total deaths or population. We will tell `dplyr`/`tidyr` that we want any columns that start with `Crude_Rate_` to be smushed into one column called `death_rate`, and the year portion of the column names to go into a new column called `year`. Here's the code with comments. (Remember that `|>` and `%>%` are equivalent.)
+
+```{r}
+#| echo: true
+#| eval: true
+deaths <- deaths |> # Tell dplyr which data frame we're using
+  pivot_longer(
+    cols = starts_with("Crude_Rate_"), # Columns we want data from
+    names_to = "year", # Column name for column headers
+    names_prefix = "Crude_Rate_", # Prefix of the column name
+    values_to = "death_rate" # What we want the column with data to be called
+  ) |> 
+  select(State, `State Code`, year, death_rate) |>  # Only keep important columns
+  rename(state_fip = `State Code`) # Rename so no space
+
+```
+
+Try this, then type `head(deaths)` to see how the data changed.
+
+We need to do the same for `unemp`. Try using `pivot_longer` on your own. I recommend using `clean_names()` from the `janitor` package to fix the weird formatting: `unemp |> clean_names()`. If you can't figure it out how to pivot_longer, there is a video tutorial online.
+
+```{r}
+#| echo: false
+#| eval: true
+unemp <- unemp |> 
+  clean_names() |> 
+  pivot_longer(
+    cols = annual_2004:annual_2023,
+    names_to = "year",
+    names_prefix = "annual_",
+    values_to = "unemp"
+  ) |> 
+  mutate(state = as.numeric(str_sub(series_id, 6, 7))) |> 
+  select(state, year, unemp)
+
+```
+
+## Step 3: Variable Calculations
+
+Before merging, we will do a few things to make sure we have the variables we want and the right merge keys. In the `unemp` data frame, we do not have a state code. However, in the `Series ID` variable, the state code is in the 6th & 7th characters. Use the function `str_sub` to get those 2 characters. `str_sub` is a function that wants the variable you are pulling from, the start of the characters you want to extract, and the end. For instance, if I wanted to make a new variable from the 2nd and 3rd characters of a variable named `X1`, I would type `new_var = str_sub(X1, 2, 3)`. We want to make this numeric to match the `state_fip` in the `death` dataframe, so we need to do `as.numeric(str_sub())`. **Make a new numeric variable called `state` from the 6th & 7th characters of `Series ID`.** Reduce `unemp` to the columns `state`, `year`, and `unemp` using `select`.
+
+We also need to calculate the percent married and percent divorced in the `marry` dataframe. This code shows you how to calculate `pct_married`, then has a spot for you to add the answer for how to calculate `pct_divorced`. Calculate these, and reduce to `STATE`, `year`, `pct_married`, and `pct_divorced` using `select`.
+
+```{r}
+#| eval: false
+#| echo: true
+marry <- marry |> 
+  rowwise() |> 
+  mutate(year = str_sub(YEAR, -4, -1),
+         pct_married = sum(Male_Married, Female_Married)/
+           sum(across(c(starts_with("Male_"), starts_with("Female_")))),
+         pct_divorced = # Your answer here) |> 
+  select()
+```
+
+```{r}
+#| echo: false
+#| eval: true
+marry <- marry |> 
+  rowwise() |> 
+  mutate(year = str_sub(YEAR, -4, -1),
+         pct_married = sum(Male_Married, Female_Married)/
+           sum(across(c(starts_with("Male_"), starts_with("Female_")))),
+         pct_divorced = sum(Male_Divorced, Female_Divorced)/
+           sum(across(c(starts_with("Male_"), starts_with("Female_"))))) |> 
+  select(STATE, year, pct_married, pct_divorced)
+```
+
+## Step 4: Merge data
+
+Use the `merge()` function to merge the four dataframes together. I would merge them all into the `deaths` dataframe. Here is an example for the first one to get you started. Note that you have 2 keys to merge on, so they are both named in the `by.x` and `by.y` options. If you only have one key to merge on, like in the `relig` dataframe, you don't need both variables.
+
+```{r}
+#| eval: false
+#| echo: true
+deaths <- merge(deaths, marry, by.x = c("State", "year"), by.y = c("STATE", "year"))
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+# Merge data
+deaths <- merge(deaths, marry, by.x = c("State", "year"), by.y = c("STATE", "year"))
+deaths <- merge(deaths, relig, by.x = "State", by.y = "state")
+deaths <- merge(deaths, unemp, by.x = c("state_fip", "year"), by.y = c("state", "year"))
+```
+
+You may want to remove all the extra dataframes to keep your environment clean:
+
+```{r}
+rm(marry, relig, unemp)
+```
+
+## Step 5: Descriptive Statistics
+
+We want to learn more about our data before we throw it in a regression. First, let's get descriptive statistics using `stargazer`. The default output is into LaTeX, a typesetting software. We'll output it to text instead using the `type = "text"` option.
+
+```{r, eval = F}
+stargazer(deaths, type = "text")
+```
+
+We'll also create a correlation table. This table represents the direction and strength of the relationship between each pair of variables using the color and size of circles.
+
+```{r, eval = F}
+corr_table <- cor(deaths[,4:9]) # Only select numeric variables
+corrplot(corr_table, type = "upper")
+```
+
+This plot shows the correlations between the numeric variables.
+
+## Step 6: Plots
+
+Sometimes, visualizations can help us understand our data more easily than descriptive statistics.
+
+First, let's make a column chart that shows the states with the highest alcohol-related death rates in 2021. We can use `dplyr` and `ggplot2` in the same functions!
+
+```{r, eval = F}
+deaths |> 
+  filter(year == "2021") |> # Only use data from 2021
+  mutate(death_quartile = percent_rank(death_rate)) |> # Calculate percentile ranks
+  filter(death_quartile > 0.80) |> # Filter to top 20 percentile death rates
+  ggplot(aes(x = reorder(State, -death_rate), y = death_rate)) + # Plot!
+    geom_col() +
+    xlab("State") +
+    ylab("Alcohol-Related Death Rate") +
+    theme_classic() 
+```
+
+```{r}
+#| echo: false
+#| eval: false
+deaths |> 
+  filter(year == "2018") |> # Only use data from 2021
+  mutate(death_quartile = percent_rank(death_rate)) |> # Calculate percentile ranks
+  filter(death_quartile < 0.20) |> # Filter to top 20 percentile death rates
+  ggplot(aes(x = reorder(State, -death_rate), y = death_rate)) + # Plot!
+    geom_col() +
+    xlab("State") +
+    ylab("Alcohol-Related Death Rate") +
+    theme_classic() 
+```
+
+Try doing the same plot for the lowest 20 percentile.
+
+Let's also make scatter plots to find the association between our explanatory variables and the dependent variable, death rate.
+
+```{r, eval = F}
+ggplot(deaths, aes(x = unemp, y = death_rate)) +
+  geom_point() +
+  xlab("Unemployment Rate") +
+  ylab("Alcohol-Related Death Rate") +
+  theme_classic()
+```
+
+Do the same plot for percent highly religious and percent divorced against death rate.
+
+## Step 7: Regression
+
+### Model 1
+
+We are going to run several regressions. First, we'll estimate the following model:
+
+$$
+deathrate_{i,t}=\beta_0 + \beta_1*unemployment_{i,t} +\beta_2*\%divorced_{i,t}+\beta_3*\%religious_i 
+$$
+
+$\%Religious$ is only from one year, so it does not have the $t$ subscript.
+
+Before you run the regression, what do you think the relationship would be between the 3 variables and the death rate from alcohol?
+
+```{r, eval = FALSE}
+reg1 <- lm(death_rate ~ unemp + pct_highly_religious + pct_divorced, data = deaths)
+summary(reg1)
+
+```
+
+What are the relationships between each of the variables? What are their sizes? How much of the variation does the model explain?
+
+::: {.callout-tip title="Effect Size"}
+When looking at the size of the effect, we have to think about how the variables are defined. All three independent variables should be percents; however, the religion and divorce variables are fractions. In the case of `pct_divorced`, a one-unit increase is associated with a 182.6 unit increase in death rate. However, a one-unit increase is the same thing as a 100 percentage point increase!
+
+While the coefficient on divorce looks **much** bigger than the coefficient on unemployment, in reality, it is not. If we had both in terms of percents, a one percentage point increase in unemployment is associated with 0.5 lower death rate, and a one percentage point increase in divorced rate is associated with a 1.8 higher death rate.
+
+We can also think about effect size in terms of what values the variables can take. % divorced goes from 8% to 14%, so going from the lowest to the highest value would be associated with about $1.8*(14-8)=10.8$ change in death rate. On the other hand, the percent religious goes from 33% to 77%, so going from the lowest to the highest would be associated with a $0.2*(77-33)=8.8$ change in death rate.
+:::
+
+### Model 2
+
+We might expect that the year will have an effect on alcohol deaths, particularly since this period includes the pandemic. We can include year as a factor variable to remove any variation that is part of a larger trend.
+
+$$
+deathrate_{i,t}=\beta_0 + \beta_1*unemployment_{i,t} +\beta_2*\%divorced_{i,t}+\beta_3*\%religious_i +\alpha *year_t
+$$
+
+I use $\alpha$ to represent the year coefficients because, since this a factor variable, there is actually a dummy for each year besides 2010, so there are 11 coefficients. Year is already defined as a factor variable, so we don't need to do anything special. Do the same model as before, but add `year` as an explanatory variable. Call this model `reg2`.
+
+```{r}
+#| echo: false
+#| eval: false
+reg2 <- lm(death_rate ~ unemp + pct_highly_religious + pct_divorced + as.factor(year), data = deaths)
+summary(reg2)
+
+```
+
+### Model 3
+
+We may also expect that there are differences between the states that are not captured in our model. We can do something called a **state fixed effect**, where we include a dummy variable for each state. Note that if we try to use `state_fip` as our dummy variable, it will be read as a numeric variable, which is not what we want! The numbers in `state_fip` don't actually mean anything. **Do the regression model from before, but add** `State` **as an explanatory variable.** Call this model `reg3`.
+
+```{r}
+#| echo: false
+#| eval: false
+reg3 <- lm(death_rate ~ unemp + pct_highly_religious + pct_divorced + as.factor(year) + State, data = deaths)
+summary(reg3)
+
+```
+
+Also, if we use the `summary(reg3)` function, we will get a *huge* output with coefficients for 50 states and 10 years. You can do this and take a look at the coefficients - which have the highest coefficient? Lowest? The reference category is Alabama. Do these results look the same as the column charts we used before?
+
+In most papers, authors just report the other explanatory variables, and indicate in their tables that they used fixed effects. We can do that here and include the three regressions in one table so we can compare using `stargazer`.
+
+```{r, eval = FALSE}
+stargazer(reg1, # Specify which regressions
+          reg2, 
+          reg3, 
+          omit = c("year", "State"), # Remove fixed effects
+          omit.labels = c("Year FE", "State FE"), # Put labels for fixed effects
+          type = "text") # Indicate not to do LaTeX output
+```
+
+::: callout-warning
+Some versions of `stargazer` will not correctly fill out the Fixed Effects part of the table. For instance, in mine, model 3 says it does not have state fixed effects. You would have to change this to "Yes" if you put it in a paper.
+:::
+
+This table helps us compare models really easily! Look at the coefficients - do any of them change? What about the $R^2$?
+
+## Conclusion
+
+The methods used in this lab should be very helpful for your final project. When you start analyzing your data, I recommend following this lab as a guide.

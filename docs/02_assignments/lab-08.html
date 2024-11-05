@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ECON 355 - Regression - Lab 8: Alcohol Deaths and Fixed Effects</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ECON 355 - Regression</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Labs</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-labs">    
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-03.html">
+ <span class="dropdown-text">Lab 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-04.html">
+ <span class="dropdown-text">Lab 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-05.html">
+ <span class="dropdown-text">Lab 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-06.html">
+ <span class="dropdown-text">Lab 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-07.html">
+ <span class="dropdown-text">Lab 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/lab-08.html">
+ <span class="dropdown-text">Lab 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_assignments/mini_lab-ttests.html">
+ <span class="dropdown-text">T Tests Mini Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="../00_descriptive/descriptives.html">
+ <span class="dropdown-text">Descriptive Statistics</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a>
+  <ul class="collapse">
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#grade" id="toc-grade" class="nav-link" data-scroll-target="#grade">Grade</a></li>
+  </ul></li>
+  <li><a href="#step-0-create-new-r-script" id="toc-step-0-create-new-r-script" class="nav-link" data-scroll-target="#step-0-create-new-r-script">Step 0: Create New R Script</a></li>
+  <li><a href="#step-1-read-in-data" id="toc-step-1-read-in-data" class="nav-link" data-scroll-target="#step-1-read-in-data">Step 1: Read in Data</a></li>
+  <li><a href="#step-2-switch-data-from-wide-to-long" id="toc-step-2-switch-data-from-wide-to-long" class="nav-link" data-scroll-target="#step-2-switch-data-from-wide-to-long">Step 2: Switch Data from Wide to Long</a></li>
+  <li><a href="#step-3-variable-calculations" id="toc-step-3-variable-calculations" class="nav-link" data-scroll-target="#step-3-variable-calculations">Step 3: Variable Calculations</a></li>
+  <li><a href="#step-4-merge-data" id="toc-step-4-merge-data" class="nav-link" data-scroll-target="#step-4-merge-data">Step 4: Merge data</a></li>
+  <li><a href="#step-5-descriptive-statistics" id="toc-step-5-descriptive-statistics" class="nav-link" data-scroll-target="#step-5-descriptive-statistics">Step 5: Descriptive Statistics</a></li>
+  <li><a href="#step-6-plots" id="toc-step-6-plots" class="nav-link" data-scroll-target="#step-6-plots">Step 6: Plots</a></li>
+  <li><a href="#step-7-regression" id="toc-step-7-regression" class="nav-link" data-scroll-target="#step-7-regression">Step 7: Regression</a>
+  <ul class="collapse">
+  <li><a href="#model-1" id="toc-model-1" class="nav-link" data-scroll-target="#model-1">Model 1</a></li>
+  <li><a href="#model-2" id="toc-model-2" class="nav-link" data-scroll-target="#model-2">Model 2</a></li>
+  <li><a href="#model-3" id="toc-model-3" class="nav-link" data-scroll-target="#model-3">Model 3</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 8: Alcohol Deaths and Fixed Effects</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="outline" class="level2">
+<h2 class="anchored" data-anchor-id="outline">Outline</h2>
+<section id="objectives" class="level3">
+<h3 class="anchored" data-anchor-id="objectives">Objectives</h3>
+<ul>
+<li><p>Practice reading in, cleaning, merging, and reshaping data in R (things that are really hard in Excel!)</p></li>
+<li><p>Make some cool graphs</p></li>
+<li><p>Run a multiple regression analysis in R using state and year fixed effects</p></li>
+</ul>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<p>These sheets are included in the <code>alcohol_deaths.xlsx</code> file.</p>
+<ul>
+<li><p>Alcohol-Related Deaths – population, deaths from alcohol-related causes, and crude death rate from alcohol-related causes by state from 2010 to 2021 (CDC data accessed via CDC WONDER)</p></li>
+<li><p>Marital Status – 5-year averages of number of married, single, divorced, and widowed people age 15 and older by gender by state from 2010 to 2022 (Census data accessed via NHGIS)</p></li>
+<li><p>Religiosity – percent of people who are highly religious and percent of people who attend religious services every week by state in 2014 (Pew)</p></li>
+<li><p>Unemployment – annual unemployment by state by year from 2004 to 2023 (BLS)</p></li>
+</ul>
+<p>We will load in the data, merge it, and run a regression predicting alcohol-related deaths based on unemployment, marital status, and religiosity.</p>
+</section>
+<section id="packages" class="level3">
+<h3 class="anchored" data-anchor-id="packages">Packages</h3>
+<ul>
+<li><p>readxl</p></li>
+<li><p>tidyverse</p></li>
+<li><p>ggplot2</p></li>
+<li><p>janitor - package to clean dataset names</p></li>
+<li><p>stargazer - package to create nice-looking output tables</p></li>
+<li><p>corrplot - package to visualize correlation between variables</p></li>
+</ul>
+</section>
+<section id="grade" class="level3">
+<h3 class="anchored" data-anchor-id="grade">Grade</h3>
+<p>For this assignment, you will complete a quiz as you work through the lab.</p>
+</section>
+</section>
+<section id="step-0-create-new-r-script" class="level2">
+<h2 class="anchored" data-anchor-id="step-0-create-new-r-script">Step 0: Create New R Script</h2>
+<p>Create an R script, and use <code>#</code> to give the script a title. Then, load in the libraries you will use. You need <code>readxl</code>, <code>tidyverse</code>, <code>ggplot2</code>, <code>stargazer</code>, and <code>corrplot</code>. We haven’t used all these, so you may need to install them first. Also, set your working directory using <code>setwd()</code>. If you have a lot of objects in your environment, you may want to clear them with this code: <code>rm(list = ls())</code>. This information is called your <strong>header</strong>. I recommend labeling each of the following sections with section headers, like this: <code>#### Read in Data ####</code>. Here is what it might look like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Lab 8: Alcohol Deaths and Fixed Effects ####</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"[MY WORKING DIRECTORY]"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-1-read-in-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-read-in-data">Step 1: Read in Data</h2>
+<p>Read in the relevant sheets from the Excel file. Here is a table of the sheet names and the names I gave the data frames in R.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Sheet</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alcohol-Related Deaths</td>
+<td><code>deaths</code></td>
+</tr>
+<tr class="even">
+<td>Marital Status</td>
+<td><code>marry</code></td>
+</tr>
+<tr class="odd">
+<td>Religiosity</td>
+<td><code>relig</code></td>
+</tr>
+<tr class="even">
+<td>Unemployment</td>
+<td><code>unemp</code></td>
+</tr>
+</tbody>
+</table>
+<p>Use the <code>read_excel()</code> function from the <code>readxl</code> library to read in the data. To read in each sheet, you will need to indicate which sheet you want. For example, to load in the “Alcohol-Related Deaths” sheet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"alcohol_deaths.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Alcohol-Related Deaths"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the Unemployment sheet has several header rows, and the actual column names don’t start until row 4. To ignore those rows, type <code>skip = 3</code> as an option in your <code>read_excel()</code> function.</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="step-2-switch-data-from-wide-to-long" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-switch-data-from-wide-to-long">Step 2: Switch Data from Wide to Long</h2>
+<p>Every sheet except for <code>marry</code> is now organized with a row for each state and a column for each year. For example, type <code>head(deaths)</code> to see this. For merging and analysis, we would prefer the data be organized such that each state*year combination has a row, for example:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>State</th>
+<th>Year</th>
+<th>Variable 1</th>
+<th>Variable 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alabama</td>
+<td>2010</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Alabama</td>
+<td>2011</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Alabama</td>
+<td>2012</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Alabama</td>
+<td>2013</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>To do this, we will use <code>pivot_longer()</code> from the <code>tidyverse</code>. This asks for columns to take values from, then puts the column headers as a new column. The easiest way to understand this is to look at the examples in the documentation here: <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="uri">https://tidyr.tidyverse.org/reference/pivot_longer.html</a>.</p>
+<p>Let’s start with the <code>deaths</code> data frame. We only want the crude rate, not the total deaths or population. We will tell <code>dplyr</code>/<code>tidyr</code> that we want any columns that start with <code>Crude_Rate_</code> to be smushed into one column called <code>death_rate</code>, and the year portion of the column names to go into a new column called <code>year</code>. Here’s the code with comments. (Remember that <code>|&gt;</code> and <code>%&gt;%</code> are equivalent.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> deaths <span class="sc">|&gt;</span> <span class="co"># Tell dplyr which data frame we're using</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"Crude_Rate_"</span>), <span class="co"># Columns we want data from</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="co"># Column name for column headers</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"Crude_Rate_"</span>, <span class="co"># Prefix of the column name</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"death_rate"</span> <span class="co"># What we want the column with data to be called</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(State, <span class="st">`</span><span class="at">State Code</span><span class="st">`</span>, year, death_rate) <span class="sc">|&gt;</span>  <span class="co"># Only keep important columns</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">state_fip =</span> <span class="st">`</span><span class="at">State Code</span><span class="st">`</span>) <span class="co"># Rename so no space</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Try this, then type <code>head(deaths)</code> to see how the data changed.</p>
+<p>We need to do the same for <code>unemp</code>. Try using <code>pivot_longer</code> on your own. I recommend using <code>clean_names()</code> from the <code>janitor</code> package to fix the weird formatting: <code>unemp |&gt; clean_names()</code>. If you can’t figure it out how to pivot_longer, there is a video tutorial online.</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="step-3-variable-calculations" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-variable-calculations">Step 3: Variable Calculations</h2>
+<p>Before merging, we will do a few things to make sure we have the variables we want and the right merge keys. In the <code>unemp</code> data frame, we do not have a state code. However, in the <code>Series ID</code> variable, the state code is in the 6th &amp; 7th characters. Use the function <code>str_sub</code> to get those 2 characters. <code>str_sub</code> is a function that wants the variable you are pulling from, the start of the characters you want to extract, and the end. For instance, if I wanted to make a new variable from the 2nd and 3rd characters of a variable named <code>X1</code>, I would type <code>new_var = str_sub(X1, 2, 3)</code>. We want to make this numeric to match the <code>state_fip</code> in the <code>death</code> dataframe, so we need to do <code>as.numeric(str_sub())</code>. <strong>Make a new numeric variable called <code>state</code> from the 6th &amp; 7th characters of <code>Series ID</code>.</strong> Reduce <code>unemp</code> to the columns <code>state</code>, <code>year</code>, and <code>unemp</code> using <code>select</code>.</p>
+<p>We also need to calculate the percent married and percent divorced in the <code>marry</code> dataframe. This code shows you how to calculate <code>pct_married</code>, then has a spot for you to add the answer for how to calculate <code>pct_divorced</code>. Calculate these, and reduce to <code>STATE</code>, <code>year</code>, <code>pct_married</code>, and <code>pct_divorced</code> using <code>select</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>marry <span class="ot">&lt;-</span> marry <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">str_sub</span>(YEAR, <span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct_married =</span> <span class="fu">sum</span>(Male_Married, Female_Married)<span class="sc">/</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sum</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="fu">starts_with</span>(<span class="st">"Male_"</span>), <span class="fu">starts_with</span>(<span class="st">"Female_"</span>)))),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct_divorced =</span> <span class="co"># Your answer here) |&gt; </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+</section>
+<section id="step-4-merge-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-merge-data">Step 4: Merge data</h2>
+<p>Use the <code>merge()</code> function to merge the four dataframes together. I would merge them all into the <code>deaths</code> dataframe. Here is an example for the first one to get you started. Note that you have 2 keys to merge on, so they are both named in the <code>by.x</code> and <code>by.y</code> options. If you only have one key to merge on, like in the <code>relig</code> dataframe, you don’t need both variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">merge</span>(deaths, marry, <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"State"</span>, <span class="st">"year"</span>), <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"STATE"</span>, <span class="st">"year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<p>You may want to remove all the extra dataframes to keep your environment clean:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(marry, relig, unemp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-5-descriptive-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-descriptive-statistics">Step 5: Descriptive Statistics</h2>
+<p>We want to learn more about our data before we throw it in a regression. First, let’s get descriptive statistics using <code>stargazer</code>. The default output is into LaTeX, a typesetting software. We’ll output it to text instead using the <code>type = "text"</code> option.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(deaths, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ll also create a correlation table. This table represents the direction and strength of the relationship between each pair of variables using the color and size of circles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>corr_table <span class="ot">&lt;-</span> <span class="fu">cor</span>(deaths[,<span class="dv">4</span><span class="sc">:</span><span class="dv">9</span>]) <span class="co"># Only select numeric variables</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(corr_table, <span class="at">type =</span> <span class="st">"upper"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This plot shows the correlations between the numeric variables.</p>
+</section>
+<section id="step-6-plots" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-plots">Step 6: Plots</h2>
+<p>Sometimes, visualizations can help us understand our data more easily than descriptive statistics.</p>
+<p>First, let’s make a column chart that shows the states with the highest alcohol-related death rates in 2021. We can use <code>dplyr</code> and <code>ggplot2</code> in the same functions!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2021"</span>) <span class="sc">|&gt;</span> <span class="co"># Only use data from 2021</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">death_quartile =</span> <span class="fu">percent_rank</span>(death_rate)) <span class="sc">|&gt;</span> <span class="co"># Calculate percentile ranks</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(death_quartile <span class="sc">&gt;</span> <span class="fl">0.80</span>) <span class="sc">|&gt;</span> <span class="co"># Filter to top 20 percentile death rates</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(State, <span class="sc">-</span>death_rate), <span class="at">y =</span> death_rate)) <span class="sc">+</span> <span class="co"># Plot!</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"State"</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Alcohol-Related Death Rate"</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<p>Try doing the same plot for the lowest 20 percentile.</p>
+<p>Let’s also make scatter plots to find the association between our explanatory variables and the dependent variable, death rate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(deaths, <span class="fu">aes</span>(<span class="at">x =</span> unemp, <span class="at">y =</span> death_rate)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Unemployment Rate"</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Alcohol-Related Death Rate"</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Do the same plot for percent highly religious and percent divorced against death rate.</p>
+</section>
+<section id="step-7-regression" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-regression">Step 7: Regression</h2>
+<section id="model-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-1">Model 1</h3>
+<p>We are going to run several regressions. First, we’ll estimate the following model:</p>
+<p><span class="math display">\[
+deathrate_{i,t}=\beta_0 + \beta_1*unemployment_{i,t} +\beta_2*\%divorced_{i,t}+\beta_3*\%religious_i
+\]</span></p>
+<p><span class="math inline">\(\%Religious\)</span> is only from one year, so it does not have the <span class="math inline">\(t\)</span> subscript.</p>
+<p>Before you run the regression, what do you think the relationship would be between the 3 variables and the death rate from alcohol?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(death_rate <span class="sc">~</span> unemp <span class="sc">+</span> pct_highly_religious <span class="sc">+</span> pct_divorced, <span class="at">data =</span> deaths)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What are the relationships between each of the variables? What are their sizes? How much of the variation does the model explain?</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Effect Size">
+<p>When looking at the size of the effect, we have to think about how the variables are defined. All three independent variables should be percents; however, the religion and divorce variables are fractions. In the case of <code>pct_divorced</code>, a one-unit increase is associated with a 182.6 unit increase in death rate. However, a one-unit increase is the same thing as a 100 percentage point increase!</p>
+<p>While the coefficient on divorce looks <strong>much</strong> bigger than the coefficient on unemployment, in reality, it is not. If we had both in terms of percents, a one percentage point increase in unemployment is associated with 0.5 lower death rate, and a one percentage point increase in divorced rate is associated with a 1.8 higher death rate.</p>
+<p>We can also think about effect size in terms of what values the variables can take. % divorced goes from 8% to 14%, so going from the lowest to the highest value would be associated with about <span class="math inline">\(1.8*(14-8)=10.8\)</span> change in death rate. On the other hand, the percent religious goes from 33% to 77%, so going from the lowest to the highest would be associated with a <span class="math inline">\(0.2*(77-33)=8.8\)</span> change in death rate.</p>
+</div>
+</div>
+</section>
+<section id="model-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-2">Model 2</h3>
+<p>We might expect that the year will have an effect on alcohol deaths, particularly since this period includes the pandemic. We can include year as a factor variable to remove any variation that is part of a larger trend.</p>
+<p><span class="math display">\[
+deathrate_{i,t}=\beta_0 + \beta_1*unemployment_{i,t} +\beta_2*\%divorced_{i,t}+\beta_3*\%religious_i +\alpha *year_t
+\]</span></p>
+<p>I use <span class="math inline">\(\alpha\)</span> to represent the year coefficients because, since this a factor variable, there is actually a dummy for each year besides 2010, so there are 11 coefficients. Year is already defined as a factor variable, so we don’t need to do anything special. Do the same model as before, but add <code>year</code> as an explanatory variable. Call this model <code>reg2</code>.</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="model-3" class="level3">
+<h3 class="anchored" data-anchor-id="model-3">Model 3</h3>
+<p>We may also expect that there are differences between the states that are not captured in our model. We can do something called a <strong>state fixed effect</strong>, where we include a dummy variable for each state. Note that if we try to use <code>state_fip</code> as our dummy variable, it will be read as a numeric variable, which is not what we want! The numbers in <code>state_fip</code> don’t actually mean anything. <strong>Do the regression model from before, but add</strong> <code>State</code> <strong>as an explanatory variable.</strong> Call this model <code>reg3</code>.</p>
+<div class="cell">
+
+</div>
+<p>Also, if we use the <code>summary(reg3)</code> function, we will get a <em>huge</em> output with coefficients for 50 states and 10 years. You can do this and take a look at the coefficients - which have the highest coefficient? Lowest? The reference category is Alabama. Do these results look the same as the column charts we used before?</p>
+<p>In most papers, authors just report the other explanatory variables, and indicate in their tables that they used fixed effects. We can do that here and include the three regressions in one table so we can compare using <code>stargazer</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(reg1, <span class="co"># Specify which regressions</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>          reg2, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>          reg3, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">omit =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"State"</span>), <span class="co"># Remove fixed effects</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">omit.labels =</span> <span class="fu">c</span>(<span class="st">"Year FE"</span>, <span class="st">"State FE"</span>), <span class="co"># Put labels for fixed effects</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">"text"</span>) <span class="co"># Indicate not to do LaTeX output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some versions of <code>stargazer</code> will not correctly fill out the Fixed Effects part of the table. For instance, in mine, model 3 says it does not have state fixed effects. You would have to change this to “Yes” if you put it in a paper.</p>
+</div>
+</div>
+<p>This table helps us compare models really easily! Look at the coefficients - do any of them change? What about the <span class="math inline">\(R^2\)</span>?</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The methods used in this lab should be very helpful for your final project. When you start analyzing your data, I recommend following this lab as a guide.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
