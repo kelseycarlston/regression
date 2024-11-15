@@ -81,7 +81,7 @@ Note that you only need to run this once, so don't put this as a line in your R 
 
 Open a new R script and add the R Preamble with an R code chunk with the library calls that load the R packages required for this lab. Now actually run each `library()` call. You can do that by either highlighting them and hitting Ctrl + Enter (Cmd + Enter) or by clicking the run button. If you don't highlight, R will run the code from the line your cursor is on.
 
-## Load in the data
+## Step 1: Load in the data
 
 You should have already set up your working directory at the top of the sheet. In that folder, you should have the two datasets we will be using in this lab: "NBA_Data.csv" and "Five38_Data.csv", which you can find on Canvas. Load them in using the `read.csv()` function.
 
@@ -125,7 +125,7 @@ NBA$points_per_game <- NBA$Points/NBA$Games_Played
 
 3.  Use the `cor()` function to find the correlation between points per game and the win percent.
 
-## Merging data
+## Step 2: Merge data
 
 To merge data, we need a unique identifier that matches between the two datasets, just like in any program. Take a look at the team names. What's the problem?
 
@@ -147,7 +147,7 @@ BBall <- merge(NBA, Five38, by = "Team")
 
 This new dataset has the same 30 teams, but 31 variables rather than 7 or 25. (It's not 7 + 25 = 32 because R doesn't repeat the identifier.)
 
-## Subsetting Data
+## Step 3: Subset Data
 
 A common thing to do with data is **subset** the data into a smaller group of data. For instance, we might want to remove some columns if there are columns we don't need. Or, we might want to do some calculations on only teams in the Western Conference. Or, maybe we want to do calculations on the teams that have over 50% win percent.
 
@@ -201,7 +201,7 @@ BBall$Team[which.max(BBall$win_pct)]
 3.  What is the average free throw percent for teams in the Western conference that have at least 1120 personal fouls?
 4.  Which team has been to the playoffs the most times?
 
-## Graphics
+## Step 4: Create Visualizations
 
 ### The Grammar of Graphics
 

@@ -182,6 +182,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">Lab 8</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../02_assignments/lab-09.html">
+ <span class="dropdown-text">Lab 9</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../02_assignments/mini_lab-ttests.html">
  <span class="dropdown-text">T Tests Mini Lab</span></a>
   </li>  
@@ -224,17 +228,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul></li>
-  <li><a href="#load-in-the-data" id="toc-load-in-the-data" class="nav-link" data-scroll-target="#load-in-the-data">Load in the data</a>
+  <li><a href="#step-1-load-in-the-data" id="toc-step-1-load-in-the-data" class="nav-link" data-scroll-target="#step-1-load-in-the-data">Step 1: Load in the data</a>
   <ul class="collapse">
   <li><a href="#make-a-new-column" id="toc-make-a-new-column" class="nav-link" data-scroll-target="#make-a-new-column">Make a new column</a></li>
   <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercises</a></li>
   </ul></li>
-  <li><a href="#merging-data" id="toc-merging-data" class="nav-link" data-scroll-target="#merging-data">Merging data</a></li>
-  <li><a href="#subsetting-data" id="toc-subsetting-data" class="nav-link" data-scroll-target="#subsetting-data">Subsetting Data</a>
+  <li><a href="#step-2-merge-data" id="toc-step-2-merge-data" class="nav-link" data-scroll-target="#step-2-merge-data">Step 2: Merge data</a></li>
+  <li><a href="#step-3-subset-data" id="toc-step-3-subset-data" class="nav-link" data-scroll-target="#step-3-subset-data">Step 3: Subset Data</a>
   <ul class="collapse">
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
   </ul></li>
-  <li><a href="#graphics" id="toc-graphics" class="nav-link" data-scroll-target="#graphics">Graphics</a>
+  <li><a href="#step-4-create-visualizations" id="toc-step-4-create-visualizations" class="nav-link" data-scroll-target="#step-4-create-visualizations">Step 4: Create Visualizations</a>
   <ul class="collapse">
   <li><a href="#the-grammar-of-graphics" id="toc-the-grammar-of-graphics" class="nav-link" data-scroll-target="#the-grammar-of-graphics">The Grammar of Graphics</a></li>
   <li><a href="#exercises-2" id="toc-exercises-2" class="nav-link" data-scroll-target="#exercises-2">Exercises</a></li>
@@ -333,8 +337,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Open a new R script and add the R Preamble with an R code chunk with the library calls that load the R packages required for this lab. Now actually run each <code>library()</code> call. You can do that by either highlighting them and hitting Ctrl + Enter (Cmd + Enter) or by clicking the run button. If you don’t highlight, R will run the code from the line your cursor is on.</p>
 </section>
 </section>
-<section id="load-in-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-in-the-data">Load in the data</h2>
+<section id="step-1-load-in-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-load-in-the-data">Step 1: Load in the data</h2>
 <p>You should have already set up your working directory at the top of the sheet. In that folder, you should have the two datasets we will be using in this lab: “NBA_Data.csv” and “Five38_Data.csv”, which you can find on Canvas. Load them in using the <code>read.csv()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>NBA <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/NBA_Data.csv"</span>)</span>
@@ -367,8 +371,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </section>
 </section>
-<section id="merging-data" class="level2">
-<h2 class="anchored" data-anchor-id="merging-data">Merging data</h2>
+<section id="step-2-merge-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-merge-data">Step 2: Merge data</h2>
 <p>To merge data, we need a unique identifier that matches between the two datasets, just like in any program. Take a look at the team names. What’s the problem?</p>
 <p>The team names in the Five38 dataset are split to place and name. We can combine those columns using the following code:</p>
 <div class="cell">
@@ -381,8 +385,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>This new dataset has the same 30 teams, but 31 variables rather than 7 or 25. (It’s not 7 + 25 = 32 because R doesn’t repeat the identifier.)</p>
 </section>
-<section id="subsetting-data" class="level2">
-<h2 class="anchored" data-anchor-id="subsetting-data">Subsetting Data</h2>
+<section id="step-3-subset-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-subset-data">Step 3: Subset Data</h2>
 <p>A common thing to do with data is <strong>subset</strong> the data into a smaller group of data. For instance, we might want to remove some columns if there are columns we don’t need. Or, we might want to do some calculations on only teams in the Western Conference. Or, maybe we want to do calculations on the teams that have over 50% win percent.</p>
 <p>If we are subsetting the whole dataframe, we put square brackets next to the name of the dataframe and give it the [rows, columns]. For example, if we want the second row of the first column, we would type <code>BBall[2,1].</code> If we want the entire 4th column, we would put <code>BBall[,4]</code>. And if we want the entire 8th row, we would write <code>BBall[8,]</code>.</p>
 <p>We can also subset a range of rows or columns. To get the first 5 columns, we would type <code>BBall[,1:5]</code>.</p>
@@ -419,8 +423,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </section>
 </section>
-<section id="graphics" class="level2">
-<h2 class="anchored" data-anchor-id="graphics">Graphics</h2>
+<section id="step-4-create-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-create-visualizations">Step 4: Create Visualizations</h2>
 <section id="the-grammar-of-graphics" class="level3">
 <h3 class="anchored" data-anchor-id="the-grammar-of-graphics">The Grammar of Graphics</h3>
 <p>It’s easy to imagine how you would go about with pen and paper drawing a bar chart of the number of games played in each conference. But, what if you had to dictate the steps to make that graph to another person, one you can’t see or physically interact with? All you can do is use words to communicate the graphic you want. How would you do it? The challenge here is that you and your illustrator must share a coherent vocabulary for describing graphics. That way you can unambiguously communicate your intent. That’s essentially what the grammar of graphics is, a language with a set of rules (a grammar) for specifying each component of a graphic.</p>

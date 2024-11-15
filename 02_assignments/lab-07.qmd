@@ -163,9 +163,7 @@ The correlation between life expectancy and the uninsured rate is strongly negat
 summary(lm(female_le ~ uninsured_rate, data = life_exp))
 ```
 
-From this, we can see that the regression equation is:
-$$ Female Life Expectancy = 82.5 - 13.2*Uninsured Rate $$
-The uninsured rate has a large negative effect. The effect is **statistically significant**, as evidenced by the very low p-value. We are also concerned with **practical significance** - is the effect big enough to care about? Let's try to put the coefficient into perspective by using some real values.
+From this, we can see that the regression equation is: $$ Female Life Expectancy = 82.5 - 13.2*Uninsured Rate $$ The uninsured rate has a large negative effect. The effect is **statistically significant**, as evidenced by the very low p-value. We are also concerned with **practical significance** - is the effect big enough to care about? Let's try to put the coefficient into perspective by using some real values.
 
 ```{r}
 #| eval: true
@@ -185,9 +183,7 @@ There's a big omitted variable here. Income probably affects life expectancy *an
 summary(lm(female_le ~ uninsured_rate + median_hh_income, data = life_exp))
 ```
 
-When we include income, the effect of the uninsured rate is still statistically significant and negative, but now the magnitude is smaller. The formula is now:
-$$ Female Life Expectancy = 76.8 - 5.5*Uninsured Rate + 0.00008*Median Household Income$$
-If we go from the 25th to 75th percentiles of uninsured rate now, life expectancy is only 0.6 years lower. $$ (25\% - 15\%)*5.5 = 0.6 $$
+When we include income, the effect of the uninsured rate is still statistically significant and negative, but now the magnitude is smaller. The formula is now: $$ Female Life Expectancy = 76.8 - 5.5*Uninsured Rate + 0.00008*Median Household Income$$ If we go from the 25th to 75th percentiles of uninsured rate now, life expectancy is only 0.6 years lower. $$ (25\% - 15\%)*5.5 = 0.6 $$
 
 The last thing we will do with this data is add region as an explanatory variable. Region may also be an omitted variable. Some regions, like the South, have lots of poverty and little government funding, meaning that the uninsured rate could be high and life expectancy could be lower. Let's see if this makes a difference.
 
@@ -211,7 +207,7 @@ The bold questions will correspond to questions in the Canvas quiz.
 
 Steps:
 
-1.  Load the datasets from the 4 sheets of the homelessness Excel sheet, which include: 1\) the number of homeless people; 2\) the population, per capita income, median gross rent and poverty rate; 3\) the region; and 4\) the federal aid. Merge them all together using either the state code or the state name.
+1.  Load the datasets from the 4 sheets of the homelessness Excel sheet, which include: 1) the number of homeless people; 2) the population, per capita income, median gross rent and poverty rate; 3) the region; and 4) the federal aid. Merge them all together using either the state code or the state name.
 
 The Federal Aid sheet is not aggregated by state, and instead is broken down by "continuums of care", which are substate entities. Use this code to turn the data into state-level data and just get the amount of spending (`amount`). Merge the `state_spending` data with the other data using the `state_code` variable.
 
@@ -248,9 +244,9 @@ homeless <- merge(homeless, state_spending, by.x = "state_code", by.y = "state_c
     $$
     100,000*\dfrac{\#homeless}{population}
     $$
-    
+
 For the code, you can reference where we calculated the uninsured rate above.
-    
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -259,7 +255,7 @@ homeless$pct_homeless <- 100000*homeless$total_homeless_pop/homeless$total_popul
 
 ```
 
-3.  Calculate the poverty rate for each state. The poverty variables `under.5` and `pov_0.5to0.99` include the number of people below 50\% of the poverty rate and between 50 and 90\% of the poverty rate. Those should be the numerator, and the denominator should be `total`, which is the total population for whom poverty status is determined.
+3.  Calculate the poverty rate for each state. The poverty variables `under.5` and `pov_0.5to0.99` include the number of people below 50% of the poverty rate and between 50 and 90% of the poverty rate. Those should be the numerator, and the denominator should be `total`, which is the total population for whom poverty status is determined.
 
 ```{r}
 #| echo: false
@@ -267,7 +263,6 @@ homeless$pct_homeless <- 100000*homeless$total_homeless_pop/homeless$total_popul
 
 homeless$poverty <- 100*(homeless$under.5 + homeless$pov_0.5to0.99)/homeless$total
 ```
-
 
 4.  **Create a scatter plot with poverty on the x axis and the number of homeless people per 100,000 (homeless rate) using ggplot and geom_point.** (Be sure to label your axes.) **What do you see? Why do you think that is?**
 
