@@ -7,6 +7,7 @@ editor: visual
 ```{r}
 #| echo: false
 #| eval: true
+#| warnings: false
 knitr::opts_chunk$set(comment = NA)
 library(dplyr)
 library(ggplot2)
@@ -32,7 +33,7 @@ We previously worked with this data in Excel and merged the various sheets toget
 First, let's set our working directory and install the libraries we need for the lab.
 
 ```{r, warning: false}
-#| warning: false
+#| warnings: false
 #| eval: false
 #| echo: true
 library(dplyr)
@@ -69,8 +70,7 @@ We want to subset the data to only be 2010 and the columns for male and female l
 life_exp <- life_exp |> 
   filter(Year == 2010) |> 
   clean_names() |> 
-  select(state, county, fips, female_life_expectancy_years, male_life_expectancy_years) |> 
-  rename(female_le = "female_life_expectancy_years", male_le = "male_life_expectancy_years")
+  select(state, county, fips, female_le, male_le) 
 ```
 
 Next, we'll read in the income sheet. We need to create a fips code that matches the code from the other sheet, and we should subset the data so we aren't merging too much extra information. From reading the information from the data source of all the data sets, I know that the fips code has the state code at the beginning, followed by 3 digits for the county.
@@ -101,20 +101,16 @@ Next, read in the insurance sheet and take a look.
 insurance <- readxl::read_xlsx("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 3)
 ```
 
-We need to calculate the uninsured rate by county for people age 18 to 65. There are many ways to calculate the uninsured rate by FIPS code, but the one below is the most elegant way I was able to figure out. (I'd love to see solutions you come up with!) The point of showing you this is that this is one place where Excel is a much more simple place to do this calculation! You can just copy and paste the code.
+We need to calculate the uninsured rate by county for people age 18 to 65. With this code, using `group_by()` and `summarize()`, we can get uninsured rate by fips code.
 
 ```{r}
 #| eval: true
 #| echo: true
 insurance$FIPS = 1000*insurance$STATEA + insurance$COUNTYA
 uninsured <- insurance |> 
-  select(-contains(c("Under6", "6to17", "65to74", "75andup"))) |> 
   clean_names() |> 
   group_by(fips) |> 
-  mutate(uninsured = rowSums(across(contains("without_hi"))),
-         total = rowSums(across(contains("total")))-total*2) |> 
-  mutate(uninsured_rate = uninsured/total) |> 
-  select(fips, uninsured_rate)
+  summarize(uninsured_rate = (male_under65_uninsured + female_under65_uninsured)/(male_under65_total + female_under65_total)) 
   
 ```
 

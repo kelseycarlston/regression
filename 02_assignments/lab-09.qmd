@@ -503,28 +503,23 @@ le <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", she
 inc <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 2)
 insurance <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 3)
 uninsured <- insurance |> 
-  select(-contains(c("Under6", "6to17", "65to74", "75andup"))) |> 
-  mutate(fips = STATEA*1000 + COUNTYA) |> 
   clean_names() |> 
+  mutate(fips = 1000*statea + countya) |> 
   group_by(fips) |> 
-  mutate(uninsured = rowSums(across(contains("without_hi"))),
-         total = rowSums(across(contains("total")))-total*2) |> 
-  mutate(uninsured_rate = uninsured/total) |> 
-  select(fips, uninsured_rate)
+  summarize(uninsured_rate = (male_under65_uninsured + female_under65_uninsured)/(male_under65_total + female_under65_total)) 
 region <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 4)
 
 
 inc <- inc |> 
-  mutate(fips = 1000*STATEA + COUNTYA) |> 
   clean_names() |> 
-  select(state, fips, median_hh_income) |> 
+  mutate(fips = 1000*statea + countya) |> 
+  dplyr::select(state, fips, median_hh_income) |> 
   left_join(le |> 
               filter(Year == 2010) |> 
               clean_names() |> 
-              select(fips, female_life_expectancy_years),
+              dplyr::select(fips, female_le),
             by = "fips") |> 
-  rename(female_le = female_life_expectancy_years) |> 
-  left_join(uninsured, by = "fips") |> 
+  inner_join(uninsured, by = "fips") |> 
   left_join(region, by = c("state" = "STATE"))
 rm(insurance, le, region, uninsured)
 

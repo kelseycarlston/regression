@@ -26,6 +26,8 @@ website:
             href: 02_assignments/lab-08.qmd 
           - text: Lab 9
             href: 02_assignments/lab-09.qmd
+          - text: Lab 10
+            href: 02_assignments/lab-10.qmd
           - text: T Tests Mini Lab
             href: 02_assignments/mini_lab-ttests.qmd
       - text: Resources

@@ -187,6 +187,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">Lab 9</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../02_assignments/lab-10.html">
+ <span class="dropdown-text">Lab 10</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../02_assignments/mini_lab-ttests.html">
  <span class="dropdown-text">T Tests Mini Lab</span></a>
   </li>  
@@ -250,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell">
+<div class="cell" data-warnings="false">
 
 </div>
 <p>The goals of this lab are to:</p>
@@ -265,7 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Life Expectancy and Insurance</h1>
 <p>We previously worked with this data in Excel and merged the various sheets together. Here, we will do the same work we did previously but in R to illustrate that R makes some things a lot easier. (Not everything! I had to change the insurance sheet because it was not R-friendly.)</p>
 <p>First, let’s set our working directory and install the libraries we need for the lab.</p>
-<div class="cell">
+<div class="cell" data-warnings="false">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
@@ -288,8 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>life_exp <span class="ot">&lt;-</span> life_exp <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2010</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, county, fips, female_life_expectancy_years, male_life_expectancy_years) <span class="sc">|&gt;</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">female_le =</span> <span class="st">"female_life_expectancy_years"</span>, <span class="at">male_le =</span> <span class="st">"male_life_expectancy_years"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, county, fips, female_le, male_le) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we’ll read in the income sheet. We need to create a fips code that matches the code from the other sheet, and we should subset the data so we aren’t merging too much extra information. From reading the information from the data source of all the data sets, I know that the fips code has the state code at the beginning, followed by 3 digits for the county.</p>
 <div class="cell">
@@ -307,17 +310,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>insurance <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"data/Life Expectancy-Insurance Example Data.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We need to calculate the uninsured rate by county for people age 18 to 65. There are many ways to calculate the uninsured rate by FIPS code, but the one below is the most elegant way I was able to figure out. (I’d love to see solutions you come up with!) The point of showing you this is that this is one place where Excel is a much more simple place to do this calculation! You can just copy and paste the code.</p>
+<p>We need to calculate the uninsured rate by county for people age 18 to 65. With this code, using <code>group_by()</code> and <code>summarize()</code>, we can get uninsured rate by fips code.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>insurance<span class="sc">$</span>FIPS <span class="ot">=</span> <span class="dv">1000</span><span class="sc">*</span>insurance<span class="sc">$</span>STATEA <span class="sc">+</span> insurance<span class="sc">$</span>COUNTYA</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>uninsured <span class="ot">&lt;-</span> insurance <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="fu">c</span>(<span class="st">"Under6"</span>, <span class="st">"6to17"</span>, <span class="st">"65to74"</span>, <span class="st">"75andup"</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips) <span class="sc">|&gt;</span> </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">uninsured =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"without_hi"</span>))),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">total =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"total"</span>)))<span class="sc">-</span>total<span class="sc">*</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">uninsured_rate =</span> uninsured<span class="sc">/</span>total) <span class="sc">|&gt;</span> </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, uninsured_rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">uninsured_rate =</span> (male_under65_uninsured <span class="sc">+</span> female_under65_uninsured)<span class="sc">/</span>(male_under65_total <span class="sc">+</span> female_under65_total)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s merge our uninsured data frame with the life expectancy data frame.</p>
 <div class="cell">
@@ -338,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(life_exp<span class="sc">$</span>uninsured_rate, life_exp<span class="sc">$</span>female_le)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.4805627</code></pre>
+<pre><code>[1] -0.4237297</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> life_exp) <span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> uninsured_rate, <span class="at">y =</span> female_le)) <span class="sc">+</span></span>
@@ -359,18 +358,18 @@ lm(formula = female_le ~ uninsured_rate, data = life_exp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--6.2779 -1.0917 -0.0156  1.0908  7.3495 
+-6.4294 -1.1210  0.0163  1.1688  6.9117 
 
 Coefficients:
                Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)     82.4513     0.1214  679.23   &lt;2e-16 ***
-uninsured_rate -13.1915     0.5620  -23.47   &lt;2e-16 ***
+(Intercept)     82.0925     0.1235  664.89   &lt;2e-16 ***
+uninsured_rate -13.7320     0.6853  -20.04   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.714 on 1835 degrees of freedom
-Multiple R-squared:  0.2309,    Adjusted R-squared:  0.2305 
-F-statistic:   551 on 1 and 1835 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.77 on 1835 degrees of freedom
+Multiple R-squared:  0.1795,    Adjusted R-squared:  0.1791 
+F-statistic: 401.6 on 1 and 1835 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>From this, we can see that the regression equation is: <span class="math display">\[ Female Life Expectancy = 82.5 - 13.2*Uninsured Rate \]</span> The uninsured rate has a large negative effect. The effect is <strong>statistically significant</strong>, as evidenced by the very low p-value. We are also concerned with <strong>practical significance</strong> - is the effect big enough to care about? Let’s try to put the coefficient into perspective by using some real values.</p>
@@ -378,7 +377,7 @@ F-statistic:   551 on 1 and 1835 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(life_exp<span class="sc">$</span>uninsured_rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-0.03929 0.15231 0.19806 0.20395 0.25035 0.58390 </code></pre>
+0.03419 0.12709 0.16389 0.16980 0.20645 0.49321 </code></pre>
 </div>
 </div>
 <p>The 25th percentile of the uninsured rate is 15%, and the 75th percentile is 25%. If we went from the 25th to 75th percentiles in uninsured rate, the expected life span in the county is 1.3 years lower. <span class="math inline">\((25\% - 15\%)*13.2 = 1.32\)</span> . That’s pretty big!</p>
@@ -394,19 +393,19 @@ lm(formula = female_le ~ uninsured_rate + median_hh_income, data = life_exp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--5.1896 -0.9633 -0.0171  0.9486  6.1350 
+-5.2601 -0.9845  0.0061  0.9900  5.5107 
 
 Coefficients:
                    Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)       7.676e+01  2.341e-01  327.86   &lt;2e-16 ***
-uninsured_rate   -5.466e+00  5.544e-01   -9.86   &lt;2e-16 ***
-median_hh_income  8.772e-05  3.242e-06   27.06   &lt;2e-16 ***
+(Intercept)       7.619e+01  2.278e-01 334.547  &lt; 2e-16 ***
+uninsured_rate   -4.697e+00  6.476e-01  -7.253 5.99e-13 ***
+median_hh_income  9.299e-05  3.208e-06  28.990  &lt; 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.449 on 1834 degrees of freedom
-Multiple R-squared:  0.4504,    Adjusted R-squared:  0.4498 
-F-statistic: 751.4 on 2 and 1834 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.466 on 1834 degrees of freedom
+Multiple R-squared:  0.4374,    Adjusted R-squared:  0.4368 
+F-statistic: 712.8 on 2 and 1834 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>When we include income, the effect of the uninsured rate is still statistically significant and negative, but now the magnitude is smaller. The formula is now: <span class="math display">\[ Female Life Expectancy = 76.8 - 5.5*Uninsured Rate + 0.00008*Median Household Income\]</span> If we go from the 25th to 75th percentiles of uninsured rate now, life expectancy is only 0.6 years lower. <span class="math display">\[ (25\% - 15\%)*5.5 = 0.6 \]</span></p>
@@ -421,22 +420,22 @@ lm(formula = female_le ~ uninsured_rate + median_hh_income +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--4.7875 -0.8359 -0.0427  0.7947  5.4862 
+-4.7885 -0.8462 -0.0313  0.8068  5.1216 
 
 Coefficients:
                    Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)       7.661e+01  2.184e-01 350.740  &lt; 2e-16 ***
-uninsured_rate   -1.333e+00  6.078e-01  -2.194  0.02836 *  
-median_hh_income  8.478e-05  3.009e-06  28.177  &lt; 2e-16 ***
-RegionNortheast   1.737e-01  1.080e-01   1.609  0.10773    
-RegionSouth      -1.311e+00  8.338e-02 -15.722  &lt; 2e-16 ***
-RegionWest        3.408e-01  1.124e-01   3.031  0.00248 ** 
+(Intercept)       7.622e+01  2.087e-01 365.270   &lt;2e-16 ***
+uninsured_rate    7.690e-02  6.873e-01   0.112   0.9109    
+median_hh_income  8.827e-05  2.937e-06  30.051   &lt;2e-16 ***
+RegionNortheast   1.858e-01  1.080e-01   1.720   0.0856 .  
+RegionSouth      -1.407e+00  8.180e-02 -17.197   &lt;2e-16 ***
+RegionWest        2.338e-01  1.124e-01   2.081   0.0376 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.297 on 1831 degrees of freedom
-Multiple R-squared:  0.5607,    Adjusted R-squared:  0.5595 
-F-statistic: 467.5 on 5 and 1831 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.298 on 1831 degrees of freedom
+Multiple R-squared:  0.5596,    Adjusted R-squared:  0.5584 
+F-statistic: 465.3 on 5 and 1831 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Which regions are statistically significant? What is the reference group? (Hint: you can type <code>unique(life_exp$region)</code> into the console to see what the regions are.)</p>

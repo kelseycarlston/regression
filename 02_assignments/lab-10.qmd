@@ -1,0 +1,395 @@
+---
+title: "Lab 10: Regression Assumptions"
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+
+library(tidyverse)
+library(ggplot2)
+library(lmtest)
+library(carData)
+library(car)
+library(skedastic)
+library(nortest)
+
+```
+
+## Outline
+
+### Objectives
+
+-   Review regression assumptions
+
+-   Learn how to test assumptions and fix issues
+
+### Data
+
+We will use the `Prestige` and `Hartnagel` datasets from the `car` package, and the `emissions` dataset from Canvas.
+
+### Packages
+
+`tidyverse`
+
+`ggplot2`
+
+`lmtest`
+
+`carData`
+
+`car`
+
+`skedastic`
+
+`nortest`
+
+### Grade
+
+At the end of the demonstration, there is an assignment for you to do with different data.
+
+## Load in Data
+
+We will use a few datasets in this lab. For the demonstration, we will use the `Prestige` data from the `carData` package. This data has the prestige of various occupations based on a survey from the 1960s, the average income of people with the occupation, and the average education of people with the occupation. We will also run a regression with the data.
+
+```{r}
+data(Prestige)
+
+pmodel <- lm(prestige ~ income, data = Prestige)
+summary(pmodel)
+
+```
+
+Jobs with higher income generally have higher prestige. For every dollar increase in income, prestige increases by 0.0029. Let's test the regression assumptions:
+
+## Assumption 1: Linearity
+
+Our first assumption is that x and y have to be linearly related. To test this, we can either plot the relationship between x and y, or we can use the Ramsey RESET test, which tests the null hypothesis that the relationship between x and y is linear.
+
+```{r}
+#| fig.alt: "A scatterplot with income on the x axis and prestige on the y axis. The relationship is strongly positive at low levels of income, then weakly positive at high levels, so the relationship looks curved."
+#| eval: true
+#| echo: true
+ggplot(Prestige) +
+  geom_point(aes(x = income, y = prestige)) +
+  theme_classic() +
+  xlab("Income") + 
+  ylab("Prestige")
+
+resettest(pmodel)
+
+```
+
+The p-value for the RESET test is very small, which means we can reject the null hypothesis that income and prestige are linearly related.
+
+## Assumption 2: Normality of Errors
+
+The second assumption is that errors are normally distributed, because otherwise the t-tests are not appropriate for hypothesis testing. Note that this does *not* mean that all the variables have to be normally distributed. Graphically, we can test this by visually observing a histogram of the residuals, or we can do an Anderson-Darling test for normality, which tests the null hypothesis that the distribution is normal.
+
+```{r}
+#| fig.alt: "A histogram of the residuals for the prestige model. It is slightly right skewed."
+#| eval: true
+#| echo: true
+hist(pmodel$residuals)
+nortest::ad.test(pmodel$residuals)
+```
+
+The histogram is slightly right skewed, and the p-value for the Anderson-Darling test is 0.008, which is quite significant. The residuals are not normally distributed.
+
+## Assumption 3: Homoskedasticity
+
+The homoskedasticity assumption says that the variance of the error term is the same at all values of X. The intuition behind why this is bad is that if there are different errors at different values of x and the model has **heteroskedasticity**, there is a pattern in the errors that could be modeled, so there is another estimator that will do a better job of modeling than least squares.
+
+To test for heteroskedasticity, plot the fitted values versus the residuals to see the residual at each predicted value of y. This will give overall heteroskedasticity for the model, though you can also do heteroskedasticity for each of the x variables by plotting the x value versus the residuals.
+
+The numerical test is the white test for heteroskedasticity in the `skedastic` package, which tests the null hypothesis that the errors are homoskedastic.
+
+```{r}
+#| fig.alt: "A scatterplot with the fitted values on the x axis and residuals on the y axis. The residuals intially are larger, then get smaller at higher fitted values."
+#| eval: true
+#| echo: true
+plot(pmodel$fitted.values, pmodel$residuals)
+abline(h = 0)
+
+skedastic::white(pmodel, interactions = TRUE)
+```
+
+The White test rejected the null hypothesis, meaning the errors are heteroskedastic.
+
+## Addressing unmet assumptions
+
+Since the model did not meet any of those assumptions, we need to figure out how to make the model better. Income is usually a right-skewed variable that we think of in percentages, so we should take the log of income. I'm going to make a new model with log of income instead of income, and do the same tests as above.
+
+```{r}
+#| fig.alt: 
+#| - "A scatterplot with log of income on the x axis and prestige on the y axis. The data is more linear than previously."
+#| - "The histogram of residuals is not a normal bell curve, but is generally centered around a central number."
+#| - "The scatterplot of fitted values versus residuals shows random points with no discernable pattern."
+#| eval: true
+#| echo: true
+pmodel2 <- lm(prestige ~ log(income), data = Prestige)
+
+# Linearity
+ggplot(Prestige) +
+  geom_point(aes(x = log(income), y = prestige)) +
+  theme_classic() +
+  xlab("Log Income") + 
+  ylab("Prestige")
+
+resettest(pmodel2)
+
+# Normality of errors
+hist(pmodel2$residuals)
+nortest::ad.test(pmodel2$residuals)
+
+# Homoskedasticity
+plot(pmodel2$fitted.values, pmodel2$residuals)
+abline(h = 0)
+
+skedastic::white(pmodel2, interactions = TRUE)
+
+```
+
+The relationship between the log of income and prestige is more or less linear (visually but not statistically), and there is no longer heteroskedasticity (both visually and statistically). The errors do not look normally distributed, but when we have large sample sizes, this usually doesn't notably impact results. The second model is much better than the first and likely is good enough.
+
+## Assumption 4: Low Multicollinearity
+
+When we do analysis with multiple variables, they cannot be too closely correlated, or we will get strange results.
+
+To test this, we calculate **variance inflation factors**, which run regressions predicting each of our explanatory variables with the other explanatory variables. The $R^2$ of each of those regressions is put into the following formula: $1/(1-R^2)$. For instance, if our primary regression is predicting prestige using log of income, education, the percent of the occupation that is women, and the type of occupation, then the variance inflation factor for log income would be the $1/(1-R^2)$ for the regression: $$ log(income) = \beta_0 + \beta_1*education +\beta_2*\%women+\beta_3*type $$ R does this for us automatically with the `vif()` function from the `car` package. We should look closely at any variables where the VIFs are above 8 or 10 and consider removing one or making an index.
+
+```{r}
+#| eval: true
+#| echo: true
+pmod3 <- lm(prestige ~ log(income) + education + women + type, data = Prestige)
+summary(pmod3)
+
+car::vif(pmod3)
+```
+
+None of the variance inflation factors are above 10, so we don't need to worry about taking any of the variables out.
+
+## Assumption 5: No influential points
+
+If you have outliers in your dataset, they can seriously affect regression outcomes because the regression line can swing widely to try to capture that value. If there are outliers causing problems in our data, we may want to adjust our dataset, though not always. Finding influential values and outliers can sometimes reveal errors, or unfortunate coding decisions like indicating missing values with 999,999. You can fix those. Alternatively, you may find that taking the log or otherwise transforming the data will reduce outliers. One option that can be helpful is to use percentiles rather than levels, for instance with income.
+
+To test for influential points, we can look at the scatterplot and see if there are any points that look like outliers and appear to change the relationship. Alternatively, we can use the Cook's distance, which measures the influence of each value on the fitted values. There is also a visualization built into R to visualize Cook's distance. If the Cook's distance is greater than 0.5, we should look into the data point, and if it is greater than 1, then it is likely influencing our results. We'll start with the second model.
+
+```{r}
+#| fig.alt: "A bar chart with a vertical line for each point that indicates the cooks distance. The only one above 0.5 is babysitter, which is labeled."
+#| eval: true
+#| echo: true
+cooks <- cooks.distance(pmodel2)
+which(cooks > 0.5)
+
+plot(pmodel2, which = 4)
+
+```
+
+Babysitters have higher prestige than would be anticipated by their income. Babysitters typically are young, and may still be in school, so we might consider removing them from our model if those are not the kind of workers we are interested in. Let's try again with the model with more predictors.
+
+```{r}
+#| fig.alt: "A bar chart with a vertical line for each point that indicates the cooks distance. None of the Cook's distance values are above 0.5."
+#| eval: true
+#| echo: true
+cooks <- cooks.distance(pmod3)
+which(cooks > 0.5)
+
+plot(pmod3, which = 4)
+
+```
+
+When we add the other predictors, none of the Cook's distances are greater than 0.5, and we do not need to worry about outliers.
+
+## Assumption 6: Independence of errors
+
+To explore independence of errors, we are going to use a different dataset that uses time series data, which is usually more susceptible to issues. The Hartnagel dataset has male and female crime rates, female labor force participation, female education, and fertility in Canada from 1931 to 1968. We will test whether female labor force participation is related to crime rates. We will also test for autocorrelation (non-independence of errors) using the Durbin-Watson tests, which tests the null that there is no autocorrelation.
+
+```{r}
+#| eval: true
+#| echo: true
+#| fig.alt: "A line chart with year on the x axis and two lines - female participation and female conviction rate. They look slightly related, starting low, jumping during the 1940s, then declinining and having a slow increase."
+data("Hartnagel")
+crime <- Hartnagel # Rename the dataset something easier
+rm(Hartnagel)
+crime_model <- lm(fconvict ~ partic, data = crime)
+summary(crime_model)
+
+ggplot(crime) +
+  geom_line(aes(x = year, y = fconvict), color = "darkblue") +
+  geom_line(aes(x = year, y = partic), color = "magenta3") +
+  theme_classic()
+
+dwtest(crime_model)
+
+```
+
+The model suggests that there is a weak relationship. However, when we look at the graph, they aren't exactly related, and there are other things going on, like WWII during the 1940s, that probably explain the movements together. Since there is significant autocorrelation, let's add a lag and also try percent change.
+
+```{r}
+#| eval: true
+#| echo: true
+#| fig.alt: "A line chart with year on the x axis and two lines - percent change in female participation and percent change in female conviction rate. The graphs have a large amount of noise, but generally don't look like they move together."
+# Add lag
+crime_mod <- lm(fconvict ~ partic + lag(fconvict), data = crime)
+summary(crime_mod)
+dwtest(crime_mod)
+
+# Do % change
+crime <- crime |> 
+  mutate(d_fconvict = 100*(fconvict - lag(fconvict))/lag(fconvict),
+         d_partic = 100*(partic - lag(partic))/lag(partic))
+crime_mod2 <- lm(d_fconvict ~ d_partic, data = crime)
+summary(crime_mod2)
+dwtest(crime_mod2)
+
+ggplot(crime) +
+  geom_line(aes(x = year, y = d_fconvict), color = "darkblue") +
+  geom_line(aes(x = year, y = d_partic), color = "magenta3") +
+  theme_classic()
+
+```
+
+While the lag and percent change model both do not find a relationship between labor force participation and crime, there is still significant autocorrelation according to the Durbin-Watson test. This is what makes time-series analysis so challenging: we often would need to include lags of errors and more than one lag of the outcome variable.
+
+## How important are regression assumptions?
+
+Ordinary least squares (OLS) regression, what we've been learning, is fairly robust to unmet assumptions. It's good practice to do the tests and make sure none of the assumptions are wildly unmet, and to test different specifications of your model to see if things change. However, if your model doesn't pass all of the statistical tests, but you've done the work to make it the best it can be, you are probably good to go. Just be transparent when you discuss the issues with your model.
+
+## Assignment
+
+Now it's your turn to test the assumptions for a different analysis. Perform the following and put your results in a Word document or the text box on Canvas. Try to do
+
+1.  Load the emissions data.
+
+2.  Subset the data to only 2018 using dplyr's `filter`.
+
+3.  Run a model to predict emissions using GDP per capita.
+
+4.  Perform plots and tests to test for linearity, normality of errors, and homoskedasticity. Report your results and what you should do.
+
+5.  Run a test for influential points. Are any points problematic? What should you do?
+
+6.  Run a model predicting emissions using GDP per capita, population, and continent. Test for multicollinearity. Are any of these a problem?
+
+7.  Reload the data and subset the data to USA for all years. Perform the model predicting emissions using GDP per capita, and use a Durbin-Watson test to test for autocollinearity. Then try again using a lag.
+
+```{r}
+#| echo: false
+#| eval: false
+co2 <- read.csv("data/emissions.csv")
+
+co2 |> 
+  filter(country_code == "USA") |> 
+  ggplot(aes(x = year, y = emissions)) +
+    geom_point() +
+    theme_classic()
+
+co2 <- co2 |> 
+  filter(year == 2018)
+
+co2_reg <- lm(emissions ~ gdp_per_cap, data = co2)
+co2_reg_data <- augment(co2_reg)
+
+resettest(co2_reg)
+
+plot(co2_reg)
+
+hist(co2_reg$residuals)
+
+ggplot(co2_reg_data, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  theme_classic() +
+  geom_hline(aes(yintercept = 0), color = "red")
+
+ggplot(co2, aes(x = gdp_per_cap, y = emissions)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(co2, aes(x = log(gdp_per_cap), y = log(emissions))) +
+  geom_point() +
+  theme_classic()
+
+co2_reg_2 <- lm(emissions ~ gdp_per_cap + population + continent, data = co2)
+car::vif(co2_reg_2)
+
+```
+
+```{r}
+#| eval: false
+#| echo: false
+# Example for in-class
+library(ggplot2)
+data(diamonds)
+library(skedastic)
+library(nortest)
+
+diamond_mod <- lm(price ~ carat, data = diamonds)
+summary(diamond_mod)
+
+# X and Y are linear
+ggplot(diamonds) +
+  geom_point(aes(x = carat, y = price)) + 
+  theme_classic()
+  
+resettest(diamond_mod)
+
+# Residuals are normally distributed
+hist(diamond_mod$residuals)
+nortest::ad.test(diamond_mod$residuals)
+
+# Homoskedasticity
+plot(diamond_mod$fitted.values, diamond_mod$residuals)
+abline(h = 0)
+bptest(diamond_mod, ~ poly(carat, 2), data = diamonds)
+
+skedastic::white(diamond_mod, interactions = TRUE)
+
+hist(diamonds$carat)
+hist(diamonds$price)
+
+mod2 <- lm(log(price) ~ log(carat), data = diamonds)
+summary(mod2)
+
+# X and Y are linear
+ggplot(diamonds) +
+  geom_point(aes(x = log(carat), y = log(price))) + 
+  theme_classic()
+
+resettest(mod2)
+
+# Residuals are normally distributed
+hist(mod2$residuals)
+nortest::ad.test(mod2$residuals)
+
+# Homoskedasticity
+plot(mod2$fitted.values, mod2$residuals)
+bptest(mod2, ~ poly(carat, 2), data = diamonds)
+
+# Next dataset 
+# Multicollinearity
+data(longley)
+mod <- lm(Employed ~ GNP + Population + Unemployed, data = longley)
+car::vif(mod)
+longley$gnp_per_cap <- longley$GNP/longley$Population
+mod2 <- lm(Employed ~ gnp_per_cap + Population + Unemployed, data = longley)
+car::vif(mod2)
+
+# Next dataset
+# Test for influential values
+data(LifeCycleSavings)
+model <- lm(sr ~ pop15 + pop75 + dpi, data = LifeCycleSavings)
+summary(model)
+
+leverage <- hatvalues(model)
+leverage_threshold <- 2 * (length(coef(model)) / nrow(LifeCycleSavings))
+which(leverage > leverage_threshold) # Identify high-leverage points
+
+cooks <- cooks.distance(model)
+which(cooks > 4 / nrow(LifeCycleSavings)) # Identify influential points
+
+library(MASS)
+robust_model <- rlm(sr ~ pop15 + pop75 + dpi, data = LifeCycleSavings)
+summary(robust_model)
+
+```
