@@ -2,6 +2,4 @@
 title: "ECON 355: Regression Analysis"
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This website contains the labs and materials associated with ECON 355 - Regression Analysis at Gonzaga University. 

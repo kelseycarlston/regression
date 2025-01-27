@@ -12,6 +12,8 @@ website:
     right:
       - text: Labs
         menu: 
+          - text: Lab 2
+            href: 02_assignments/lab-02.qmd
           - text: Lab 3
             href: 02_assignments/lab-03.qmd
           - text: Lab 4

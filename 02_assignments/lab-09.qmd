@@ -499,6 +499,7 @@ Perform a regression with life expectancy as the outcome variable and **uninsure
 #| echo: false
 
 library(janitor)
+library(dplyr)
 le <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 1)
 inc <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 2)
 insurance <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 3)
@@ -506,7 +507,7 @@ uninsured <- insurance |>
   clean_names() |> 
   mutate(fips = 1000*statea + countya) |> 
   group_by(fips) |> 
-  summarize(uninsured_rate = (male_under65_uninsured + female_under65_uninsured)/(male_under65_total + female_under65_total)) 
+  dplyr::summarize(uninsured_rate = (male_under65_uninsured + female_under65_uninsured)/(male_under65_total + female_under65_total)) 
 region <- readxl::read_excel("data/Life Expectancy-Insurance Example Data.xlsx", sheet = 4)
 
 

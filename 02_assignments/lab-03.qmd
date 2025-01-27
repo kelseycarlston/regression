@@ -102,176 +102,6 @@ For students, especially those learning R, it's a good habit to get comfortable 
 
 ```
 
-## Load in some data
-
-We will load in the data "house_prices.csv", which is posted on Canvas. Save the data into a folder, preferably the same folder as where you are saving your R-script.
-
-### Set the working directory
-
-You need to tell R what file folder you will be working out of. You can do this in two ways: 1. Go to the "Files" tab in the Viewer pane. Navigate to your folder, then hit the "More" icon, then select "Set As Working Directory". Since you will want anybody who runs your code to set their working directory, copy the code from the console into your
-
-2\. Type the following code, but instead of `your_file_path` type the actual folder. Make sure your slashes are forward slashes ( / ) and not back slashes ( \\ ).
-
-```{r}
-#| echo: true
-#| eval: false
-setwd("your_file_path")
-```
-
-For example, in my script I will type the following, since that's the folder I'm keeping my data in.
-
-```{r}
-#| echo: true
-#| eval: false
-setwd("G:/My Drive/Classes/Regression Analysis")
-```
-
-### Load in the data
-
-Now that R knows where we have the data stored, we can load the data in.
-
-```{r}
-house <- read.csv("data/house_prices.csv")
-```
-
-Note that I have my data in a subfolder of my working directory called "data". Your code may look more like this:
-
-```{r}
-#| eval: false
-house <- read.csv("house_prices.csv")
-```
-
-This tells R to read in the csv and call the data frame "house". You should see the data pop up in your environment. You can click on the word "house" and it will open up the data in the data viewer for you to explore. Or, if you just want a quick look, you can hit the little blue circle with the arrow next to the word "house".
-
-![data viewing in the environment pane](images/ways-to-view-data.PNG)\
-
-We can also ask R to print the first few lines of a dataframe to show us what it looks like. In this case, each row represents a house.
-
-```{r}
-
-head(house, n = 5) # The 5 tells R to print 5 rows
-
-```
-
-The **Price** is how much the house sold for. The **Living.Area** is the number of square feet the house had. We also have the number of **Bathrooms** and **Bedrooms**. Finally, we have the **Age** of the house and whether it has a **Fireplace**.
-
-### Create some descriptive statistics
-
-R can work as a calculator. Let's try a few simple exercises. What is the mean and standard deviation of house price? Note that we have to tell R what data frame we're getting the variable from (in this case "house"), then put a `$` to let R know we're retrieving an element of the data frame (in this case "Price").
-
-```{r}
-
-mean(house$Price)
-sd(house$Price)
-
-```
-
-## Make Your First Plot!
-
-To ease you into working with R, let's visualize some data to answer a simple question: Is the price of a house related to its square footage? Don't worry about understanding all of this! It's just to give you a feel for the sort of graphics you can make with R. We'll spend a future lab learning how to make even better graphics.
-
-### The `plot()` function
-
-The base R `graphics` package provides a generic function for plotting, which - as you might have guessed - is called `plot()`. (*"Base R" means it's automatically loaded and you don't have to install it.*) To see how it works, try running this code:
-
-```{r}
-
-plot(house$Living.Area, house$Price)
-
-```
-
-### Customizing your plot
-
-With the `plot()` function, you can do a lot of customization to the resulting graphic. For instance, you can modify all of the following:
-
--   `pch` will change the point type,
--   `main` will change the main plot title,
--   `xlab` and `ylab` will change the x and y axis labels,
--   `cex` will change the size of shapes within the plot region,
--   `pch` will change the type of point used (you can use triangles, squares, or diamonds, among others),
--   `col` changes the color of the point (or its border), and
--   `bg` changes the color of the point fill (depending on the type of point it is)
-
-For instance, try running this code:
-
-```{r}
-
-plot(
-  house$Living.Area,
-  house$Price,
-  pch = 21,
-  bg = "darkorange",
-  col = "darkred",
-  cex = 2
-)
-
-```
-
-### Exercises
-
-1.  Complete the following line of code to preview only the first three rows of the `house` table.
-
-```{r}
-#| eval: false
-
-head(house, n = )
-
-```
-
-2.  Modify the code below to change the size (`cex`) of the points from 2 to 1.5.
-
-```{r}
-#| eval: false
-
-plot(
-  house$Living.Area,
-  house$Price,
-  pch = 21,
-  bg = "darkorange",
-  col = "darkred",
-  cex = 2
-)
-
-```
-
-3.  What does this plot tell us about the relationship between house size and price? Is it positive or negative? Or is there no relationship at all? If there is a relationship, what might explain it?
-
-4.  Complete the code below to add "Scatter Plot of House Size and Price" as the `main` title.
-
-```{r}
-#| eval: false
-
-plot(
-  house$Living.Area,
-  house$Price,
-  pch = 21,
-  bg = "darkorange",
-  col = "darkred",
-  cex = 1,
-  main = 
-)
-
-```
-
-5.  Complete the code below to add "House size (sq. ft.)" as the x-axis label and "Price (\$)" as the y-axis label.
-
-```{r}
-#| eval: false
-
-plot(
-  house$Living.Area,
-  house$Price,
-  pch = 21,
-  bg = "darkorange",
-  col = "darkred",
-  cex = 2,
-  main = "Scatter Plot of House Size and Price",
-  xlab = ,
-  ylab = 
-)
-
-```
-
 ## R Basics
 
 ### R is a calculator
@@ -404,6 +234,178 @@ seq(1, 5, by = 2, length = 10)
 
 ```
 
+# Analyzing Data
+
+## Load in some data
+
+We will load in the data "house_prices.csv", which is posted on Canvas. Save the data into a folder, preferably the same folder as where you are saving your R-script.
+
+### Set the working directory
+
+You need to tell R what file folder you will be working out of. You can do this in two ways: 1. Go to the "Files" tab in the Viewer pane. Navigate to your folder, then hit the "More" icon, then select "Set As Working Directory". Since you will want anybody who runs your code to set their working directory, copy the code from the console into your
+
+2\. Type the following code, but instead of `your_file_path` type the actual folder. Make sure your slashes are forward slashes ( / ) and not back slashes ( \\ ).
+
+```{r}
+#| echo: true
+#| eval: false
+setwd("your_file_path")
+```
+
+For example, in my script I will type the following, since that's the folder I'm keeping my data in.
+
+```{r}
+#| echo: true
+#| eval: false
+setwd("G:/My Drive/Classes/Regression Analysis")
+```
+
+### Load in the data
+
+Now that R knows where we have the data stored, we can load the data in.
+
+```{r}
+house <- read.csv("data/house_prices.csv")
+```
+
+Note that I have my data in a subfolder of my working directory called "data". Your code may look more like this:
+
+```{r}
+#| eval: false
+house <- read.csv("house_prices.csv")
+```
+
+This tells R to read in the csv and call the data frame "house". You should see the data pop up in your environment. You can click on the word "house" and it will open up the data in the data viewer for you to explore. Or, if you just want a quick look, you can hit the little blue circle with the arrow next to the word "house".
+
+![data viewing in the environment pane](images/ways-to-view-data.PNG)\
+
+We can also ask R to print the first few lines of a dataframe to show us what it looks like. In this case, each row represents a house.
+
+```{r}
+
+head(house, n = 5) # The 5 tells R to print 5 rows
+
+```
+
+The **Price** is how much the house sold for. The **Living.Area** is the number of square feet the house had. We also have the number of **Bathrooms** and **Bedrooms**. Finally, we have the **Age** of the house and whether it has a **Fireplace**.
+
+### Create some descriptive statistics
+
+R can work as a calculator. Let's try a few simple exercises. What is the mean and standard deviation of house price? Note that we have to tell R what data frame we're getting the variable from (in this case "house"), then put a `$` to let R know we're retrieving an element of the data frame (in this case "Price").
+
+```{r}
+
+mean(house$Price)
+sd(house$Price)
+
+```
+
+## Make Your First Plot!
+
+To ease you into working with R, let's visualize some data to answer a simple question: Is the price of a house related to its square footage? Don't worry about understanding every bit of code! It's just to give you a feel for the sort of graphics you can make with R. We'll spend a future lab learning how to make even better graphics.
+
+### The `plot()` function
+
+The base R `graphics` package provides a generic function for plotting, which - as you might have guessed - is called `plot()`. (*"Base R" means it's automatically loaded and you don't have to install it.*) To see how it works, try running this code:
+
+```{r}
+
+plot(house$Living.Area, house$Price)
+
+```
+
+### Customizing your plot
+
+With the `plot()` function, you can do a lot of customization to the resulting graphic. For instance, you can modify all of the following:
+
+-   `pch` will change the point type,
+-   `main` will change the main plot title,
+-   `xlab` and `ylab` will change the x and y axis labels,
+-   `cex` will change the size of shapes within the plot region,
+-   `pch` will change the type of point used (you can use triangles, squares, or diamonds, among others),
+-   `col` changes the color of the point (or its border), and
+-   `bg` changes the color of the point fill (depending on the type of point it is)
+
+For instance, try running this code:
+
+```{r}
+
+plot(
+  house$Living.Area,
+  house$Price,
+  pch = 21,
+  bg = "darkorange",
+  col = "darkred",
+  cex = 2
+)
+
+```
+
+### Exercises
+
+1.  Complete the following line of code to preview only the first three rows of the `house` table.
+
+```{r}
+#| eval: false
+
+head(house, n = )
+
+```
+
+2.  Modify the code below to change the size (`cex`) of the points from 2 to 1.5.
+
+```{r}
+#| eval: false
+
+plot(
+  house$Living.Area,
+  house$Price,
+  pch = 21,
+  bg = "darkorange",
+  col = "darkred",
+  cex = 2
+)
+
+```
+
+3.  What does this plot tell us about the relationship between house size and price? Is it positive or negative? Or is there no relationship at all? If there is a relationship, what might explain it?
+
+4.  Complete the code below to add "Scatter Plot of House Size and Price" as the `main` title.
+
+```{r}
+#| eval: false
+
+plot(
+  house$Living.Area,
+  house$Price,
+  pch = 21,
+  bg = "darkorange",
+  col = "darkred",
+  cex = 1,
+  main = 
+)
+
+```
+
+5.  Complete the code below to add "House size (sq. ft.)" as the x-axis label and "Price (\$)" as the y-axis label.
+
+```{r}
+#| eval: false
+
+plot(
+  house$Living.Area,
+  house$Price,
+  pch = 21,
+  bg = "darkorange",
+  col = "darkred",
+  cex = 2,
+  main = "Scatter Plot of House Size and Price",
+  xlab = ,
+  ylab = 
+)
+
+```
+
 ## Assignment
 
 Now it's time to work on your own. Download the "County_Election.csv" data set from Canvas and put it in your working directory. Read in the data using `read.csv()`. Then, write a paragraph giving some information on the data that you find interesting. Include at least 3 statistics and one graph. Be sure to interpret what you think the significance of the statistic is.
@@ -411,7 +413,7 @@ Now it's time to work on your own. Download the "County_Election.csv" data set f
 Here is a table describing the variables in the data set:
 
 | Name                         | Description                                                                                                  |
-|------------------------------|--------------------------------------------------------------------------------------------------------------|
+|------------------|-----------------------------------------------------|
 | state                        | State FIPS Code                                                                                              |
 | county                       | County FIPS Code                                                                                             |
 | county_name                  | County Name                                                                                                  |
