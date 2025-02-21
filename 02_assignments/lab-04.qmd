@@ -199,7 +199,7 @@ BBall$Team[which.max(BBall$win_pct)]
 1.  What is the value in the 3rd row of the 9th column of the BBall dataset?
 2.  What is the mean win percentage in the Western Conference?
 3.  What is the average free throw percent for teams in the Western conference that have at least 1120 personal fouls?
-4.  Which team has been to the playoffs the most times?
+4.  Which team has been to the playoffs the most times based on the "Times_in_Playoffs" variable?
 
 ## Step 4: Create Visualizations
 
