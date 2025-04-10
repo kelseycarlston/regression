@@ -140,6 +140,8 @@ Try this, then type `head(deaths)` to see how the data changed.
 
 We need to do the same for `unemp`. Try using `pivot_longer` on your own. I recommend using `clean_names()` from the `janitor` package to fix the weird formatting: `unemp |> clean_names()`. If you can't figure it out how to pivot_longer, there is a video tutorial online.
 
+We do **not** need to do the same thing for the religiosity dataset because there is only one value per state.
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -215,10 +217,10 @@ rm(marry, relig, unemp)
 
 ## Step 5: Descriptive Statistics
 
-We want to learn more about our data before we throw it in a regression. First, let's get descriptive statistics using `stargazer`. The default output is into LaTeX, a typesetting software. We'll output it to text instead using the `type = "text"` option.
+We want to learn more about our data before we throw it in a regression. First, let's get descriptive statistics.
 
 ```{r, eval = F}
-stargazer(deaths, type = "text")
+summary(deaths)
 ```
 
 We'll also create a correlation table. This table represents the direction and strength of the relationship between each pair of variables using the color and size of circles.
@@ -338,22 +340,7 @@ summary(reg3)
 
 Also, if we use the `summary(reg3)` function, we will get a *huge* output with coefficients for 50 states and 10 years. You can do this and take a look at the coefficients - which have the highest coefficient? Lowest? The reference category is Alabama. Do these results look the same as the column charts we used before?
 
-In most papers, authors just report the other explanatory variables, and indicate in their tables that they used fixed effects. We can do that here and include the three regressions in one table so we can compare using `stargazer`.
-
-```{r, eval = FALSE}
-stargazer(reg1, # Specify which regressions
-          reg2, 
-          reg3, 
-          omit = c("year", "State"), # Remove fixed effects
-          omit.labels = c("Year FE", "State FE"), # Put labels for fixed effects
-          type = "text") # Indicate not to do LaTeX output
-```
-
-::: callout-warning
-Some versions of `stargazer` will not correctly fill out the Fixed Effects part of the table. For instance, in mine, model 3 says it does not have state fixed effects. You would have to change this to "Yes" if you put it in a paper.
-:::
-
-This table helps us compare models really easily! Look at the coefficients - do any of them change? What about the $R^2$?
+In a regression table in a paper you would **not** include the coefficients on fixed effects; you would just report the other coefficients, then have a line that says "State Fixed Effects? Yes."
 
 ## Conclusion
 

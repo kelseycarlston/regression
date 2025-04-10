@@ -414,6 +414,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Try this, then type <code>head(deaths)</code> to see how the data changed.</p>
 <p>We need to do the same for <code>unemp</code>. Try using <code>pivot_longer</code> on your own. I recommend using <code>clean_names()</code> from the <code>janitor</code> package to fix the weird formatting: <code>unemp |&gt; clean_names()</code>. If you can’t figure it out how to pivot_longer, there is a video tutorial online.</p>
+<p>We do <strong>not</strong> need to do the same thing for the religiosity dataset because there is only one value per state.</p>
 <div class="cell">
 
 </div>
@@ -451,9 +452,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="step-5-descriptive-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="step-5-descriptive-statistics">Step 5: Descriptive Statistics</h2>
-<p>We want to learn more about our data before we throw it in a regression. First, let’s get descriptive statistics using <code>stargazer</code>. The default output is into LaTeX, a typesetting software. We’ll output it to text instead using the <code>type = "text"</code> option.</p>
+<p>We want to learn more about our data before we throw it in a regression. First, let’s get descriptive statistics.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(deaths, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(deaths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll also create a correlation table. This table represents the direction and strength of the relationship between each pair of variables using the color and size of circles.</p>
 <div class="cell">
@@ -540,29 +541,7 @@ deathrate_{i,t}=\beta_0 + \beta_1*unemployment_{i,t} +\beta_2*\%divorced_{i,t}+\
 
 </div>
 <p>Also, if we use the <code>summary(reg3)</code> function, we will get a <em>huge</em> output with coefficients for 50 states and 10 years. You can do this and take a look at the coefficients - which have the highest coefficient? Lowest? The reference category is Alabama. Do these results look the same as the column charts we used before?</p>
-<p>In most papers, authors just report the other explanatory variables, and indicate in their tables that they used fixed effects. We can do that here and include the three regressions in one table so we can compare using <code>stargazer</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(reg1, <span class="co"># Specify which regressions</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>          reg2, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>          reg3, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">omit =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"State"</span>), <span class="co"># Remove fixed effects</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">omit.labels =</span> <span class="fu">c</span>(<span class="st">"Year FE"</span>, <span class="st">"State FE"</span>), <span class="co"># Put labels for fixed effects</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">"text"</span>) <span class="co"># Indicate not to do LaTeX output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Some versions of <code>stargazer</code> will not correctly fill out the Fixed Effects part of the table. For instance, in mine, model 3 says it does not have state fixed effects. You would have to change this to “Yes” if you put it in a paper.</p>
-</div>
-</div>
-<p>This table helps us compare models really easily! Look at the coefficients - do any of them change? What about the <span class="math inline">\(R^2\)</span>?</p>
+<p>In a regression table in a paper you would <strong>not</strong> include the coefficients on fixed effects; you would just report the other coefficients, then have a line that says “State Fixed Effects? Yes.”</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
