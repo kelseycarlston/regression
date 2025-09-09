@@ -43,9 +43,9 @@ Download the Life Expectancy-Insurance data spreadsheet from above. Open the fil
 
 1.  "Life Expectancy" -- life expectancy by county, state, and the entire US for the years 1985 to 2010; the data come from the Global Health Data Exchange
 
-2.  "NHGIS HH Inc" -- median household income in 2010; the data come from the Census, gathered through NHGIS
+2.  "Income" -- median household income in 2010; the data come from the Census, gathered through NHGIS
 
-3.  "NHGIS Insurance" -- population counts of insured and uninsured people by county, broken down by age and sex, in 2010; this data also comes from the Census, gathered through NHGIS
+3.  "Insurance" -- population counts of insured and uninsured people by county, broken down by age and sex, in 2010; this data also comes from the Census, gathered through NHGIS
 
 4.  "Region" -- regions assigned to states There are several different data types represented in these sheets.
 
@@ -55,7 +55,7 @@ Download the Life Expectancy-Insurance data spreadsheet from above. Open the fil
 
 ### Step 2: Calculate the uninsured rate
 
-We want to find the uninsured rate for people under the age of 65, since people over the age of 65 are usually covered by Medicare. Go to the "NHGIS Insurance" sheet. **Make an empty column** between the COUNTYA column and Total column. To do this, click on the letter of the column to the right of where you want to make a column. (See Figure 1.)
+We want to find the uninsured rate for people under the age of 65, since people over the age of 65 are usually covered by Medicare. Go to the "Insurance" sheet. **Make an empty column** between the COUNTYA column and Total column. To do this, click on the letter of the column to the right of where you want to make a column. (See Figure 1.)
 
 ![Figure 1: Where to click to select entire column](images/excel_column_select.png)
 
@@ -77,7 +77,7 @@ Add a variable name in cell G3 so you know what it is. I would put something lik
 
 ### Step 4: Calculate some descriptive statistics for the uninsured rate
 
-Explore the uninsured rate a little bit. In an empty cell in the "NHGIS Insurance" sheet, type `=AVERAGE(`. Then, select all of the values for the uninsured rate. Select cell G4, then hit **"Ctrl+Shift+Down Arrow" (or "Command+Shift+Down Arrow" for Mac)**. Then, hit enter. You should get the answer 16.7%. Also calculate the median using `=MEDIAN()`.
+Explore the uninsured rate a little bit. In an empty cell in the "Insurance" sheet, type `=AVERAGE(`. Then, select all of the values for the uninsured rate. Select cell G4, then hit **"Ctrl+Shift+Down Arrow" (or "Command+Shift+Down Arrow" for Mac)**. Then, hit enter. You should get the answer 16.7%. Also calculate the median using `=MEDIAN()`.
 
 ## Part 3: Merge data
 
@@ -113,6 +113,7 @@ Our second criteria is year: 2010. Select the year column in "Life Expectancy" a
 
 ::: {.callout-tip collapse="true"}
 ## Merging Tips
+
 For merging, the `sum_range` and `criteria_range` come from the sheet we're getting data ***from***, and the `criteria` comes from the sheet we're merge the data ***to***.
 
 **Troubleshooting**
@@ -172,12 +173,12 @@ Find the row number of the county you want by using `MATCH`, looking up the FIPS
 
 Click the box in the lower right corner of the cell to copy the function down the column. Use a similar function to merge the state name as well.
 
-In the "NHGIS Insurance" sheet, there is not a fips code. We will need to create a FIPS code column using the STATEA and COUNTYA columns. Create a new column just before the uninsured rate column. Treat the fips like a number and multiply STATEA by 1,000 and add it to COUNTYA. This is the easiest option, and then the first 1 or 2 digits represents the state, and the last 3 digits represent the county.
+In the "Insurance" sheet, there is not a fips code. We will need to create a FIPS code column using the STATEA and COUNTYA columns. Create a new column just before the uninsured rate column. Treat the fips like a number and multiply STATEA by 1,000 and add it to COUNTYA. This is the easiest option, and then the first 1 or 2 digits represents the state, and the last 3 digits represent the county.
 
 Once we've created the fips code, we can merge the uninsured rate into the "Life Exp 2010" sheet using either `INDEX(MATCH)` or `SUMIFS`.
 
 ::: {.callout-tip collapse="true"}
-## Why can't we just copy and paste? 
+## Why can't we just copy and paste?
 
 Click on the first life expectancy value and hit "CTRL+down arrow" to jump to the bottom. How many rows are there? Do the same for the uninsured rate. The number of rows isn't the same! The insured population is only available for counties with more than 20,000 people, so there is missing data. This is why we can't just copy and paste. This also means that you will see some rows with "#N/A" values after you merge.
 :::
