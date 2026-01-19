@@ -1,0 +1,16 @@
+---
+title: "Untitled"
+editor: visual
+---
+
+::: {.callout-note}
+## Answer
+
+The comments for the previous answer might be:
+
+```{r}
+x <- 10
+Y <- 11
+```
+
+:::

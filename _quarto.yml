@@ -10,6 +10,12 @@ website:
         text: Home
       - about.qmd
     right:
+      - text: R Walkthroughs
+        menu:
+          - text: Lesson 1 - Getting Started
+            href: 03_r_lectures/lecture_1_getting_started.qmd
+          - text: Lesson 2 - Loading Data
+            href: 03_r_lectures/lecture_2_loading_data.qmd
       - text: Labs
         menu: 
           - text: Lab 2

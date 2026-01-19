@@ -1,0 +1,266 @@
+---
+title: "R Lecture 1: Getting Started"
+format: html
+editor: visual
+execute: 
+  echo: true
+---
+
+This page introduces the absolute basics of working in R. The goal is not to turn you into a programmer, but to give you enough familiarity to read, run, and slightly modify R code that we will use throughout the course.
+
+Everything below is written as if it lives in an R script file (a `.R` file) in RStudio.
+
+There are two ways to run code in RStudio. You can just run code directly in the **console** (bottom left window), but you should only do that if you never plan to run the same code again. This might be for things like basic math or looking at a dataset.
+
+The way you should run code is in an **R script**. This is a text file with your code in it. By writing in an R script, you can save code and re-run it again later, which means you never lose your work!
+
+## Creating an R Script
+
+To create an R script, go to the button new file button (white page with green plus sign) and click "R Script", or hit `ctrl+shift+N` (`Cmd+Shift+N` for Mac).
+
+![New File Button](03_r_lectures/images/new_R_script_button.png){fig-alt="Image of new file button is in R Studio."}
+
+On your blank R Script, begin by typing comment with a brief header of what you are working on. Comments are indicated by `#`, and when they are in a line of code, the console will not try to run anything on the line after that. In your header, include a title, your name, the date, and any other information you think is important, like the goals of your script.
+
+You also may want to include the code `rm(list = ls())`. This removes any objects in your environment to keep your workspace clean. In other words, it gives you a clean slate!
+
+```{r}
+####    R Lecture 1  ####
+#### Kelsey Carlston ####
+# In this code, I make some objects and a data frame.
+
+rm(list = ls())
+
+```
+
+## Running Code
+
+To run a line of code in RStudio:
+
+-   Place your cursor anywhere on the line
+
+-   Press `ctrl + Enter` (Windows) or `Cmd + Enter` (Mac)
+
+You can also highlight multiple lines and run them together.
+
+Try writing a simple piece of code and running it.
+
+```{r}
+2 + 2
+```
+
+When you run this line, R sends the instruction to the console and returns the result.
+
+## Making a Comment
+
+A **comment** is text that R ignores. Comments are for *humans*, not the computer.
+
+In R, comments begin with `#`. You should comment your code generously so that someone else (including future you) can understand what code is doing.
+
+```{r}
+2 + 2 # This comment explains the calculation
+```
+
+## Creating a Variable
+
+A **variable** stores a value so that we can reuse it later.
+
+We careate variables using the assignment operator `<-`.
+
+```{r}
+x <- 5
+```
+
+Read this as: "Store the value 5 in the object named `x`."
+
+You can view the value of a variable by typing its name in the console:
+
+```{r}
+x
+```
+
+## Using a Variable in a Calculation
+
+Once a variable exists, you can use it in calculations.
+
+```{r}
+x <- 5
+y <- 2
+x + y
+x * y
+```
+
+R automatically looks up the values stored in `x` and `y` when performing the calculation.
+
+## Creating a Data Frame
+
+Usually we want to work with a dataset with rows (observations) and columns (variables), similar to a spreadsheet. In R, we call these **data frames**.
+
+Here is a simple example of how to create a data frame:
+
+```{r}
+df <- data.frame(
+  hours = c(10, 12, 8, 15),
+  score = c(78, 85, 72, 90)
+)
+```
+
+This creates a data frame:
+
+-   Two variables: `hours` and `score`
+
+-   Four observations
+
+The data frame is stored as an object with the name `df`.
+
+You can view the data frame by typing its name:
+
+```{r}
+df
+```
+
+## Doing a Calculation (Summary) on a Data Frame
+
+R has built-in functions for summarizing data.
+
+For example, you can compute summary statistics for each variable:
+
+```{r}
+summary(df)
+```
+
+This produces the 5 number summary plus the mean for each column.
+
+You can also summarize a single variable:
+
+```{r}
+mean(df$score)
+```
+
+To access an individual variable, you type the name of the data frame, a dollar sign, and then the variable name.
+
+## Creating a New Variable in a Data Frame
+
+We often want to create new variables based on existing ones. Suppose we want a variable measuring score per hour studied:
+
+```{r}
+df$score_per_hour <- df$score / df$hours
+```
+
+This line:
+
+-   Takes the existing variables `score` and `hours`
+
+-   Performs a calculation row by row
+
+-   Stores the result as a new column in the data frame
+
+## Accessing Parts of a Data Frame
+
+You can access specific parts of a data frame in several ways.
+
+### Access a Column
+
+```{r}
+df$score
+```
+
+This returns all of the observations for the `hours` variable. You can also do it through an index using brackets. When you use brackets to subset a data frame, you include two components: the row and the column. If you leave one blank, it returns everything in that dimension.
+
+```{r}
+df[,2]
+```
+
+This returns the *second* column, `score`.
+
+### Access a Row
+
+Access a row using brackets.
+
+```{r}
+df[3,]
+```
+
+This returns the *third* row. If you want to return multiple rows, use a colon.
+
+```{r}
+df[2:4,]
+```
+
+This returns the values in rows 2 through 4.
+
+### Access a Value
+
+Put two values in the brackets to get a variable in a specific position:
+
+```{r}
+df[3,2]
+```
+
+This returns the third observation in the second column (score).
+
+If you know which variable you want, you can access values a different way:
+
+```{r}
+df$score[3]
+```
+
+Because the variable `score` only has one dimension, you only put one number in the brackets. This gives us the third observation of `score`.
+
+## A Fully Commented Example
+
+Below is a short script using these concepts where *every line is commented*.
+
+```{r}
+# Create a variable storing the interest rate
+sale <- 0.2
+
+# Create a data frame called "inventory" with 4 items and their original price
+inventory <- data.frame(
+  item = c("Shirt", "Shoes", "Hat", "Jacket"),
+  price = c(40, 80, 25, 120),
+  cost = c(18, 45, 10, 70)
+)
+
+# Calculate the sale price after a 20% discount
+# Formula: sale price = original price * (1-sale)
+inventory$sale_price <- inventory$price * (1 - sale)
+
+# Calculate profit per item after the discount
+# Formula: profit = sale price - cost
+inventory$profit <- inventory$sale_price - inventory$cost
+
+# Display profit
+inventory$profit
+```
+
+## Exercise
+
+Below is a short R script. Your task is to **add a comment explaining what each line does**.
+
+```{r}
+income <- c(40000, 52000, 61000, 45000)
+education <- c(12, 16, 16, 14)
+df <- data.frame(income, education)
+df$income_thousands <- df$income / 1000
+mean(df$income_thousands)
+```
+
+Your comments should be written so that someone with no prior R experience could understand what the code is doing at each step.
+
+::: {.callout-note collapse="true"}
+## Answer
+
+The comments for each line of the previous code might be:
+
+-   Create a vector with income data
+
+-   Create a vector with education data
+
+-   Create a data frame with income and education
+
+-   Create a variable in the data frame for income in thousands
+
+-   Calculate the mean of income in thousands
+
+:::

@@ -481,5 +481,96 @@
     "title": "Lab 2: Managing Data in Excel",
     "section": "Resources",
     "text": "Resources\nIf you need more help with absolute or mixed cell references, you can check out these resources:\nRelative and Absolute Cell References Video\nRelative and Absolute Cell References Description\nSUMIFS help"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html",
+    "href": "03_r_lectures/lecture_1_getting_started.html",
+    "title": "R Lecture 1: Getting Started",
+    "section": "",
+    "text": "This page introduces the absolute basics of working in R. The goal is not to turn you into a programmer, but to give you enough familiarity to read, run, and slightly modify R code that we will use throughout the course.\nEverything below is written as if it lives in an R script file (a .R file) in RStudio.\nThere are two ways to run code in RStudio. You can just run code directly in the console (bottom left window), but you should only do that if you never plan to run the same code again. This might be for things like basic math or looking at a dataset.\nThe way you should run code is in an R script. This is a text file with your code in it. By writing in an R script, you can save code and re-run it again later, which means you never lose your work!"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#creating-an-r-script",
+    "href": "03_r_lectures/lecture_1_getting_started.html#creating-an-r-script",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Creating an R Script",
+    "text": "Creating an R Script\nTo create an R script, go to the button new file button (white page with green plus sign) and click “R Script”, or hit ctrl+shift+N (Cmd+Shift+N for Mac).\n\n\n\nNew File Button\n\n\nOn your blank R Script, begin by typing comment with a brief header of what you are working on. Comments are indicated by #, and when they are in a line of code, the console will not try to run anything on the line after that. In your header, include a title, your name, the date, and any other information you think is important, like the goals of your script.\nYou also may want to include the code rm(list = ls()). This removes any objects in your environment to keep your workspace clean. In other words, it gives you a clean slate!\n\n####    R Lecture 1  ####\n#### Kelsey Carlston ####\n# In this code, I make some objects and a data frame.\n\nrm(list = ls())"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#running-code",
+    "href": "03_r_lectures/lecture_1_getting_started.html#running-code",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Running Code",
+    "text": "Running Code\nTo run a line of code in RStudio:\n\nPlace your cursor anywhere on the line\nPress ctrl + Enter (Windows) or Cmd + Enter (Mac)\n\nYou can also highlight multiple lines and run them together.\nTry writing a simple piece of code and running it.\n\n2 + 2\n\n[1] 4\n\n\nWhen you run this line, R sends the instruction to the console and returns the result."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#making-a-comment",
+    "href": "03_r_lectures/lecture_1_getting_started.html#making-a-comment",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Making a Comment",
+    "text": "Making a Comment\nA comment is text that R ignores. Comments are for humans, not the computer.\nIn R, comments begin with #. You should comment your code generously so that someone else (including future you) can understand what code is doing.\n\n2 + 2 # This comment explains the calculation\n\n[1] 4"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#creating-a-variable",
+    "href": "03_r_lectures/lecture_1_getting_started.html#creating-a-variable",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Creating a Variable",
+    "text": "Creating a Variable\nA variable stores a value so that we can reuse it later.\nWe careate variables using the assignment operator <-.\n\nx <- 5\n\nRead this as: “Store the value 5 in the object named x.”\nYou can view the value of a variable by typing its name in the console:\n\nx\n\n[1] 5"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#using-a-variable-in-a-calculation",
+    "href": "03_r_lectures/lecture_1_getting_started.html#using-a-variable-in-a-calculation",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Using a Variable in a Calculation",
+    "text": "Using a Variable in a Calculation\nOnce a variable exists, you can use it in calculations.\n\nx <- 5\ny <- 2\nx + y\n\n[1] 7\n\nx * y\n\n[1] 10\n\n\nR automatically looks up the values stored in x and y when performing the calculation."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#creating-a-data-frame",
+    "href": "03_r_lectures/lecture_1_getting_started.html#creating-a-data-frame",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Creating a Data Frame",
+    "text": "Creating a Data Frame\nUsually we want to work with a dataset with rows (observations) and columns (variables), similar to a spreadsheet. In R, we call these data frames.\nHere is a simple example of how to create a data frame:\n\ndf <- data.frame(\n  hours = c(10, 12, 8, 15),\n  score = c(78, 85, 72, 90)\n)\n\nThis creates a data frame:\n\nTwo variables: hours and score\nFour observations\n\nThe data frame is stored as an object with the name df.\nYou can view the data frame by typing its name:\n\ndf\n\n  hours score\n1    10    78\n2    12    85\n3     8    72\n4    15    90"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#doing-a-calculation-summary-on-a-data-frame",
+    "href": "03_r_lectures/lecture_1_getting_started.html#doing-a-calculation-summary-on-a-data-frame",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Doing a Calculation (Summary) on a Data Frame",
+    "text": "Doing a Calculation (Summary) on a Data Frame\nR has built-in functions for summarizing data.\nFor example, you can compute summary statistics for each variable:\n\nsummary(df)\n\n     hours           score      \n Min.   : 8.00   Min.   :72.00  \n 1st Qu.: 9.50   1st Qu.:76.50  \n Median :11.00   Median :81.50  \n Mean   :11.25   Mean   :81.25  \n 3rd Qu.:12.75   3rd Qu.:86.25  \n Max.   :15.00   Max.   :90.00  \n\n\nThis produces the 5 number summary plus the mean for each column.\nYou can also summarize a single variable:\n\nmean(df$score)\n\n[1] 81.25\n\n\nTo access an individual variable, you type the name of the data frame, a dollar sign, and then the variable name."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#creating-a-new-variable-in-a-data-frame",
+    "href": "03_r_lectures/lecture_1_getting_started.html#creating-a-new-variable-in-a-data-frame",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Creating a New Variable in a Data Frame",
+    "text": "Creating a New Variable in a Data Frame\nWe often want to create new variables based on existing ones. Suppose we want a variable measuring score per hour studied:\n\ndf$score_per_hour <- df$score / df$hours\n\nThis line:\n\nTakes the existing variables score and hours\nPerforms a calculation row by row\nStores the result as a new column in the data frame"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#accessing-parts-of-a-data-frame",
+    "href": "03_r_lectures/lecture_1_getting_started.html#accessing-parts-of-a-data-frame",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Accessing Parts of a Data Frame",
+    "text": "Accessing Parts of a Data Frame\nYou can access specific parts of a data frame in several ways.\n\nAccess a Column\n\ndf$score\n\n[1] 78 85 72 90\n\n\nThis returns all of the observations for the hours variable. You can also do it through an index using brackets. When you use brackets to subset a data frame, you include two components: the row and the column. If you leave one blank, it returns everything in that dimension.\n\ndf[,2]\n\n[1] 78 85 72 90\n\n\nThis returns the second column, score.\n\n\nAccess a Row\nAccess a row using brackets.\n\ndf[3,]\n\n  hours score score_per_hour\n3     8    72              9\n\n\nThis returns the third row. If you want to return multiple rows, use a colon.\n\ndf[2:4,]\n\n  hours score score_per_hour\n2    12    85       7.083333\n3     8    72       9.000000\n4    15    90       6.000000\n\n\nThis returns the values in rows 2 through 4.\n\n\nAccess a Value\nPut two values in the brackets to get a variable in a specific position:\n\ndf[3,2]\n\n[1] 72\n\n\nThis returns the third observation in the second column (score).\nIf you know which variable you want, you can access values a different way:\n\ndf$score[3]\n\n[1] 72\n\n\nBecause the variable score only has one dimension, you only put one number in the brackets. This gives us the third observation of score."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#a-fully-commented-example",
+    "href": "03_r_lectures/lecture_1_getting_started.html#a-fully-commented-example",
+    "title": "R Lecture 1: Getting Started",
+    "section": "A Fully Commented Example",
+    "text": "A Fully Commented Example\nBelow is a short script using these concepts where every line is commented.\n\n# Create a variable storing the interest rate\nsale <- 0.2\n\n# Create a data frame called \"inventory\" with 4 items and their original price\ninventory <- data.frame(\n  item = c(\"Shirt\", \"Shoes\", \"Hat\", \"Jacket\"),\n  price = c(40, 80, 25, 120),\n  cost = c(18, 45, 10, 70)\n)\n\n# Calculate the sale price after a 20% discount\n# Formula: sale price = original price * (1-sale)\ninventory$sale_price <- inventory$price * (1 - sale)\n\n# Calculate profit per item after the discount\n# Formula: profit = sale price - cost\ninventory$profit <- inventory$sale_price - inventory$cost\n\n# Display profit\ninventory$profit\n\n[1] 14 19 10 26"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_1_getting_started.html#exercise",
+    "href": "03_r_lectures/lecture_1_getting_started.html#exercise",
+    "title": "R Lecture 1: Getting Started",
+    "section": "Exercise",
+    "text": "Exercise\nBelow is a short R script. Your task is to add a comment explaining what each line does.\n\nincome <- c(40000, 52000, 61000, 45000)\neducation <- c(12, 16, 16, 14)\ndf <- data.frame(income, education)\ndf$income_thousands <- df$income / 1000\nmean(df$income_thousands)\n\n[1] 49.5\n\n\nYour comments should be written so that someone with no prior R experience could understand what the code is doing at each step.\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nThe comments for each line of the previous code might be:\n\nCreate a vector with income data\nCreate a vector with education data\nCreate a data frame with income and education\nCreate a variable in the data frame for income in thousands\nCalculate the mean of income in thousands"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html",
+    "href": "03_r_lectures/lecture_2_loading_data.html",
+    "title": "Untitled",
+    "section": "",
+    "text": "Answer\n\n\n\nThe comments for the previous answer might be:"
   }
 ]
