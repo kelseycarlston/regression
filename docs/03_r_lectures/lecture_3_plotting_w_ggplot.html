@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ECON 355 - Regression - Lesson 2: Set Working Directory and Load Data</title>
+<title>ECON 355 - Regression - lecture_3_plotting_w_ggplot</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -173,32 +173,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#what-is-a-working-directory" id="toc-what-is-a-working-directory" class="nav-link active" data-scroll-target="#what-is-a-working-directory">What Is a Working Directory?</a></li>
-  <li><a href="#finding-your-class-folder" id="toc-finding-your-class-folder" class="nav-link" data-scroll-target="#finding-your-class-folder">Finding Your Class Folder</a>
-  <ul class="collapse">
-  <li><a href="#finding-folder-on-a-mac" id="toc-finding-folder-on-a-mac" class="nav-link" data-scroll-target="#finding-folder-on-a-mac">Finding Folder on a Mac</a></li>
-  <li><a href="#finding-folder-on-windows" id="toc-finding-folder-on-windows" class="nav-link" data-scroll-target="#finding-folder-on-windows">Finding Folder on Windows</a></li>
-  </ul></li>
-  <li><a href="#setting-the-working-directory-in-r" id="toc-setting-the-working-directory-in-r" class="nav-link" data-scroll-target="#setting-the-working-directory-in-r">Setting the Working Directory in R</a>
-  <ul class="collapse">
-  <li><a href="#a-note-on-reproducibility" id="toc-a-note-on-reproducibility" class="nav-link" data-scroll-target="#a-note-on-reproducibility">A Note on Reproducibility</a></li>
-  </ul></li>
-  <li><a href="#loading-a-csv-file" id="toc-loading-a-csv-file" class="nav-link" data-scroll-target="#loading-a-csv-file">Loading a CSV File</a></li>
-  <li><a href="#common-errors" id="toc-common-errors" class="nav-link" data-scroll-target="#common-errors">Common Errors</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lesson 2: Set Working Directory and Load Data</h1>
+<h1 class="title">lecture_3_plotting_w_ggplot</h1>
 </div>
 
 
@@ -213,195 +195,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>In this lecture, we move from running self-contained examples to working with real data files. To do that reliably, you need to understand where R looks for files and how to tell it where your class materials live on your computer.</p>
-<p>The key ideas in this lecture are:</p>
-<ul>
-<li><p>Files live in folders on your computer</p></li>
-<li><p>R must be told which folder to look in</p></li>
-<li><p>Once the working directory is set, loading data is straightforward and reproducible</p></li>
-</ul>
-<section id="what-is-a-working-directory" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-a-working-directory">What Is a Working Directory?</h2>
-<p>The <strong>working directory</strong> is the folder on your computer where R looks for files by default.</p>
-<p>When you ask R to load a file like this:</p>
-<div class="cell">
-
-</div>
-<p>R interprets that as:</p>
-<blockquote class="blockquote">
-<p>“Look for a file name <code>data.csv</code> <em>inside the current working directory</em>.”</p>
-</blockquote>
-<p>If R is pointed at the wrong folder, it will not find your file—even if the file exists somewhere else on your computer.</p>
-</section>
-<section id="finding-your-class-folder" class="level2">
-<h2 class="anchored" data-anchor-id="finding-your-class-folder">Finding Your Class Folder</h2>
-<p>Before setting the working directory, you need to know <strong>where your class folder is located</strong>. These are directions for R to find the folder.</p>
-<p>You should create a folder called something like <code>Regression</code> or <code>ECON 355</code>. In this folder, you should keep the data and scripts for this class. Keeping everything in one folder helps you stay organized and prevents losing your work. (You class folder should <strong>not</strong> be your downloads folder.)</p>
-<section id="finding-folder-on-a-mac" class="level3">
-<h3 class="anchored" data-anchor-id="finding-folder-on-a-mac">Finding Folder on a Mac</h3>
-<ol type="1">
-<li>Open <strong>Finder</strong></li>
-<li>Navigate to your class folder</li>
-<li>Right-click (or Control-click) the folder</li>
-<li>Hold down the <strong>Option</strong> key</li>
-<li>Click <strong>Copy “” as Pathname</strong></li>
-</ol>
-<p>This copies the full file path to your clipboard.</p>
-<p>A Mac file path looks like this:</p>
-<div class="cell">
-
-</div>
-</section>
-<section id="finding-folder-on-windows" class="level3">
-<h3 class="anchored" data-anchor-id="finding-folder-on-windows">Finding Folder on Windows</h3>
-<ol type="1">
-<li>Open <strong>File Explorer</strong></li>
-<li>Navigate to your class folder</li>
-<li>Click once in the address bar at the top</li>
-<li>The folder path will appear</li>
-<li>Copy the path</li>
-</ol>
-<p>A Windows file path looks like this:</p>
-<div class="cell">
-
-</div>
-<div class="callout-important callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When you copy the file path, it will have backwards slashes (<code>\</code>), which you need to change to forward slashes (<code>/</code>) for the path to work in R.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="setting-the-working-directory-in-r" class="level2">
-<h2 class="anchored" data-anchor-id="setting-the-working-directory-in-r">Setting the Working Directory in R</h2>
-<p>Once you have copied the folder path, you can tell R to use it as the working directory.</p>
-<div class="cell">
-
-</div>
-<p>Or, on a Mac:</p>
-<div class="cell">
-
-</div>
-<p>After running this line, R will look in that folder for all files unless told otherwise.</p>
-<p>You can confirm your working directory by running:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "G:/My Drive/Teaching/regression/03_r_lectures"</code></pre>
-</div>
-</div>
-<p>Alternatively, in the Files window in RStudio, navigate to your class folder. Then, on the “More” drop down menu, click “Set As Working Directory”. Be sure to copy that code to your <code>.R</code> script so you can run it again later.</p>
-<section id="a-note-on-reproducibility" class="level3">
-<h3 class="anchored" data-anchor-id="a-note-on-reproducibility">A Note on Reproducibility</h3>
-<p>In this course, you should:</p>
-<ul>
-<li><p>Keep <code>setwd()</code> at the <strong>top of your script</strong></p></li>
-<li><p>Use relative file names (e.g., <code>data.csv</code>, not long paths)</p></li>
-<li><p>Keep scripts and data in the same folder</p></li>
-</ul>
-<p>This makes your work easier to rerun and easier for others to understand</p>
-</section>
-</section>
-<section id="loading-a-csv-file" class="level2">
-<h2 class="anchored" data-anchor-id="loading-a-csv-file">Loading a CSV File</h2>
-<p>A <strong>csv file</strong> (comma-separated values) is a common format for data.</p>
-<p>Try reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.</p>
-<p>Load the data with the code:</p>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<p>This reads the file into R and stores it as a data frame called <code>county</code>.</p>
-<p>You can check that it loaded correctly by running:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>  geoid                  NAME_E tot_pop med_hh_inc total_hh
-1  1001 Autauga County, Alabama   59285      69841    22523
-2  1003 Baldwin County, Alabama  239945      75019    94642
-3  1005 Barbour County, Alabama   24757      44290     9080
-4  1007    Bibb County, Alabama   22152      51215     7571
-5  1009  Blount County, Alabama   59292      61096    21977
-6  1011 Bullock County, Alabama   10157      36723     3453
-  total__hh_w_assistance total_hh_no_assistance citizen_born
-1                   2077                  20446        57756
-2                   6940                  87702       230809
-3                   2071                   7009        23981
-4                   1658                   5913        21872
-5                   2968                  19009        56534
-6                   1137                   2316         9883
-  citizen_naturalized non_citizen
-1                 827         702
-2                3991        5145
-3                 353         423
-4                  48         232
-5                1015        1743
-6                  63         211</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     geoid          NAME_E             tot_pop          med_hh_inc        
- Min.   : 1001   Length:3222        Min.   :     43   Min.   :-666666666  
- 1st Qu.:19030   Class :character   1st Qu.:  10986   1st Qu.:     54107  
- Median :30022   Mode  :character   Median :  25967   Median :     63150  
- Mean   :31378                      Mean   : 104172   Mean   :   -348815  
- 3rd Qu.:46105                      3rd Qu.:  67526   3rd Qu.:     73199  
- Max.   :72153                      Max.   :9848406   Max.   :    178707  
-    total_hh       total__hh_w_assistance total_hh_no_assistance
- Min.   :     17   Min.   :     0.0       Min.   :     15       
- 1st Qu.:   4268   1st Qu.:   547.2       1st Qu.:   3556       
- Median :  10200   Median :  1422.5       Median :   8414       
- Mean   :  39951   Mean   :  5244.9       Mean   :  34706       
- 3rd Qu.:  26346   3rd Qu.:  3723.8       3rd Qu.:  22475       
- Max.   :3390254   Max.   :507314.0       Max.   :2882940       
-  citizen_born     citizen_naturalized  non_citizen     
- Min.   :      0   Min.   :      0.0   Min.   :      0  
- 1st Qu.:   9691   1st Qu.:     66.2   1st Qu.:     75  
- Median :  24143   Median :    271.0   Median :    335  
- Mean   :  88851   Mean   :   7490.3   Mean   :   6820  
- 3rd Qu.:  64698   3rd Qu.:   1290.8   3rd Qu.:   1621  
- Max.   :6563145   Max.   :1794962.0   Max.   :1490299  </code></pre>
-</div>
-</div>
-</section>
-<section id="common-errors" class="level2">
-<h2 class="anchored" data-anchor-id="common-errors">Common Errors</h2>
-<p><strong>Error: cannot open the connection</strong></p>
-<ul>
-<li><p>R cannot find the file</p></li>
-<li><p>Most likely causes:</p>
-<ul>
-<li><p>Working directory is incorrect</p></li>
-<li><p>File name is misspelled</p></li>
-<li><p>Missing “.csv” at the end of the file name</p></li>
-</ul></li>
-</ul>
-<p><strong>Error: no such file or directory</strong></p>
-<ul>
-<li>The folder path in <code>setwd()</code> is wrong</li>
-</ul>
-<p>These errors are about <em>file location</em>, not about your data.</p>
-<p>One nice thing about working in RStudio is that it will help you load things.</p>
-</section>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<ol type="1">
-<li>Locate your class folder on your computer</li>
-<li>Set your working directory in R</li>
-<li>Download the csv file into that folder</li>
-<li>Load the csv into R using <code>read.csv()</code></li>
-<li>Run <code>head()</code> and <code>summary()</code> on the data</li>
-</ol>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

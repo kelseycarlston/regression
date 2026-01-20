@@ -1,16 +1,174 @@
 ---
-title: "Untitled"
+title: "Lesson 2: Set Working Directory and Load Data"
+format: html
 editor: visual
 ---
 
-::: {.callout-note}
-## Answer
+In this lecture, we move from running self-contained examples to working with real data files. To do that reliably, you need to understand where R looks for files and how to tell it where your class materials live on your computer.
 
-The comments for the previous answer might be:
+The key ideas in this lecture are:
+
+-   Files live in folders on your computer
+
+-   R must be told which folder to look in
+
+-   Once the working directory is set, loading data is straightforward and reproducible
+
+## What Is a Working Directory?
+
+The **working directory** is the folder on your computer where R looks for files by default.
+
+When you ask R to load a file like this:
 
 ```{r}
-x <- 10
-Y <- 11
+#| eval: false
+read.csv("data.csv")
 ```
 
+R interprets that as:
+
+> "Look for a file name `data.csv` *inside the current working directory*."
+
+If R is pointed at the wrong folder, it will not find your file---even if the file exists somewhere else on your computer.
+
+## Finding Your Class Folder
+
+Before setting the working directory, you need to know **where your class folder is located**. These are directions for R to find the folder.
+
+You should create a folder called something like `Regression` or `ECON 355`. In this folder, you should keep the data and scripts for this class. Keeping everything in one folder helps you stay organized and prevents losing your work. (You class folder should **not** be your downloads folder.)
+
+### Finding Folder on a Mac
+
+1.  Open **Finder**
+2.  Navigate to your class folder
+3.  Right-click (or Control-click) the folder
+4.  Hold down the **Option** key
+5.  Click **Copy "" as Pathname**
+
+This copies the full file path to your clipboard.
+
+A Mac file path looks like this:
+
+```{r}
+#| eval: false
+/Users/yourname/Documents/ECON355
+```
+
+### Finding Folder on Windows
+
+1.  Open **File Explorer**
+2.  Navigate to your class folder
+3.  Click once in the address bar at the top
+4.  The folder path will appear
+5.  Copy the path
+
+A Windows file path looks like this:
+
+```{r}
+#| eval: false
+C:/Users/YourName/Documents/ECON355
+```
+
+::: callout-important
+When you copy the file path, it will have backwards slashes (`\`), which you need to change to forward slashes (`/`) for the path to work in R.
 :::
+
+## Setting the Working Directory in R
+
+Once you have copied the folder path, you can tell R to use it as the working directory.
+
+```{r}
+#| eval: false
+
+setwd("C:/Users/YourName/Documents/ECON355")
+```
+
+Or, on a Mac:
+
+```{r}
+#| eval: false
+
+setwd("C:/Users/YourName/Documents/ECON355")
+
+```
+
+After running this line, R will look in that folder for all files unless told otherwise.
+
+You can confirm your working directory by running:
+
+```{r}
+getwd()
+```
+
+Alternatively, in the Files window in RStudio, navigate to your class folder. Then, on the "More" drop down menu, click "Set As Working Directory". Be sure to copy that code to your `.R` script so you can run it again later.
+
+### A Note on Reproducibility
+
+In this course, you should:
+
+-   Keep `setwd()` at the **top of your script**
+
+-   Use relative file names (e.g., `data.csv`, not long paths)
+
+-   Keep scripts and data in the same folder
+
+This makes your work easier to rerun and easier for others to understand
+
+## Loading a CSV File
+
+A **csv file** (comma-separated values) is a common format for data.
+
+Try reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.
+
+Load the data with the code:
+
+```{r}
+#| eval: false
+county <- read.csv("county_citizenship.csv")
+```
+
+```{r}
+#| eval: true
+#| echo: false
+
+county <- read.csv("data/county_citizenship.csv")
+```
+
+This reads the file into R and stores it as a data frame called `county`.
+
+You can check that it loaded correctly by running:
+
+```{r}
+head(county)
+summary(county)
+```
+
+## Common Errors
+
+**Error: cannot open the connection**
+
+-   R cannot find the file
+
+-   Most likely causes:
+
+    -   Working directory is incorrect
+
+    -   File name is misspelled
+
+    -   Missing ".csv" at the end of the file name
+
+**Error: no such file or directory**
+
+-   The folder path in `setwd()` is wrong
+
+These errors are about *file location*, not about your data.
+
+One nice thing about working in RStudio is that it will help you load things.
+
+## Exercise
+
+1.  Locate your class folder on your computer
+2.  Set your working directory in R
+3.  Download the csv file into that folder
+4.  Load the csv into R using `read.csv()`
+5.  Run `head()` and `summary()` on the data

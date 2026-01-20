@@ -18,7 +18,7 @@ The way you should run code is in an **R script**. This is a text file with your
 
 To create an R script, go to the button new file button (white page with green plus sign) and click "R Script", or hit `ctrl+shift+N` (`Cmd+Shift+N` for Mac).
 
-![New File Button](03_r_lectures/images/new_R_script_button.png){fig-alt="Image of new file button is in R Studio."}
+![New File Button](images/new_R_script_button.png){fig-alt="Image of new file button is in R Studio."}
 
 On your blank R Script, begin by typing comment with a brief header of what you are working on. Comments are indicated by `#`, and when they are in a line of code, the console will not try to run anything on the line after that. In your header, include a title, your name, the date, and any other information you think is important, like the goals of your script.
 
@@ -262,5 +262,4 @@ The comments for each line of the previous code might be:
 -   Create a variable in the data frame for income in thousands
 
 -   Calculate the mean of income in thousands
-
 :::

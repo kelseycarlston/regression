@@ -569,8 +569,50 @@
   {
     "objectID": "03_r_lectures/lecture_2_loading_data.html",
     "href": "03_r_lectures/lecture_2_loading_data.html",
-    "title": "Untitled",
+    "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "",
-    "text": "Answer\n\n\n\nThe comments for the previous answer might be:"
+    "text": "In this lecture, we move from running self-contained examples to working with real data files. To do that reliably, you need to understand where R looks for files and how to tell it where your class materials live on your computer.\nThe key ideas in this lecture are:"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#what-is-a-working-directory",
+    "href": "03_r_lectures/lecture_2_loading_data.html#what-is-a-working-directory",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "What Is a Working Directory?",
+    "text": "What Is a Working Directory?\nThe working directory is the folder on your computer where R looks for files by default.\nWhen you ask R to load a file like this:\n\n\n\nR interprets that as:\n\n“Look for a file name data.csv inside the current working directory.”\n\nIf R is pointed at the wrong folder, it will not find your file—even if the file exists somewhere else on your computer."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#finding-your-class-folder",
+    "href": "03_r_lectures/lecture_2_loading_data.html#finding-your-class-folder",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "Finding Your Class Folder",
+    "text": "Finding Your Class Folder\nBefore setting the working directory, you need to know where your class folder is located. These are directions for R to find the folder.\nYou should create a folder called something like Regression or ECON 355. In this folder, you should keep the data and scripts for this class. Keeping everything in one folder helps you stay organized and prevents losing your work. (You class folder should not be your downloads folder.)\n\nFinding Folder on a Mac\n\nOpen Finder\nNavigate to your class folder\nRight-click (or Control-click) the folder\nHold down the Option key\nClick Copy “” as Pathname\n\nThis copies the full file path to your clipboard.\nA Mac file path looks like this:\n\n\n\n\n\nFinding Folder on Windows\n\nOpen File Explorer\nNavigate to your class folder\nClick once in the address bar at the top\nThe folder path will appear\nCopy the path\n\nA Windows file path looks like this:\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you copy the file path, it will have backwards slashes (\\), which you need to change to forward slashes (/) for the path to work in R."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#setting-the-working-directory-in-r",
+    "href": "03_r_lectures/lecture_2_loading_data.html#setting-the-working-directory-in-r",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "Setting the Working Directory in R",
+    "text": "Setting the Working Directory in R\nOnce you have copied the folder path, you can tell R to use it as the working directory.\n\n\n\nOr, on a Mac:\n\n\n\nAfter running this line, R will look in that folder for all files unless told otherwise.\nYou can confirm your working directory by running:\n\n\n[1] \"G:/My Drive/Teaching/regression/03_r_lectures\"\n\n\nAlternatively, in the Files window in RStudio, navigate to your class folder. Then, on the “More” drop down menu, click “Set As Working Directory”. Be sure to copy that code to your .R script so you can run it again later.\n\nA Note on Reproducibility\nIn this course, you should:\n\nKeep setwd() at the top of your script\nUse relative file names (e.g., data.csv, not long paths)\nKeep scripts and data in the same folder\n\nThis makes your work easier to rerun and easier for others to understand"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#loading-a-csv-file",
+    "href": "03_r_lectures/lecture_2_loading_data.html#loading-a-csv-file",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "Loading a CSV File",
+    "text": "Loading a CSV File\nA csv file (comma-separated values) is a common format for data.\nTry reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.\nLoad the data with the code:\n\n\n\n\n\n\nThis reads the file into R and stores it as a data frame called county.\nYou can check that it loaded correctly by running:\n\n\n  geoid                  NAME_E tot_pop med_hh_inc total_hh\n1  1001 Autauga County, Alabama   59285      69841    22523\n2  1003 Baldwin County, Alabama  239945      75019    94642\n3  1005 Barbour County, Alabama   24757      44290     9080\n4  1007    Bibb County, Alabama   22152      51215     7571\n5  1009  Blount County, Alabama   59292      61096    21977\n6  1011 Bullock County, Alabama   10157      36723     3453\n  total__hh_w_assistance total_hh_no_assistance citizen_born\n1                   2077                  20446        57756\n2                   6940                  87702       230809\n3                   2071                   7009        23981\n4                   1658                   5913        21872\n5                   2968                  19009        56534\n6                   1137                   2316         9883\n  citizen_naturalized non_citizen\n1                 827         702\n2                3991        5145\n3                 353         423\n4                  48         232\n5                1015        1743\n6                  63         211\n\n\n     geoid          NAME_E             tot_pop          med_hh_inc        \n Min.   : 1001   Length:3222        Min.   :     43   Min.   :-666666666  \n 1st Qu.:19030   Class :character   1st Qu.:  10986   1st Qu.:     54107  \n Median :30022   Mode  :character   Median :  25967   Median :     63150  \n Mean   :31378                      Mean   : 104172   Mean   :   -348815  \n 3rd Qu.:46105                      3rd Qu.:  67526   3rd Qu.:     73199  \n Max.   :72153                      Max.   :9848406   Max.   :    178707  \n    total_hh       total__hh_w_assistance total_hh_no_assistance\n Min.   :     17   Min.   :     0.0       Min.   :     15       \n 1st Qu.:   4268   1st Qu.:   547.2       1st Qu.:   3556       \n Median :  10200   Median :  1422.5       Median :   8414       \n Mean   :  39951   Mean   :  5244.9       Mean   :  34706       \n 3rd Qu.:  26346   3rd Qu.:  3723.8       3rd Qu.:  22475       \n Max.   :3390254   Max.   :507314.0       Max.   :2882940       \n  citizen_born     citizen_naturalized  non_citizen     \n Min.   :      0   Min.   :      0.0   Min.   :      0  \n 1st Qu.:   9691   1st Qu.:     66.2   1st Qu.:     75  \n Median :  24143   Median :    271.0   Median :    335  \n Mean   :  88851   Mean   :   7490.3   Mean   :   6820  \n 3rd Qu.:  64698   3rd Qu.:   1290.8   3rd Qu.:   1621  \n Max.   :6563145   Max.   :1794962.0   Max.   :1490299"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#common-errors",
+    "href": "03_r_lectures/lecture_2_loading_data.html#common-errors",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "Common Errors",
+    "text": "Common Errors\nError: cannot open the connection\n\nR cannot find the file\nMost likely causes:\n\nWorking directory is incorrect\nFile name is misspelled\nMissing “.csv” at the end of the file name\n\n\nError: no such file or directory\n\nThe folder path in setwd() is wrong\n\nThese errors are about file location, not about your data.\nOne nice thing about working in RStudio is that it will help you load things."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_2_loading_data.html#exercise",
+    "href": "03_r_lectures/lecture_2_loading_data.html#exercise",
+    "title": "Lesson 2: Set Working Directory and Load Data",
+    "section": "Exercise",
+    "text": "Exercise\n\nLocate your class folder on your computer\nSet your working directory in R\nDownload the csv file into that folder\nLoad the csv into R using read.csv()\nRun head() and summary() on the data"
   }
 ]
