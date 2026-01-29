@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ECON 355 - Regression - lecture_3_plotting_w_ggplot</title>
+<title>ECON 355 - Regression - Lecture 3: Plotting with ggplot</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -102,6 +165,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../03_r_lectures/lecture_2_loading_data.html">
  <span class="dropdown-text">Lesson 2 - Loading Data</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../03_r_lectures/lecture_3_plotting_w_ggplot.html">
+ <span class="dropdown-text">Lesson 3 - Plotting with ggplot</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -173,14 +240,32 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-plot-data" id="toc-why-plot-data" class="nav-link active" data-scroll-target="#why-plot-data">Why Plot Data?</a></li>
+  <li><a href="#load-the-required-packages" id="toc-load-the-required-packages" class="nav-link" data-scroll-target="#load-the-required-packages">Load the Required Packages</a></li>
+  <li><a href="#the-structure-of-a-ggplot" id="toc-the-structure-of-a-ggplot" class="nav-link" data-scroll-target="#the-structure-of-a-ggplot">The Structure of a ggplot</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the Data</a></li>
+  <li><a href="#histogram-distribution-of-non-citizens" id="toc-histogram-distribution-of-non-citizens" class="nav-link" data-scroll-target="#histogram-distribution-of-non-citizens">Histogram: Distribution of Non-Citizens</a></li>
+  <li><a href="#scatterplot-non-citizens-and-income" id="toc-scatterplot-non-citizens-and-income" class="nav-link" data-scroll-target="#scatterplot-non-citizens-and-income">Scatterplot: Non-Citizens and Income</a></li>
+  <li><a href="#adding-labels-and-titles" id="toc-adding-labels-and-titles" class="nav-link" data-scroll-target="#adding-labels-and-titles">Adding Labels and Titles</a></li>
+  <li><a href="#comparing-groups-urban-vs.-rural-counties" id="toc-comparing-groups-urban-vs.-rural-counties" class="nav-link" data-scroll-target="#comparing-groups-urban-vs.-rural-counties">Comparing Groups: Urban vs.&nbsp;Rural Counties</a></li>
+  <li><a href="#scatterplot-with-color-by-group" id="toc-scatterplot-with-color-by-group" class="nav-link" data-scroll-target="#scatterplot-with-color-by-group">Scatterplot with Color by Group</a></li>
+  <li><a href="#adding-a-trend-line-preview-of-regression" id="toc-adding-a-trend-line-preview-of-regression" class="nav-link" data-scroll-target="#adding-a-trend-line-preview-of-regression">Adding a Trend Line (Preview of Regression)</a></li>
+  <li><a href="#interpreting-graphs-carefully" id="toc-interpreting-graphs-carefully" class="nav-link" data-scroll-target="#interpreting-graphs-carefully">Interpreting Graphs Carefully</a></li>
+  <li><a href="#common-plotting-mistakes" id="toc-common-plotting-mistakes" class="nav-link" data-scroll-target="#common-plotting-mistakes">Common Plotting Mistakes</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">lecture_3_plotting_w_ggplot</h1>
+<h1 class="title">Lecture 3: Plotting with ggplot</h1>
 </div>
 
 
@@ -195,8 +280,209 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>In this lecture, we introduce <strong>data visualization</strong> using the <code>ggplot2</code> package. The goal is not to make fancy plots, but to learn how graphs help us <strong>see patterns</strong>, <strong>ask better questions</strong>, and <strong>check assumptions</strong> before running regressions.</p>
+<p>We will use <a href="https://github.com/kelseycarlston/regression/blob/a633755a8fcaedfee6055d281bbee967eca0c9a1/03_r_lectures/data/county_citizenship.csv"><strong>this county-level American Community Survey data</strong></a> focused on citizenship and economic outcomes. This allows us to visualize meaningful variation across places and connect plots directly to economic reasoning.</p>
+<section id="why-plot-data" class="level2">
+<h2 class="anchored" data-anchor-id="why-plot-data">Why Plot Data?</h2>
+<p>Before estimating models, data analysts almost always look at graphs.</p>
+<p>Plots help us:</p>
+<ul>
+<li><p>Understand the distribution of variables</p></li>
+<li><p>See relationships between variables</p></li>
+<li><p>Identify outliers or unusual observations</p></li>
+<li><p>Can help us spot errors</p></li>
+<li><p>Decide what kinds of models might make sense</p></li>
+</ul>
+<p>Think of plotting as <em>descriptive analysis</em>, not a decoration.</p>
+</section>
+<section id="load-the-required-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-required-packages">Load the Required Packages</h2>
+<p>We will use the <code>ggplot2</code> package for plotting. First, if you have never used this package before, you need to install it with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, every time you open R, you need to run the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-structure-of-a-ggplot" class="level2">
+<h2 class="anchored" data-anchor-id="the-structure-of-a-ggplot">The Structure of a ggplot</h2>
+<p>Every <code>ggplot2</code> graph follows the same basic structure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(<span class="at">x =</span> x_variable, <span class="at">y =</span> y_variable)) <span class="sc">+</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_something</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Key components:</p>
+<ul>
+<li><p><code>data</code>: the data frame</p></li>
+<li><p><code>aes()</code>: mappings from variables to visual elements</p></li>
+<li><p><code>geom_*()</code>: how the data are displayed</p></li>
+</ul>
+<p>You can read this as:</p>
+<blockquote class="blockquote">
+<p>“Using this data, map these variables to the axes, and draw them this way.”</p>
+</blockquote>
+</section>
+<section id="load-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-data">Load the Data</h2>
+<p>Load the data as demonstrated in <a href="https://kelseycarlston.github.io/regression/03_r_lectures/lecture_2_loading_data.html">lecture 2</a>.</p>
+<div class="cell">
+
+</div>
+<p>This dataset has the variables:</p>
+<ul>
+<li><p><code>geoid</code> - county identifier code</p></li>
+<li><p>name - county name</p></li>
+<li><p><code>tot_pop</code> - population</p></li>
+<li><p><code>med_hh_inc</code> - median household income</p></li>
+<li><p><code>total_hh</code> - total number of households</p></li>
+<li><p><code>total_hh_w_assistance</code> - total number of households receiving public assistance</p></li>
+<li><p><code>total_hh_no_assistance</code> - total number of households <em>not</em> receiving public assistance</p></li>
+<li><p><code>citizen_born</code> - total population born a citizen</p></li>
+<li><p><code>citizen_naturalized</code> - total population naturalized as a citizen</p></li>
+<li><p><code>non_citizen</code> - total non-citizen population</p></li>
+</ul>
+</section>
+<section id="histogram-distribution-of-non-citizens" class="level2">
+<h2 class="anchored" data-anchor-id="histogram-distribution-of-non-citizens">Histogram: Distribution of Non-Citizens</h2>
+<p>Let’s start by getting the distribution of non-citizen shares across counties. First, we need to create a variable that shows the percent non-citizen rather than the total number.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>county<span class="sc">$</span>non_citizen_share <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span>county<span class="sc">$</span>non_citizen<span class="sc">/</span>county<span class="sc">$</span>tot_pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we can create our graph.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot answers questions like:</p>
+<ul>
+<li><p>Are most counties low or high in non-citizen population?</p></li>
+<li><p>Is the distribution skewed?</p></li>
+</ul>
+<p>At this stage, we are learning what is <em>typical</em> versus <em>unusual</em>.</p>
+</section>
+<section id="scatterplot-non-citizens-and-income" class="level2">
+<h2 class="anchored" data-anchor-id="scatterplot-non-citizens-and-income">Scatterplot: Non-Citizens and Income</h2>
+<p>Next, we examine the relationship between non-citizen share and median income.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share, <span class="at">y =</span> med_hh_inc)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot helps us ask:</p>
+<ul>
+<li><p>Do counties with more non-citizens tend to be richer or poorer?</p></li>
+<li><p>Is the relationship roughly linear?</p></li>
+<li><p>Are there extreme counties driving the pattern?</p></li>
+</ul>
+<p>This kind of plot directly motivates regression analysis later in the course.</p>
+</section>
+<section id="adding-labels-and-titles" class="level2">
+<h2 class="anchored" data-anchor-id="adding-labels-and-titles">Adding Labels and Titles</h2>
+<p>Clear graphs require clear labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share, <span class="at">y =</span> med_hh_inc)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Non-Citizen Share and Median Income by County"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Percent Non-Citizen"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Median Household Income"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Good labeling is part of good empirical practice.</p>
+</section>
+<section id="comparing-groups-urban-vs.-rural-counties" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-groups-urban-vs.-rural-counties">Comparing Groups: Urban vs.&nbsp;Rural Counties</h2>
+<p>Let’s create a variable <code>urban</code> that equals 1 for counties with more than 100,000 people and 0 for counties with less than 100,000.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>county<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(county<span class="sc">$</span>tot_pop <span class="sc">&gt;</span> <span class="dv">50000</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s compare distributions using color.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share, <span class="at">fill =</span> <span class="fu">factor</span>(urban))) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This allows us to see:</p>
+<ul>
+<li><p>Whether non-citizens are concentrated in urban areas</p></li>
+<li><p>How distributions differ across groups</p></li>
+</ul>
+</section>
+<section id="scatterplot-with-color-by-group" class="level2">
+<h2 class="anchored" data-anchor-id="scatterplot-with-color-by-group">Scatterplot with Color by Group</h2>
+<p>We can also color points by group in a scatterplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share, <span class="at">y =</span> med_hh_inc, <span class="at">color =</span> <span class="fu">factor</span>(urban))) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="co"># Alpha sets the transparency of points</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This helps separate <em>within-group</em> and <em>between-group</em> patterns.</p>
+</section>
+<section id="adding-a-trend-line-preview-of-regression" class="level2">
+<h2 class="anchored" data-anchor-id="adding-a-trend-line-preview-of-regression">Adding a Trend Line (Preview of Regression)</h2>
+<p>We can add a fitted line to summarize the relationship visually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county, <span class="fu">aes</span>(<span class="at">x =</span> non_citizen_share, <span class="at">y =</span> med_hh_inc)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lecture_3_plotting_w_ggplot_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This line is:</p>
+<ul>
+<li><p>A simple linear summary of the relationship</p></li>
+<li><p>A visual preview of what a regression does numerically</p></li>
+</ul>
+<p>We will return to this idea when we formally introduce regression.</p>
+</section>
+<section id="interpreting-graphs-carefully" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-graphs-carefully">Interpreting Graphs Carefully</h2>
+<p>Important reminder:</p>
+<ul>
+<li><p>Graphs show <strong>correlation</strong>, not causation</p></li>
+<li><p>County-level patterns reflect many underlying factors</p></li>
+</ul>
+<p>Plots are a starting point for analysis, not a final conclusion.</p>
+</section>
+<section id="common-plotting-mistakes" class="level2">
+<h2 class="anchored" data-anchor-id="common-plotting-mistakes">Common Plotting Mistakes</h2>
+<ul>
+<li><p>Plotting before understanding the variables</p></li>
+<li><p>Forgetting to label axes</p></li>
+<li><p>Interpreting slopes causally</p></li>
+<li><p>Ignoring extreme outliers</p></li>
+</ul>
+<p>Visualization should clarify, not confuse.</p>
+</section>
+<section id="exercise" class="level2">
+<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
+<p>Using the county-level dataset:</p>
+<ol type="1">
+<li><p>Create a variable for % of households with public assistance</p></li>
+<li><p>Create a histogram of % receiving public assistance</p></li>
+<li><p>Create a scatterplot of non-citizen share vs % with public assistance</p></li>
+<li><p>Add appropriate axis labels and a title</p></li>
+<li><p>Interpret each plot</p></li>
+</ol>
+<p>Focus on <em>what you learn from the graph</em>, not how complex the code is.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

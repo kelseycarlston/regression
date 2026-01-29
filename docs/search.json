@@ -578,28 +578,28 @@
     "href": "03_r_lectures/lecture_2_loading_data.html#what-is-a-working-directory",
     "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "What Is a Working Directory?",
-    "text": "What Is a Working Directory?\nThe working directory is the folder on your computer where R looks for files by default.\nWhen you ask R to load a file like this:\n\n\n\nR interprets that as:\n\n“Look for a file name data.csv inside the current working directory.”\n\nIf R is pointed at the wrong folder, it will not find your file—even if the file exists somewhere else on your computer."
+    "text": "What Is a Working Directory?\nThe working directory is the folder on your computer where R looks for files by default.\nWhen you ask R to load a file like this:\n\nread.csv(\"data.csv\")\n\nR interprets that as:\n\n“Look for a file name data.csv inside the current working directory.”\n\nIf R is pointed at the wrong folder, it will not find your file—even if the file exists somewhere else on your computer."
   },
   {
     "objectID": "03_r_lectures/lecture_2_loading_data.html#finding-your-class-folder",
     "href": "03_r_lectures/lecture_2_loading_data.html#finding-your-class-folder",
     "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "Finding Your Class Folder",
-    "text": "Finding Your Class Folder\nBefore setting the working directory, you need to know where your class folder is located. These are directions for R to find the folder.\nYou should create a folder called something like Regression or ECON 355. In this folder, you should keep the data and scripts for this class. Keeping everything in one folder helps you stay organized and prevents losing your work. (You class folder should not be your downloads folder.)\n\nFinding Folder on a Mac\n\nOpen Finder\nNavigate to your class folder\nRight-click (or Control-click) the folder\nHold down the Option key\nClick Copy “” as Pathname\n\nThis copies the full file path to your clipboard.\nA Mac file path looks like this:\n\n\n\n\n\nFinding Folder on Windows\n\nOpen File Explorer\nNavigate to your class folder\nClick once in the address bar at the top\nThe folder path will appear\nCopy the path\n\nA Windows file path looks like this:\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you copy the file path, it will have backwards slashes (\\), which you need to change to forward slashes (/) for the path to work in R."
+    "text": "Finding Your Class Folder\nBefore setting the working directory, you need to know where your class folder is located. These are directions for R to find the folder.\nYou should create a folder called something like Regression or ECON 355. In this folder, you should keep the data and scripts for this class. Keeping everything in one folder helps you stay organized and prevents losing your work. (You class folder should not be your downloads folder.)\n\nFinding Folder on a Mac\n\nOpen Finder\nNavigate to your class folder\nRight-click (or Control-click) the folder\nHold down the Option key\nClick Copy “” as Pathname\n\nThis copies the full file path to your clipboard.\nA Mac file path looks like this:\n\n/Users/yourname/Documents/ECON355\n\n\n\nFinding Folder on Windows\n\nOpen File Explorer\nNavigate to your class folder\nClick once in the address bar at the top\nThe folder path will appear\nCopy the path\n\nA Windows file path looks like this:\n\nC:/Users/YourName/Documents/ECON355\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you copy the file path, it will have backwards slashes (\\), which you need to change to forward slashes (/) for the path to work in R."
   },
   {
     "objectID": "03_r_lectures/lecture_2_loading_data.html#setting-the-working-directory-in-r",
     "href": "03_r_lectures/lecture_2_loading_data.html#setting-the-working-directory-in-r",
     "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "Setting the Working Directory in R",
-    "text": "Setting the Working Directory in R\nOnce you have copied the folder path, you can tell R to use it as the working directory.\n\n\n\nOr, on a Mac:\n\n\n\nAfter running this line, R will look in that folder for all files unless told otherwise.\nYou can confirm your working directory by running:\n\n\n[1] \"G:/My Drive/Teaching/regression/03_r_lectures\"\n\n\nAlternatively, in the Files window in RStudio, navigate to your class folder. Then, on the “More” drop down menu, click “Set As Working Directory”. Be sure to copy that code to your .R script so you can run it again later.\n\nA Note on Reproducibility\nIn this course, you should:\n\nKeep setwd() at the top of your script\nUse relative file names (e.g., data.csv, not long paths)\nKeep scripts and data in the same folder\n\nThis makes your work easier to rerun and easier for others to understand"
+    "text": "Setting the Working Directory in R\nOnce you have copied the folder path, you can tell R to use it as the working directory.\n\nsetwd(\"C:/Users/YourName/Documents/ECON355\")\n\nOr, on a Mac:\n\nsetwd(\"/Users/yourname/Documents/ECON355\")\n\nAfter running this line, R will look in that folder for all files unless told otherwise.\nYou can confirm your working directory by running:\n\ngetwd()\n\nAlternatively, in the Files window in RStudio, navigate to your class folder. Then, on the “More” drop down menu, click “Set As Working Directory”. Be sure to copy that code to your .R script so you can run it again later.\n\nA Note on Reproducibility\nIn this course, you should:\n\nKeep setwd() at the top of your script\nUse relative file names (e.g., data.csv, not long paths)\nKeep scripts and data in the same folder\n\nThis makes your work easier to rerun and easier for others to understand"
   },
   {
     "objectID": "03_r_lectures/lecture_2_loading_data.html#loading-a-csv-file",
     "href": "03_r_lectures/lecture_2_loading_data.html#loading-a-csv-file",
     "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "Loading a CSV File",
-    "text": "Loading a CSV File\nA csv file (comma-separated values) is a common format for data.\nTry reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.\nLoad the data with the code:\n\n\n\n\n\n\nThis reads the file into R and stores it as a data frame called county.\nYou can check that it loaded correctly by running:\n\n\n  geoid                  NAME_E tot_pop med_hh_inc total_hh\n1  1001 Autauga County, Alabama   59285      69841    22523\n2  1003 Baldwin County, Alabama  239945      75019    94642\n3  1005 Barbour County, Alabama   24757      44290     9080\n4  1007    Bibb County, Alabama   22152      51215     7571\n5  1009  Blount County, Alabama   59292      61096    21977\n6  1011 Bullock County, Alabama   10157      36723     3453\n  total__hh_w_assistance total_hh_no_assistance citizen_born\n1                   2077                  20446        57756\n2                   6940                  87702       230809\n3                   2071                   7009        23981\n4                   1658                   5913        21872\n5                   2968                  19009        56534\n6                   1137                   2316         9883\n  citizen_naturalized non_citizen\n1                 827         702\n2                3991        5145\n3                 353         423\n4                  48         232\n5                1015        1743\n6                  63         211\n\n\n     geoid          NAME_E             tot_pop          med_hh_inc        \n Min.   : 1001   Length:3222        Min.   :     43   Min.   :-666666666  \n 1st Qu.:19030   Class :character   1st Qu.:  10986   1st Qu.:     54107  \n Median :30022   Mode  :character   Median :  25967   Median :     63150  \n Mean   :31378                      Mean   : 104172   Mean   :   -348815  \n 3rd Qu.:46105                      3rd Qu.:  67526   3rd Qu.:     73199  \n Max.   :72153                      Max.   :9848406   Max.   :    178707  \n    total_hh       total__hh_w_assistance total_hh_no_assistance\n Min.   :     17   Min.   :     0.0       Min.   :     15       \n 1st Qu.:   4268   1st Qu.:   547.2       1st Qu.:   3556       \n Median :  10200   Median :  1422.5       Median :   8414       \n Mean   :  39951   Mean   :  5244.9       Mean   :  34706       \n 3rd Qu.:  26346   3rd Qu.:  3723.8       3rd Qu.:  22475       \n Max.   :3390254   Max.   :507314.0       Max.   :2882940       \n  citizen_born     citizen_naturalized  non_citizen     \n Min.   :      0   Min.   :      0.0   Min.   :      0  \n 1st Qu.:   9691   1st Qu.:     66.2   1st Qu.:     75  \n Median :  24143   Median :    271.0   Median :    335  \n Mean   :  88851   Mean   :   7490.3   Mean   :   6820  \n 3rd Qu.:  64698   3rd Qu.:   1290.8   3rd Qu.:   1621  \n Max.   :6563145   Max.   :1794962.0   Max.   :1490299"
+    "text": "Loading a CSV File\nA csv file (comma-separated values) is a common format for data.\nTry reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.\nLoad the data with the code:\n\ncounty <- read.csv(\"county_citizenship.csv\")\n\n\n\n\nThis reads the file into R and stores it as a data frame called county.\nYou can check that it loaded correctly by running:\n\nhead(county) # Shows first 5 rows\n\n  geoid                    name tot_pop med_hh_inc total_hh\n1  1001 Autauga County, Alabama   59285      69841    22523\n2  1003 Baldwin County, Alabama  239945      75019    94642\n3  1005 Barbour County, Alabama   24757      44290     9080\n4  1007    Bibb County, Alabama   22152      51215     7571\n5  1009  Blount County, Alabama   59292      61096    21977\n6  1011 Bullock County, Alabama   10157      36723     3453\n  total__hh_w_assistance total_hh_no_assistance citizen_born\n1                   2077                  20446        57756\n2                   6940                  87702       230809\n3                   2071                   7009        23981\n4                   1658                   5913        21872\n5                   2968                  19009        56534\n6                   1137                   2316         9883\n  citizen_naturalized non_citizen non_citizen_share urban\n1                 827         702        0.01184111     1\n2                3991        5145        0.02144241     1\n3                 353         423        0.01708608     0\n4                  48         232        0.01047309     0\n5                1015        1743        0.02939688     1\n6                  63         211        0.02077385     0\n\nsummary(county) # Shows summary statistics for each variable\n\n     geoid           name              tot_pop          med_hh_inc    \n Min.   : 1001   Length:3220        Min.   :     43   Min.   : 16170  \n 1st Qu.:19029   Class :character   1st Qu.:  11037   1st Qu.: 54113  \n Median :30020   Mode  :character   Median :  26015   Median : 63162  \n Mean   :31372                      Mean   : 104236   Mean   : 65047  \n 3rd Qu.:46104                      3rd Qu.:  67575   3rd Qu.: 73216  \n Max.   :72153                      Max.   :9848406   Max.   :178707  \n    total_hh       total__hh_w_assistance total_hh_no_assistance\n Min.   :     22   Min.   :     0         Min.   :     22       \n 1st Qu.:   4280   1st Qu.:   548         1st Qu.:   3560       \n Median :  10218   Median :  1430         Median :   8420       \n Mean   :  39976   Mean   :  5248         Mean   :  34728       \n 3rd Qu.:  26384   3rd Qu.:  3729         3rd Qu.:  22500       \n Max.   :3390254   Max.   :507314         Max.   :2882940       \n  citizen_born     citizen_naturalized  non_citizen        non_citizen_share\n Min.   :      0   Min.   :      0     Min.   :      0.0   Min.   :0.00000  \n 1st Qu.:   9706   1st Qu.:     67     1st Qu.:     75.8   1st Qu.:0.00594  \n Median :  24179   Median :    271     Median :    335.0   Median :0.01440  \n Mean   :  88906   Mean   :   7495     Mean   :   6824.6   Mean   :0.02597  \n 3rd Qu.:  64720   3rd Qu.:   1291     3rd Qu.:   1624.0   3rd Qu.:0.03296  \n Max.   :6563145   Max.   :1794962     Max.   :1490299.0   Max.   :0.25818  \n     urban       \n Min.   :0.0000  \n 1st Qu.:0.0000  \n Median :0.0000  \n Mean   :0.3146  \n 3rd Qu.:1.0000  \n Max.   :1.0000"
   },
   {
     "objectID": "03_r_lectures/lecture_2_loading_data.html#common-errors",
@@ -614,5 +614,103 @@
     "title": "Lesson 2: Set Working Directory and Load Data",
     "section": "Exercise",
     "text": "Exercise\n\nLocate your class folder on your computer\nSet your working directory in R\nDownload the csv file into that folder\nLoad the csv into R using read.csv()\nRun head() and summary() on the data"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "",
+    "text": "In this lecture, we introduce data visualization using the ggplot2 package. The goal is not to make fancy plots, but to learn how graphs help us see patterns, ask better questions, and check assumptions before running regressions.\nWe will use this county-level American Community Survey data focused on citizenship and economic outcomes. This allows us to visualize meaningful variation across places and connect plots directly to economic reasoning."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#why-plot-data",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#why-plot-data",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Why Plot Data?",
+    "text": "Why Plot Data?\nBefore estimating models, data analysts almost always look at graphs.\nPlots help us:\n\nUnderstand the distribution of variables\nSee relationships between variables\nIdentify outliers or unusual observations\nCan help us spot errors\nDecide what kinds of models might make sense\n\nThink of plotting as descriptive analysis, not a decoration."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#load-the-required-packages",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#load-the-required-packages",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Load the Required Packages",
+    "text": "Load the Required Packages\nWe will use the ggplot2 package for plotting. First, if you have never used this package before, you need to install it with the following code:\n\ninstall.packages(\"ggplot2\")\n\nThen, every time you open R, you need to run the code:\n\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#the-structure-of-a-ggplot",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#the-structure-of-a-ggplot",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "The Structure of a ggplot",
+    "text": "The Structure of a ggplot\nEvery ggplot2 graph follows the same basic structure:\n\nggplot(data = df, aes(x = x_variable, y = y_variable)) + \n  geom_something()\n\nKey components:\n\ndata: the data frame\naes(): mappings from variables to visual elements\ngeom_*(): how the data are displayed\n\nYou can read this as:\n\n“Using this data, map these variables to the axes, and draw them this way.”"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#load-the-data",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#load-the-data",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Load the Data",
+    "text": "Load the Data\nLoad the data as demonstrated in lecture 2.\n\n\n\nThis dataset has the variables:\n\ngeoid - county identifier code\nname - county name\ntot_pop - population\nmed_hh_inc - median household income\ntotal_hh - total number of households\ntotal_hh_w_assistance - total number of households receiving public assistance\ntotal_hh_no_assistance - total number of households not receiving public assistance\ncitizen_born - total population born a citizen\ncitizen_naturalized - total population naturalized as a citizen\nnon_citizen - total non-citizen population"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#histogram-distribution-of-non-citizens",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#histogram-distribution-of-non-citizens",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Histogram: Distribution of Non-Citizens",
+    "text": "Histogram: Distribution of Non-Citizens\nLet’s start by getting the distribution of non-citizen shares across counties. First, we need to create a variable that shows the percent non-citizen rather than the total number.\n\ncounty$non_citizen_share <- 100*county$non_citizen/county$tot_pop\n\nThen, we can create our graph.\n\nggplot(county, aes(x = non_citizen_share)) +\n  geom_histogram()\n\n\n\n\nThis plot answers questions like:\n\nAre most counties low or high in non-citizen population?\nIs the distribution skewed?\n\nAt this stage, we are learning what is typical versus unusual."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#scatterplot-non-citizens-and-income",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#scatterplot-non-citizens-and-income",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Scatterplot: Non-Citizens and Income",
+    "text": "Scatterplot: Non-Citizens and Income\nNext, we examine the relationship between non-citizen share and median income.\n\nggplot(county, aes(x = non_citizen_share, y = med_hh_inc)) +\n  geom_point()\n\n\n\n\nThis plot helps us ask:\n\nDo counties with more non-citizens tend to be richer or poorer?\nIs the relationship roughly linear?\nAre there extreme counties driving the pattern?\n\nThis kind of plot directly motivates regression analysis later in the course."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#adding-labels-and-titles",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#adding-labels-and-titles",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Adding Labels and Titles",
+    "text": "Adding Labels and Titles\nClear graphs require clear labels.\n\nggplot(county, aes(x = non_citizen_share, y = med_hh_inc)) +\n  geom_point() +\n  labs(\n    title = \"Non-Citizen Share and Median Income by County\",\n    x = \"Percent Non-Citizen\",\n    y = \"Median Household Income\"\n  )\n\n\n\n\nGood labeling is part of good empirical practice."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#comparing-groups-urban-vs.-rural-counties",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#comparing-groups-urban-vs.-rural-counties",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Comparing Groups: Urban vs. Rural Counties",
+    "text": "Comparing Groups: Urban vs. Rural Counties\nLet’s create a variable urban that equals 1 for counties with more than 100,000 people and 0 for counties with less than 100,000.\n\ncounty$urban <- ifelse(county$tot_pop > 50000, 1, 0)\n\nNow, let’s compare distributions using color.\n\nggplot(county, aes(x = non_citizen_share, fill = factor(urban))) +\n  geom_histogram(position = \"identity\", alpha = 0.6)\n\n\n\n\nThis allows us to see:\n\nWhether non-citizens are concentrated in urban areas\nHow distributions differ across groups"
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#scatterplot-with-color-by-group",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#scatterplot-with-color-by-group",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Scatterplot with Color by Group",
+    "text": "Scatterplot with Color by Group\nWe can also color points by group in a scatterplot.\n\nggplot(county, aes(x = non_citizen_share, y = med_hh_inc, color = factor(urban))) +\n  geom_point(alpha = 0.6) # Alpha sets the transparency of points\n\n\n\n\nThis helps separate within-group and between-group patterns."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#adding-a-trend-line-preview-of-regression",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#adding-a-trend-line-preview-of-regression",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Adding a Trend Line (Preview of Regression)",
+    "text": "Adding a Trend Line (Preview of Regression)\nWe can add a fitted line to summarize the relationship visually.\n\nggplot(county, aes(x = non_citizen_share, y = med_hh_inc)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE)\n\n\n\n\nThis line is:\n\nA simple linear summary of the relationship\nA visual preview of what a regression does numerically\n\nWe will return to this idea when we formally introduce regression."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#interpreting-graphs-carefully",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#interpreting-graphs-carefully",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Interpreting Graphs Carefully",
+    "text": "Interpreting Graphs Carefully\nImportant reminder:\n\nGraphs show correlation, not causation\nCounty-level patterns reflect many underlying factors\n\nPlots are a starting point for analysis, not a final conclusion."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#common-plotting-mistakes",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#common-plotting-mistakes",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Common Plotting Mistakes",
+    "text": "Common Plotting Mistakes\n\nPlotting before understanding the variables\nForgetting to label axes\nInterpreting slopes causally\nIgnoring extreme outliers\n\nVisualization should clarify, not confuse."
+  },
+  {
+    "objectID": "03_r_lectures/lecture_3_plotting_w_ggplot.html#exercise",
+    "href": "03_r_lectures/lecture_3_plotting_w_ggplot.html#exercise",
+    "title": "Lecture 3: Plotting with ggplot",
+    "section": "Exercise",
+    "text": "Exercise\nUsing the county-level dataset:\n\nCreate a variable for % of households with public assistance\nCreate a histogram of % receiving public assistance\nCreate a scatterplot of non-citizen share vs % with public assistance\nAdd appropriate axis labels and a title\nInterpret each plot\n\nFocus on what you learn from the graph, not how complex the code is."
   }
 ]

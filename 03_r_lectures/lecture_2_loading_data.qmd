@@ -2,6 +2,8 @@
 title: "Lesson 2: Set Working Directory and Load Data"
 format: html
 editor: visual
+execute: 
+  echo: true
 ---
 
 In this lecture, we move from running self-contained examples to working with real data files. To do that reliably, you need to understand where R looks for files and how to tell it where your class materials live on your computer.
@@ -22,6 +24,7 @@ When you ask R to load a file like this:
 
 ```{r}
 #| eval: false
+#| echo: true
 read.csv("data.csv")
 ```
 
@@ -88,7 +91,7 @@ Or, on a Mac:
 ```{r}
 #| eval: false
 
-setwd("C:/Users/YourName/Documents/ECON355")
+setwd("/Users/yourname/Documents/ECON355")
 
 ```
 
@@ -97,6 +100,7 @@ After running this line, R will look in that folder for all files unless told ot
 You can confirm your working directory by running:
 
 ```{r}
+#| eval: false
 getwd()
 ```
 
@@ -118,7 +122,7 @@ This makes your work easier to rerun and easier for others to understand
 
 A **csv file** (comma-separated values) is a common format for data.
 
-Try reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.
+Try reading in some data. Download [this data](https://github.com/kelseycarlston/regression/blob/a633755a8fcaedfee6055d281bbee967eca0c9a1/03_r_lectures/data/county_citizenship.csv), which has county population, income, and citizenship data, and put it in your class folder.
 
 Load the data with the code:
 
@@ -139,8 +143,8 @@ This reads the file into R and stores it as a data frame called `county`.
 You can check that it loaded correctly by running:
 
 ```{r}
-head(county)
-summary(county)
+head(county) # Shows first 5 rows
+summary(county) # Shows summary statistics for each variable
 ```
 
 ## Common Errors

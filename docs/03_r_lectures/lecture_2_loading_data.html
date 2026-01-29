@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -101,6 +164,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../03_r_lectures/lecture_2_loading_data.html">
  <span class="dropdown-text">Lesson 2 - Loading Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../03_r_lectures/lecture_3_plotting_w_ggplot.html">
+ <span class="dropdown-text">Lesson 3 - Plotting with ggplot</span></a>
   </li>  
     </ul>
   </li>
@@ -225,7 +292,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The <strong>working directory</strong> is the folder on your computer where R looks for files by default.</p>
 <p>When you ask R to load a file like this:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>R interprets that as:</p>
 <blockquote class="blockquote">
@@ -249,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
 <p>This copies the full file path to your clipboard.</p>
 <p>A Mac file path looks like this:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>Users<span class="sc">/</span>yourname<span class="sc">/</span>Documents<span class="sc">/</span>ECON355</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="finding-folder-on-windows" class="level3">
@@ -263,7 +330,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>A Windows file path looks like this:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>C<span class="sc">:</span><span class="er">/</span>Users<span class="sc">/</span>YourName<span class="sc">/</span>Documents<span class="sc">/</span>ECON355</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -284,18 +351,16 @@ Important
 <h2 class="anchored" data-anchor-id="setting-the-working-directory-in-r">Setting the Working Directory in R</h2>
 <p>Once you have copied the folder path, you can tell R to use it as the working directory.</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/YourName/Documents/ECON355"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or, on a Mac:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/Users/yourname/Documents/ECON355"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After running this line, R will look in that folder for all files unless told otherwise.</p>
 <p>You can confirm your working directory by running:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "G:/My Drive/Teaching/regression/03_r_lectures"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Alternatively, in the Files window in RStudio, navigate to your class folder. Then, on the “More” drop down menu, click “Set As Working Directory”. Be sure to copy that code to your <code>.R</code> script so you can run it again later.</p>
 <section id="a-note-on-reproducibility" class="level3">
@@ -312,10 +377,10 @@ Important
 <section id="loading-a-csv-file" class="level2">
 <h2 class="anchored" data-anchor-id="loading-a-csv-file">Loading a CSV File</h2>
 <p>A <strong>csv file</strong> (comma-separated values) is a common format for data.</p>
-<p>Try reading in some data. Download this data, which has county population, income, and citizenship data, and put it in your class folder.</p>
+<p>Try reading in some data. Download <a href="https://github.com/kelseycarlston/regression/blob/a633755a8fcaedfee6055d281bbee967eca0c9a1/03_r_lectures/data/county_citizenship.csv">this data</a>, which has county population, income, and citizenship data, and put it in your class folder.</p>
 <p>Load the data with the code:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>county <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"county_citizenship.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 
@@ -323,8 +388,9 @@ Important
 <p>This reads the file into R and stores it as a data frame called <code>county</code>.</p>
 <p>You can check that it loaded correctly by running:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(county) <span class="co"># Shows first 5 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  geoid                  NAME_E tot_pop med_hh_inc total_hh
+<pre><code>  geoid                    name tot_pop med_hh_inc total_hh
 1  1001 Autauga County, Alabama   59285      69841    22523
 2  1003 Baldwin County, Alabama  239945      75019    94642
 3  1005 Barbour County, Alabama   24757      44290     9080
@@ -338,36 +404,44 @@ Important
 4                   1658                   5913        21872
 5                   2968                  19009        56534
 6                   1137                   2316         9883
-  citizen_naturalized non_citizen
-1                 827         702
-2                3991        5145
-3                 353         423
-4                  48         232
-5                1015        1743
-6                  63         211</code></pre>
+  citizen_naturalized non_citizen non_citizen_share urban
+1                 827         702        0.01184111     1
+2                3991        5145        0.02144241     1
+3                 353         423        0.01708608     0
+4                  48         232        0.01047309     0
+5                1015        1743        0.02939688     1
+6                  63         211        0.02077385     0</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(county) <span class="co"># Shows summary statistics for each variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     geoid          NAME_E             tot_pop          med_hh_inc        
- Min.   : 1001   Length:3222        Min.   :     43   Min.   :-666666666  
- 1st Qu.:19030   Class :character   1st Qu.:  10986   1st Qu.:     54107  
- Median :30022   Mode  :character   Median :  25967   Median :     63150  
- Mean   :31378                      Mean   : 104172   Mean   :   -348815  
- 3rd Qu.:46105                      3rd Qu.:  67526   3rd Qu.:     73199  
- Max.   :72153                      Max.   :9848406   Max.   :    178707  
+<pre><code>     geoid           name              tot_pop          med_hh_inc    
+ Min.   : 1001   Length:3220        Min.   :     43   Min.   : 16170  
+ 1st Qu.:19029   Class :character   1st Qu.:  11037   1st Qu.: 54113  
+ Median :30020   Mode  :character   Median :  26015   Median : 63162  
+ Mean   :31372                      Mean   : 104236   Mean   : 65047  
+ 3rd Qu.:46104                      3rd Qu.:  67575   3rd Qu.: 73216  
+ Max.   :72153                      Max.   :9848406   Max.   :178707  
     total_hh       total__hh_w_assistance total_hh_no_assistance
- Min.   :     17   Min.   :     0.0       Min.   :     15       
- 1st Qu.:   4268   1st Qu.:   547.2       1st Qu.:   3556       
- Median :  10200   Median :  1422.5       Median :   8414       
- Mean   :  39951   Mean   :  5244.9       Mean   :  34706       
- 3rd Qu.:  26346   3rd Qu.:  3723.8       3rd Qu.:  22475       
- Max.   :3390254   Max.   :507314.0       Max.   :2882940       
-  citizen_born     citizen_naturalized  non_citizen     
- Min.   :      0   Min.   :      0.0   Min.   :      0  
- 1st Qu.:   9691   1st Qu.:     66.2   1st Qu.:     75  
- Median :  24143   Median :    271.0   Median :    335  
- Mean   :  88851   Mean   :   7490.3   Mean   :   6820  
- 3rd Qu.:  64698   3rd Qu.:   1290.8   3rd Qu.:   1621  
- Max.   :6563145   Max.   :1794962.0   Max.   :1490299  </code></pre>
+ Min.   :     22   Min.   :     0         Min.   :     22       
+ 1st Qu.:   4280   1st Qu.:   548         1st Qu.:   3560       
+ Median :  10218   Median :  1430         Median :   8420       
+ Mean   :  39976   Mean   :  5248         Mean   :  34728       
+ 3rd Qu.:  26384   3rd Qu.:  3729         3rd Qu.:  22500       
+ Max.   :3390254   Max.   :507314         Max.   :2882940       
+  citizen_born     citizen_naturalized  non_citizen        non_citizen_share
+ Min.   :      0   Min.   :      0     Min.   :      0.0   Min.   :0.00000  
+ 1st Qu.:   9706   1st Qu.:     67     1st Qu.:     75.8   1st Qu.:0.00594  
+ Median :  24179   Median :    271     Median :    335.0   Median :0.01440  
+ Mean   :  88906   Mean   :   7495     Mean   :   6824.6   Mean   :0.02597  
+ 3rd Qu.:  64720   3rd Qu.:   1291     3rd Qu.:   1624.0   3rd Qu.:0.03296  
+ Max.   :6563145   Max.   :1794962     Max.   :1490299.0   Max.   :0.25818  
+     urban       
+ Min.   :0.0000  
+ 1st Qu.:0.0000  
+ Median :0.0000  
+ Mean   :0.3146  
+ 3rd Qu.:1.0000  
+ Max.   :1.0000  </code></pre>
 </div>
 </div>
 </section>

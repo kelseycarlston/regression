@@ -16,6 +16,8 @@ website:
             href: 03_r_lectures/lecture_1_getting_started.qmd
           - text: Lesson 2 - Loading Data
             href: 03_r_lectures/lecture_2_loading_data.qmd
+          - text: Lesson 3 - Plotting with ggplot
+            href: 03_r_lectures/lecture_3_plotting_w_ggplot.qmd
       - text: Labs
         menu: 
           - text: Lab 2
